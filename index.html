@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sarthak Kshirsagar  |  CS &amp; AI/ML Student &amp; Frontend Engineer</title>
+  <meta name="description"
+    content="Portfolio of Sarthak Kshirsagar, 1st-year B.Tech CS & AI/ML student at Newton School of Technology. Built 20+ functional websites, shipped 5+. Specialist in modern UI/UX, AI integrations, and responsive systems.">
+  <meta name="author" content="Sarthak Kshirsagar">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sarthak Kshirsagar — Frontend & AI Engineering Portfolio">
+  <meta property="og:description"
+    content="1st-year B.Tech CS & AI/ML at Newton School of Technology. Built 20+ websites, shipped 5+. High-performance frontend, Three.js, and Gemini API.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Outfit (Open Geometric Display) + Fraunces (Refined Editorial Accent) + DM Sans (Crisp Body UI) + JetBrains Mono (Technical Precision) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-navigation">Skip to main content</a>
+
+  <!-- Global Announcement / Telemetry Bar -->
+  <aside class="telemetry-bar" aria-label="Status & Location">
+    <div class="telemetry-container">
+      <div class="telemetry-item">
+        <span class="status-indicator" aria-hidden="true"></span>
+        <span>Available for Select Collaborations &amp; Internships &bull; 2026</span>
+      </div>
+      <div class="telemetry-divider" aria-hidden="true">&bull;</div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">Local Time:</span>
+        <time id="live-clock" datetime="2026-11-02T16:15:00+05:30">--:--:-- IST</time>
+      </div>
+      <div class="telemetry-divider" aria-hidden="true">&bull;</div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">Campus:</span>
+        <span>Newton School of Technology</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Primary Site Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="header-container">
+      <a href="#overview" class="brand-signature" aria-label="Sarthak Kshirsagar Home">
+        <span class="brand-monogram">SK</span>
+        <span class="brand-text">
+          <span class="brand-name">Sarthak Kshirsagar</span>
+          <span class="brand-role">CS &amp; AI/ML &bull; Frontend</span>
+        </span>
+      </a>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Main Navigation">
+        <ul class="nav-list" role="menubar">
+          <li role="none"><a href="#projects" class="nav-anchor" role="menuitem">Work <span class="nav-count">[3]</span></a></li>
+          <li role="none"><a href="#stack" class="nav-anchor" role="menuitem">Stack <span class="nav-count">[23]</span></a></li>
+          <li role="none"><a href="#values" class="nav-anchor" role="menuitem">Philosophy</a></li>
+          <li role="none"><a href="#academic" class="nav-anchor" role="menuitem">Academic</a></li>
+          <li role="none"><a href="#connect" class="nav-anchor" role="menuitem">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="action-btn copy-email-btn" id="header-copy-email" aria-label="Copy Sarthak's email address">
+          <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="btn-text">Copy Email</span>
+        </button>
+
+        <a href="#connect" class="action-btn action-btn-solid">
+          <span>Let's Build</span>
+          <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
+
+        <button type="button" class="mobile-menu-trigger" id="mobile-menu-trigger" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main id="main-content">
+
+    <!-- ==================== HERO / ARCHITECTURAL OVERVIEW ==================== -->
+    <section class="section-hero" id="overview" aria-labelledby="hero-heading">
+      <div class="hero-container">
+        
+        <!-- Left Column: Core Identity & Narrative -->
+        <div class="hero-primary-block">
+          <div class="pill-badge-row">
+            <span class="badge-tag">First-Year B.Tech</span>
+            <span class="badge-tag badge-tag-tint">CS &amp; AI / ML</span>
+            <span class="badge-tag">Newton School of Technology</span>
+          </div>
+
+          <h1 class="hero-display-title" id="hero-heading">
+            Engineering digital experiences with <em class="editorial-accent">intent</em>, speed, and clean code.
+          </h1>
+
+          <p class="hero-lead-text">
+            I am <strong>Sarthak Kshirsagar</strong> — a creative frontend developer and AI/ML undergraduate.
+            I bridge design systems and performant engineering, transforming intricate ideas into elegant,
+            responsive, and high-impact web products.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#projects" class="primary-pill-btn">
+              <span>Inspect Selected Projects</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+
+            <a href="https://github.com/Sarthak-Kshirsagar-2275" target="_blank" rel="noopener noreferrer" class="secondary-pill-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+              </svg>
+              <span>GitHub Profile</span>
+              <span class="external-arrow">&nearr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Benchmark / HUD Card -->
+        <aside class="hero-bench-card" aria-label="Engineering Metrics and Specializations">
+          <div class="bench-card-header">
+            <span class="bench-index">// SPECIFICATION HUD</span>
+            <span class="bench-live-badge">Verified Track Record</span>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-cell">
+              <span class="metric-number">20<span class="metric-accent">+</span></span>
+              <span class="metric-caption">Functional Websites Engineered</span>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-number">05<span class="metric-accent">+</span></span>
+              <span class="metric-caption">Successfully Shipped to Production</span>
+            </div>
+          </div>
+
+          <div class="bench-data-list">
+            <div class="bench-data-row">
+              <span class="data-key">Undergrad Degree</span>
+              <span class="data-value">B.Tech in CS &amp; AI/ML (Year 1)</span>
+            </div>
+            <div class="bench-data-row">
+              <span class="data-key">Institution</span>
+              <span class="data-value">Newton School of Technology</span>
+            </div>
+            <div class="bench-data-row">
+              <span class="data-key">Core Strengths</span>
+              <span class="data-value">Fast Web &bull; 3D &bull; rPPG / Vision &bull; LLMs</span>
+            </div>
+            <div class="bench-data-row">
+              <span class="data-key">Primary Medium</span>
+              <span class="data-value">Vanilla Web (HTML &bull; CSS &bull; JS)</span>
+            </div>
+          </div>
+
+          <div class="bench-callout">
+            <div class="callout-icon" aria-hidden="true">&checkmark;</div>
+            <p class="callout-text">
+              Committed to zero framework bloat when vanilla browser APIs deliver superior performance and lower maintenance.
+            </p>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ==================== SELECTED WORK / EXHIBITION ==================== -->
+    <section class="section-projects" id="projects" aria-labelledby="projects-heading">
+      <div class="section-container">
+        
+        <div class="section-header-split">
+          <div>
+            <div class="section-eyebrow">
+              <span class="eyebrow-index">01</span>
+              <span class="eyebrow-text">Selected Case Studies</span>
+            </div>
+            <h2 class="section-title" id="projects-heading">
+              Shipped <em class="editorial-accent">builds</em> &amp; web applications.
+            </h2>
+          </div>
+          <p class="section-description">
+            Each project is crafted with strict attention to data throughput, semantic markup, responsive accessibility, and fluid user interactions.
+          </p>
+        </div>
+
+        <!-- Interactive Category Quick-Filter -->
+        <div class="project-filter-bar" role="tablist" aria-label="Filter projects by discipline">
+          <button type="button" class="filter-tab active" role="tab" aria-selected="true" data-filter="all">All Releases (3)</button>
+          <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="frontend">High-Performance Web</button>
+          <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="fullstack">AI &amp; 3D Full-Stack</button>
+          <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="interactive">Creative UI/UX</button>
+        </div>
+
+        <!-- Project Exhibition Cards -->
+        <div class="projects-exhibition-grid">
+
+          <!-- PROJECT 01: LocaleIQ -->
+          <article class="exhibition-card" data-category="frontend" id="project-localeiq">
+            <div class="card-meta-bar">
+              <div class="card-serial">
+                <span class="serial-tag">PROJECT // 01</span>
+                <span class="status-pill status-shipped">Deployed</span>
+              </div>
+              <span class="architecture-type">Frontend Architecture &bull; Dynamic Rendering</span>
+            </div>
+
+            <div class="card-main-layout">
+              <div class="card-content-block">
+                <h3 class="card-project-title">LocaleIQ</h3>
+                
+                <!-- EXACT DESCRIPTION REQUIRED BY USER -->
+                <p class="card-project-summary">
+                  A dynamic web application focused on fast data rendering, responsive design, and providing an optimized user experience across devices.
+                </p>
+
+                <div class="engineering-specs">
+                  <div class="spec-label">Technical Stack &amp; Protocols:</div>
+                  <ul class="spec-tag-list" aria-label="LocaleIQ technical stack">
+                    <li class="spec-tag">Vanilla JavaScript</li>
+                    <li class="spec-tag">HTML5</li>
+                    <li class="spec-tag">CSS3</li>
+                    <li class="spec-tag">Responsive Layouts</li>
+                    <li class="spec-tag">DOM Optimization</li>
+                  </ul>
+                </div>
+
+                <div class="project-link-group">
+                  <a href="https://github.com/Sarthak-Kshirsagar-2275" target="_blank" rel="noopener noreferrer" class="project-action-link">
+                    <span>Inspect Repository</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                  </a>
+                  <button type="button" class="specs-toggle-btn" aria-expanded="false" data-target="specs-localeiq">
+                    <span>Technical Architecture</span>
+                    <span class="toggle-sign">+</span>
+                  </button>
+                </div>
+
+                <!-- Collapsible Engineering Blueprint -->
+                <div class="collapsible-blueprint" id="specs-localeiq" hidden>
+                  <div class="blueprint-inner">
+                    <div class="blueprint-item">
+                      <strong>Rendering Pipeline:</strong> Minimized DOM reflows using document fragments and targeted state reconciliation.
+                    </div>
+                    <div class="blueprint-item">
+                      <strong>Cross-Device Strategy:</strong> Fluid CSS clamp typography, container queries, and sub-second cold starts.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Visual Representation / UI Architecture Mockup -->
+              <div class="card-visual-stage" aria-hidden="true">
+                <div class="stage-frame frame-localeiq">
+                  <div class="mockup-header-bar">
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-address">localeiq.internal/render-engine</span>
+                  </div>
+                  <div class="mockup-viewport">
+                    <div class="wire-grid-container">
+                      <div class="wire-metric-strip">
+                        <div class="wire-bar" style="width: 78%;"></div>
+                        <div class="wire-bar" style="width: 45%;"></div>
+                        <div class="wire-bar" style="width: 92%;"></div>
+                      </div>
+                      <div class="wire-table-preview">
+                        <div class="wire-row wire-row-head"></div>
+                        <div class="wire-row"></div>
+                        <div class="wire-row"></div>
+                        <div class="wire-row"></div>
+                      </div>
+                      <div class="stage-tag-badge">Zero-Lag Dynamic Tables</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJECT 02: Syllabus Explainer -->
+          <article class="exhibition-card" data-category="fullstack" id="project-syllabusexplainer">
+            <div class="card-meta-bar">
+              <div class="card-serial">
+                <span class="serial-tag">PROJECT // 02</span>
+                <span class="status-pill status-shipped">Deployed</span>
+              </div>
+              <span class="architecture-type">Full-Stack AI &bull; Three.js 3D &bull; Editorial System</span>
+            </div>
+
+            <div class="card-main-layout">
+              <div class="card-content-block">
+                <h3 class="card-project-title">Syllabus Explainer</h3>
+                
+                <!-- EXACT DESCRIPTION REQUIRED BY USER -->
+                <p class="card-project-summary">
+                  A full-stack web application featuring an editorial academic design system, powered by a Node.js backend, Gemini API integration for AI-driven insights, and Three.js 3D visual environments.
+                </p>
+
+                <div class="engineering-specs">
+                  <div class="spec-label">Technical Stack &amp; Protocols:</div>
+                  <ul class="spec-tag-list" aria-label="Syllabus Explainer technical stack">
+                    <li class="spec-tag">Node.js</li>
+                    <li class="spec-tag">Gemini API</li>
+                    <li class="spec-tag">Three.js</li>
+                    <li class="spec-tag">Express.js</li>
+                    <li class="spec-tag">WebGL Rendering</li>
+                    <li class="spec-tag">Structured Output</li>
+                  </ul>
+                </div>
+
+                <div class="project-link-group">
+                  <a href="https://github.com/Sarthak-Kshirsagar-2275" target="_blank" rel="noopener noreferrer" class="project-action-link">
+                    <span>Inspect Repository</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                  </a>
+                  <button type="button" class="specs-toggle-btn" aria-expanded="false" data-target="specs-syllabusexplainer">
+                    <span>Technical Architecture</span>
+                    <span class="toggle-sign">+</span>
+                  </button>
+                </div>
+
+                <!-- Collapsible Engineering Blueprint -->
+                <div class="collapsible-blueprint" id="specs-syllabusexplainer" hidden>
+                  <div class="blueprint-inner">
+                    <div class="blueprint-item">
+                      <strong>Gemini AI Intelligence:</strong> Server-side context hydration synthesizing complex academic syllabi into pedagogical roadmaps.
+                    </div>
+                    <div class="blueprint-item">
+                      <strong>Three.js Spatial Graph:</strong> Interactive 3D constellation topology mapping curriculum prerequisites and knowledge graphs.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Visual Representation / 3D Academic Canvas Mockup -->
+              <div class="card-visual-stage" aria-hidden="true">
+                <div class="stage-frame frame-syllabus">
+                  <div class="mockup-header-bar">
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-address">syllabus-explainer.ai/gemini-core</span>
+                  </div>
+                  <div class="mockup-viewport">
+                    <div class="wire-3d-node-matrix">
+                      <div class="wire-poly-cube">
+                        <div class="cube-node node-a"></div>
+                        <div class="cube-node node-b"></div>
+                        <div class="cube-node node-c"></div>
+                        <div class="cube-edge edge-ab"></div>
+                        <div class="cube-edge edge-bc"></div>
+                      </div>
+                      <div class="wire-editorial-extract">
+                        <span class="extract-pill">Gemini-Engineered Concept Index</span>
+                        <div class="extract-line" style="width: 80%;"></div>
+                        <div class="extract-line" style="width: 60%;"></div>
+                      </div>
+                      <div class="stage-tag-badge">Three.js + Node.js Backend</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJECT 03: Waffle Verse -->
+          <article class="exhibition-card" data-category="interactive" id="project-waffleverse">
+            <div class="card-meta-bar">
+              <div class="card-serial">
+                <span class="serial-tag">PROJECT // 03</span>
+                <span class="status-pill status-shipped">Deployed</span>
+              </div>
+              <span class="architecture-type">Design Systems &bull; Fluid Micro-Interactions &bull; Premium UI/UX</span>
+            </div>
+
+            <div class="card-main-layout">
+              <div class="card-content-block">
+                <h3 class="card-project-title">Waffle Verse</h3>
+                
+                <!-- EXACT DESCRIPTION REQUIRED BY USER -->
+                <p class="card-project-summary">
+                  A premium, interactive web application showcasing a sophisticated modern UI/UX, fluid animations, and a highly polished cream and beige visual aesthetic.
+                </p>
+
+                <div class="engineering-specs">
+                  <div class="spec-label">Technical Stack &amp; Protocols:</div>
+                  <ul class="spec-tag-list" aria-label="Waffle Verse technical stack">
+                    <li class="spec-tag">Vanilla JavaScript</li>
+                    <li class="spec-tag">Advanced CSS3</li>
+                    <li class="spec-tag">Cream &amp; Beige Aesthetic</li>
+                    <li class="spec-tag">Fluid Animations</li>
+                    <li class="spec-tag">Micro-Interactions</li>
+                  </ul>
+                </div>
+
+                <div class="project-link-group">
+                  <a href="https://github.com/Sarthak-Kshirsagar-2275" target="_blank" rel="noopener noreferrer" class="project-action-link">
+                    <span>Inspect Repository</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                  </a>
+                  <button type="button" class="specs-toggle-btn" aria-expanded="false" data-target="specs-waffleverse">
+                    <span>Technical Architecture</span>
+                    <span class="toggle-sign">+</span>
+                  </button>
+                </div>
+
+                <!-- Collapsible Engineering Blueprint -->
+                <div class="collapsible-blueprint" id="specs-waffleverse" hidden>
+                  <div class="blueprint-inner">
+                    <div class="blueprint-item">
+                      <strong>Design Token Harmony:</strong> Sophisticated cream, beige, and warm taupe hues balancing strict 4.5:1 contrast ratios.
+                    </div>
+                    <div class="blueprint-item">
+                      <strong>Motion Physics:</strong> Hardware-accelerated CSS transforms and keyframe spring physics with zero jank.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Visual Representation / Cream Aesthetic Mockup -->
+              <div class="card-visual-stage" aria-hidden="true">
+                <div class="stage-frame frame-waffle">
+                  <div class="mockup-header-bar">
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-dot"></span>
+                    <span class="mockup-address">waffleverse.design/interactive-cream</span>
+                  </div>
+                  <div class="mockup-viewport">
+                    <div class="wire-waffle-palette">
+                      <div class="waffle-sheet sheet-back"></div>
+                      <div class="waffle-sheet sheet-mid"></div>
+                      <div class="waffle-sheet sheet-front">
+                        <div class="waffle-pattern-grid">
+                          <span></span><span></span><span></span>
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
+                      <div class="stage-tag-badge">Warm Editorial Palette</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TECH STACK & EXPANDABLE SKILLS ==================== -->
+    <section class="section-stack" id="stack" aria-labelledby="stack-heading">
+      <div class="section-container">
+        
+        <div class="section-header-split">
+          <div>
+            <div class="section-eyebrow">
+              <span class="eyebrow-index">02</span>
+              <span class="eyebrow-text">Technical Capabilities &amp; Full Skill Index</span>
+            </div>
+            <h2 class="section-title" id="stack-heading">
+              A comprehensive, <em class="editorial-accent">disciplined</em> stack.
+            </h2>
+          </div>
+          
+          <div class="stack-header-actions">
+            <p class="section-description">
+              All 23 core technologies organized across 4 engineering domains. Filter by category below or toggle any card's <span class="kbd-pill">+</span> control to inspect individual skill implementations.
+            </p>
+            <div class="accordion-batch-controls">
+              <button type="button" class="batch-btn" id="btn-expand-all">Expand All (+)</button>
+              <button type="button" class="batch-btn" id="btn-collapse-all">Collapse All (&minus;)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Complete All-23-Skills Interactive Overview Bar -->
+        <div class="skills-master-overview" aria-label="Complete Skill Directory and Domain Filter">
+          <div class="skills-overview-header">
+            <div class="skills-overview-title-wrap">
+              <span class="skills-overview-label">// COMPLETE SKILL INVENTORY (23 TECHNOLOGIES)</span>
+              <span class="skills-overview-sub">Click a domain filter or any skill badge to focus its architectural breakdown</span>
+            </div>
+            <div class="skills-domain-filters" role="tablist" aria-label="Filter skill cards by domain">
+              <button type="button" class="skill-filter-btn active" data-skill-filter="all" role="tab" aria-selected="true">All Domains (23)</button>
+              <button type="button" class="skill-filter-btn" data-skill-filter="card-frontend" role="tab" aria-selected="false">Frontend &amp; 3D (6)</button>
+              <button type="button" class="skill-filter-btn" data-skill-filter="card-backend" role="tab" aria-selected="false">Backend &amp; DB (4)</button>
+              <button type="button" class="skill-filter-btn" data-skill-filter="card-aiml" role="tab" aria-selected="false">AI, Vision &amp; rPPG (8)</button>
+              <button type="button" class="skill-filter-btn" data-skill-filter="card-tooling" role="tab" aria-selected="false">IDEs &amp; Workflows (5)</button>
+            </div>
+          </div>
+
+          <div class="skills-all-pills-grid">
+            <!-- Domain 01 -->
+            <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span class="pill-dot dot-frontend"></span>HTML5</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span class="pill-dot dot-frontend"></span>CSS3</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span class="pill-dot dot-frontend"></span>Tailwind CSS</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span class="pill-dot dot-frontend"></span>Vanilla JavaScript</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span class="pill-dot dot-frontend"></span>Next.js</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span class="pill-dot dot-frontend"></span>Three.js</button>
+            <!-- Domain 02 -->
+            <button type="button" class="master-skill-pill" data-target-card="card-backend"><span class="pill-dot dot-backend"></span>Node.js</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-backend"><span class="pill-dot dot-backend"></span>Express.js</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-backend"><span class="pill-dot dot-backend"></span>Redis</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-backend"><span class="pill-dot dot-backend"></span>SQLite</button>
+            <!-- Domain 03 -->
+            <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span class="pill-dot dot-aiml"></span>Python</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span class="pill-dot dot-aiml"></span>NumPy</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span class="pill-dot dot-aiml"></span>PyTorch</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span class="pill-dot dot-aiml"></span>OpenCV</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span class="pill-dot dot-aiml"></span>rPPG</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span class="pill-dot dot-aiml"></span>CHROM</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span class="pill-dot dot-aiml"></span>POM</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span class="pill-dot dot-aiml"></span>Gemini API</button>
+            <!-- Domain 04 -->
+            <button type="button" class="master-skill-pill" data-target-card="card-tooling"><span class="pill-dot dot-tooling"></span>PyCharm</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-tooling"><span class="pill-dot dot-tooling"></span>VS Code</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-tooling"><span class="pill-dot dot-tooling"></span>Git</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-tooling"><span class="pill-dot dot-tooling"></span>GitHub</button>
+            <button type="button" class="master-skill-pill" data-target-card="card-tooling"><span class="pill-dot dot-tooling"></span>Chrome DevTools</button>
+          </div>
+        </div>
+
+        <!-- Expandable Modern Cards Grid -->
+        <div class="skills-card-matrix">
+
+          <!-- CARD 1: Core Web & Modern Frontend -->
+          <article class="stack-card is-expanded" id="card-frontend">
+            <div class="stack-card-primary">
+              <div class="stack-badge-strip">
+                <span class="domain-tag">DOMAIN 01</span>
+                <span class="item-count-pill">6 Technologies</span>
+              </div>
+              
+              <h3 class="stack-domain-title">Core Web &amp; Frontend Engineering</h3>
+              <p class="stack-domain-desc">
+                Building responsive, accessible, and resilient client-side architectures with modern web standards and high-fidelity rendering.
+              </p>
+
+              <!-- Prominent Tag Cloud -->
+              <div class="prominent-chips">
+                <span class="tech-chip">HTML5</span>
+                <span class="tech-chip">CSS3</span>
+                <span class="tech-chip">Tailwind CSS</span>
+                <span class="tech-chip">Vanilla JavaScript</span>
+                <span class="tech-chip">Next.js</span>
+                <span class="tech-chip">Three.js</span>
+              </div>
+
+              <!-- User-Required Expand '+' Trigger -->
+              <button type="button" class="expand-card-trigger" aria-expanded="true" aria-controls="subitems-frontend" aria-label="Toggle Core Web and Frontend details">
+                <span class="trigger-label">Hide Sub-Items &amp; Details</span>
+                <span class="trigger-icon" aria-hidden="true">+</span>
+              </button>
+            </div>
+
+            <!-- Expandable Sub-items Tray (Every Skill Itemized Individually) -->
+            <div class="stack-expandable-tray" id="subitems-frontend">
+              <div class="tray-inner">
+                <div class="sub-item-group">
+                  <h4 class="sub-item-heading">All 6 Frontend Technologies &amp; Implementation Scope:</h4>
+                  <ul class="sub-item-list">
+                    <li><strong>HTML5 (Semantic Architecture):</strong> Strictly accessible landmarks, ARIA roles, structured heading hierarchies, and SEO-ready document trees.</li>
+                    <li><strong>CSS3 (Custom Properties &amp; Motion):</strong> Design token variables, fluid clamp() typography, CSS Grid/Flexbox layouts, and hardware-accelerated animations.</li>
+                    <li><strong>Tailwind CSS:</strong> Utility-first design systems, custom theme configuration, responsive breakpoints, and zero-bloat production CSS bundles.</li>
+                    <li><strong>Vanilla JavaScript (ES6+):</strong> Zero-dependency DOM state reconciliation, event delegation, IntersectionObserver, and async API pipelines.</li>
+                    <li><strong>Next.js:</strong> React server components, hybrid SSR/SSG routing, route handlers, and optimized asset delivery.</li>
+                    <li><strong>Three.js (WebGL 3D):</strong> Interactive 3D spatial graphs, custom geometries, lighting rigs, and smooth 60fps canvas rendering.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- CARD 2: Backend, Microservices & Databases -->
+          <article class="stack-card is-expanded" id="card-backend">
+            <div class="stack-card-primary">
+              <div class="stack-badge-strip">
+                <span class="domain-tag">DOMAIN 02</span>
+                <span class="item-count-pill">4 Technologies</span>
+              </div>
+              
+              <h3 class="stack-domain-title">Server Architecture &amp; Databases</h3>
+              <p class="stack-domain-desc">
+                Constructing lightweight, scalable backends, real-time message brokering, and low-latency structured persistence layers.
+              </p>
+
+              <div class="prominent-chips">
+                <span class="tech-chip">Node.js</span>
+                <span class="tech-chip">Express.js</span>
+                <span class="tech-chip">Redis</span>
+                <span class="tech-chip">SQLite</span>
+              </div>
+
+              <button type="button" class="expand-card-trigger" aria-expanded="true" aria-controls="subitems-backend" aria-label="Toggle Server Architecture and Database details">
+                <span class="trigger-label">Hide Sub-Items &amp; Details</span>
+                <span class="trigger-icon" aria-hidden="true">+</span>
+              </button>
+            </div>
+
+            <div class="stack-expandable-tray" id="subitems-backend">
+              <div class="tray-inner">
+                <div class="sub-item-group">
+                  <h4 class="sub-item-heading">All 4 Backend &amp; Database Technologies:</h4>
+                  <ul class="sub-item-list">
+                    <li><strong>Node.js:</strong> Event-driven asynchronous server runtime, stream processing, environment management, and external API orchestration.</li>
+                    <li><strong>Express.js:</strong> Modular REST API routing, custom middleware chains, request validation, CORS security, and structured error handling.</li>
+                    <li><strong>Redis:</strong> Low-latency in-memory key-value caching, TTL session storage, pub/sub messaging, and atomic API rate limiting.</li>
+                    <li><strong>SQLite:</strong> Embedded relational SQL persistence, WAL concurrency mode, indexed queries, and normalized schema design.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- CARD 3: AI, Machine Learning, Computer Vision & rPPG -->
+          <article class="stack-card is-expanded" id="card-aiml">
+            <div class="stack-card-primary">
+              <div class="stack-badge-strip">
+                <span class="domain-tag">DOMAIN 03</span>
+                <span class="item-count-pill">8 Technologies</span>
+              </div>
+              
+              <h3 class="stack-domain-title">AI / ML, Computer Vision &amp; rPPG</h3>
+              <p class="stack-domain-desc">
+                Applying foundational algorithms, deep learning tensors, remote photoplethysmography (rPPG) signal extraction, and generative APIs.
+              </p>
+
+              <div class="prominent-chips">
+                <span class="tech-chip">Python</span>
+                <span class="tech-chip">NumPy</span>
+                <span class="tech-chip">PyTorch</span>
+                <span class="tech-chip">OpenCV</span>
+                <span class="tech-chip">rPPG</span>
+                <span class="tech-chip">CHROM</span>
+                <span class="tech-chip">POM</span>
+                <span class="tech-chip">Gemini API</span>
+              </div>
+
+              <button type="button" class="expand-card-trigger" aria-expanded="true" aria-controls="subitems-aiml" aria-label="Toggle AI, Computer Vision, and rPPG details">
+                <span class="trigger-label">Hide Sub-Items &amp; Details</span>
+                <span class="trigger-icon" aria-hidden="true">+</span>
+              </button>
+            </div>
+
+            <div class="stack-expandable-tray" id="subitems-aiml">
+              <div class="tray-inner">
+                <div class="sub-item-group">
+                  <h4 class="sub-item-heading">All 8 AI, Vision &amp; Signal Processing Technologies:</h4>
+                  <ul class="sub-item-list">
+                    <li><strong>Python:</strong> Core scientific programming, algorithmic prototyping, data pipelines, and automated backend scripting.</li>
+                    <li><strong>NumPy:</strong> High-speed N-dimensional array vectorization, linear algebra operations, FFT spectral analysis, and signal filtering.</li>
+                    <li><strong>PyTorch:</strong> Deep learning tensor computation, autograd differentiation, and neural network training workflows.</li>
+                    <li><strong>OpenCV:</strong> Real-time video frame capture, facial ROI landmark detection, skin-pixel segmentation, and color space conversion.</li>
+                    <li><strong>rPPG (Remote Photoplethysmography):</strong> Contactless physiological blood volume pulse (BVP) and heart-rate extraction from standard webcam video.</li>
+                    <li><strong>CHROM (Chrominance-Based rPPG):</strong> Chrominance signal projection separating pulse-induced color variations from specular reflection and motion noise.</li>
+                    <li><strong>POM (Plane-Orthogonal-to-Skin):</strong> Projection-orthogonal mathematical modeling on normalized RGB skin tone channels for robust pulse recovery.</li>
+                    <li><strong>Gemini API:</strong> Multimodal LLM integration, structured JSON schema outputs, and context-aware academic synthesis.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- CARD 4: Environments & Developer Tooling -->
+          <article class="stack-card is-expanded" id="card-tooling">
+            <div class="stack-card-primary">
+              <div class="stack-badge-strip">
+                <span class="domain-tag">DOMAIN 04</span>
+                <span class="item-count-pill">5 Technologies</span>
+              </div>
+              
+              <h3 class="stack-domain-title">Environments, IDEs &amp; Workflows</h3>
+              <p class="stack-domain-desc">
+                Disciplined tooling ecosystems driving rapid iteration, code inspection, versioning, and continuous delivery pipelines.
+              </p>
+
+              <div class="prominent-chips">
+                <span class="tech-chip">PyCharm</span>
+                <span class="tech-chip">VS Code</span>
+                <span class="tech-chip">Git</span>
+                <span class="tech-chip">GitHub</span>
+                <span class="tech-chip">Chrome DevTools</span>
+              </div>
+
+              <button type="button" class="expand-card-trigger" aria-expanded="true" aria-controls="subitems-tooling" aria-label="Toggle Tooling and Workflow details">
+                <span class="trigger-label">Hide Sub-Items &amp; Details</span>
+                <span class="trigger-icon" aria-hidden="true">+</span>
+              </button>
+            </div>
+
+            <div class="stack-expandable-tray" id="subitems-tooling">
+              <div class="tray-inner">
+                <div class="sub-item-group">
+                  <h4 class="sub-item-heading">All 5 Development Environments &amp; Tooling Systems:</h4>
+                  <ul class="sub-item-list">
+                    <li><strong>PyCharm:</strong> Dedicated Python &amp; AI/ML IDE for virtual environment management, tensor debugging, and PEP-8 static analysis.</li>
+                    <li><strong>VS Code:</strong> Lightweight full-stack code editor configured with ESLint, Prettier, live server previews, and integrated terminal workflows.</li>
+                    <li><strong>Git:</strong> Distributed version control, clean atomic commits, branch isolation, and interactive rebase hygiene.</li>
+                    <li><strong>GitHub:</strong> Remote repository hosting, issue tracking, pull request workflows, and automated production deployments.</li>
+                    <li><strong>Chrome DevTools &amp; Lighthouse:</strong> Runtime frame-rate profiling, network waterfall inspection, Core Web Vitals auditing, and WCAG accessibility verification.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CORE VALUES & PHILOSOPHY ==================== -->
+    <section class="section-values" id="values" aria-labelledby="values-heading">
+      <div class="section-container">
+        
+        <div class="section-header-split">
+          <div>
+            <div class="section-eyebrow">
+              <span class="eyebrow-index">03</span>
+              <span class="eyebrow-text">Engineering Manifesto</span>
+            </div>
+            <h2 class="section-title" id="values-heading">
+              Foundational <em class="editorial-accent">principles</em> of my craft.
+            </h2>
+          </div>
+          <p class="section-description">
+            Web products succeed or fail based on how they treat the end user and how sustainable they are for the engineering team. Here are the core values driving every line of code I write:
+          </p>
+        </div>
+
+        <div class="values-grid">
+          
+          <div class="value-block">
+            <span class="value-index">01</span>
+            <h3 class="value-title">Functional and Responsive Design</h3>
+            <p class="value-body">
+              Every layout adapts instinctively from 320px mobile viewports to ultra-wide 4K monitors. Beauty never excuses compromised usability.
+            </p>
+          </div>
+
+          <div class="value-block">
+            <span class="value-index">02</span>
+            <h3 class="value-title">Highly User-Friendly &amp; Sleek UI/UX</h3>
+            <p class="value-body">
+              Eliminating cognitive friction through purposeful micro-interactions, clear visual hierarchy, and intuitive interface layouts that make complex tasks feel effortless.
+            </p>
+          </div>
+
+          <div class="value-block">
+            <span class="value-index">03</span>
+            <h3 class="value-title">Semantic HTML</h3>
+            <p class="value-body">
+              Adhering strictly to standard HTML landmarks and aria conventions. Semantic code guarantees superior SEO, universal accessibility, and native browser predictability.
+            </p>
+          </div>
+
+          <div class="value-block">
+            <span class="value-index">04</span>
+            <h3 class="value-title">Reusable Code</h3>
+            <p class="value-body">
+              Crafting modular, self-contained components and parameterized CSS variables that compound in velocity as the codebase grows.
+            </p>
+          </div>
+
+          <div class="value-block">
+            <span class="value-index">05</span>
+            <h3 class="value-title">Scalable Architecture</h3>
+            <p class="value-body">
+              Structuring repositories with clean separation between presentation, state, and data fetching, ensuring features can be extended without regressions.
+            </p>
+          </div>
+
+          <div class="value-block">
+            <span class="value-index">06</span>
+            <h3 class="value-title">Focusing on Low Maintenance</h3>
+            <p class="value-body">
+              Prioritizing stable, zero-dependency browser primitives over ephemeral frameworks. Low maintenance means minimal technical debt and rock-solid uptime.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACADEMIC FOUNDATION & BACKGROUND ==================== -->
+    <section class="section-academic" id="academic" aria-labelledby="academic-heading">
+      <div class="section-container">
+        <div class="academic-card-wrapper">
+          <div class="academic-text-side">
+            <div class="section-eyebrow">
+              <span class="eyebrow-index">04</span>
+              <span class="eyebrow-text">Background &amp; Pedagogy</span>
+            </div>
+            <h2 class="section-title" id="academic-heading">
+              1st-Year CS &amp; AI/ML at <em class="editorial-accent">Newton School of Technology</em>.
+            </h2>
+            <p class="academic-narrative">
+              My engineering trajectory combines rigorous university computer science foundations — algorithms, discrete mathematics, Python tensor computation, and data structures — with hands-on production web engineering.
+            </p>
+            <p class="academic-narrative">
+              Having already built <strong>20+ functional websites</strong> and <strong>successfully shipped 5+</strong> into public production, I operate as an energetic studio-of-one capable of taking concepts from blank file to deployed domain.
+            </p>
+
+            <div class="academic-points">
+              <div class="academic-bullet">
+                <span class="bullet-dot">&bull;</span>
+                <div>
+                  <strong>Curriculum Focus:</strong> Computational thinking, linear algebra, Python data modeling, and neural network foundations.
+                </div>
+              </div>
+              <div class="academic-bullet">
+                <span class="bullet-dot">&bull;</span>
+                <div>
+                  <strong>Personal Craft:</strong> Deep exploration of Vanilla JavaScript performance, WebGL 3D immersion, generative AI APIs, and contactless rPPG physiological vision systems.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="academic-stat-side">
+            <div class="stat-box-large">
+              <span class="stat-number-giant">20<span class="stat-plus">+</span></span>
+              <span class="stat-title">Functional Websites Built</span>
+              <p class="stat-detail">Prototyped, tested across devices, and iterated with semantic standards.</p>
+            </div>
+            
+            <div class="stat-box-large">
+              <span class="stat-number-giant">05<span class="stat-plus">+</span></span>
+              <span class="stat-title">Shipped into Production</span>
+              <p class="stat-detail">Deployed to production infrastructure with verified live users.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT / CONNECTION DESK ==================== -->
+    <section class="section-connect" id="connect" aria-labelledby="connect-heading">
+      <div class="section-container">
+        
+        <div class="connect-split-layout">
+          
+          <!-- Direct Channel Info -->
+          <div class="connect-info-panel">
+            <div class="section-eyebrow">
+              <span class="eyebrow-index">05</span>
+              <span class="eyebrow-text">Initiate Connection</span>
+            </div>
+            
+            <h2 class="section-title" id="connect-heading">
+              Let's engineer something <em class="editorial-accent">memorable</em> together.
+            </h2>
+            
+            <p class="connect-intro-text">
+              Whether you need a dedicated frontend developer for a fast-turnaround product, want to discuss AI integration workflows, or have an open role: I'd love to connect.
+            </p>
+
+            <!-- Verified Direct Links -->
+            <div class="channels-list">
+              
+              <div class="channel-card">
+                <div class="channel-icon-wrap" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <div class="channel-details">
+                  <span class="channel-kind">Direct Email</span>
+                  <a href="mailto:sarthak.v.k.2275@gmail.com" class="channel-link-text">sarthak.v.k.2275@gmail.com</a>
+                </div>
+                <button type="button" class="channel-copy-btn" id="inline-copy-email" aria-label="Copy Sarthak's email address">
+                  Copy
+                </button>
+              </div>
+
+              <div class="channel-card">
+                <div class="channel-icon-wrap" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+                  </svg>
+                </div>
+                <div class="channel-details">
+                  <span class="channel-kind">Code Repositories</span>
+                  <a href="https://github.com/Sarthak-Kshirsagar-2275" target="_blank" rel="noopener noreferrer" class="channel-link-text">github.com/Sarthak-Kshirsagar-2275</a>
+                </div>
+                <a href="https://github.com/Sarthak-Kshirsagar-2275" target="_blank" rel="noopener noreferrer" class="channel-visit-btn" aria-label="Visit Sarthak's GitHub profile">
+                  &nearr;
+                </a>
+              </div>
+
+            </div>
+
+            <div class="location-stamp">
+              <span class="stamp-icon" aria-hidden="true">&#9678;</span>
+              <span>Based in India &bull; Serving Clients &amp; Collaborators Worldwide (UTC+5:30)</span>
+            </div>
+          </div>
+
+          <!-- Interactive Contact Console -->
+          <div class="connect-form-panel">
+            <div class="form-surface-card">
+              <h3 class="form-heading">Send a Direct Message</h3>
+              <p class="form-subheading">Responses usually dispatched within 24 hours.</p>
+
+              <form id="portfolio-contact-form" class="direct-contact-form" novalidate>
+                <div class="form-field-group">
+                  <label for="contact-name" class="field-label">Your Name <span class="required-mark">*</span></label>
+                  <input type="text" id="contact-name" name="name" class="field-input" placeholder="e.g. Maya Sharma" required autocomplete="name">
+                  <span class="field-error-hint" id="error-name" aria-live="polite"></span>
+                </div>
+
+                <div class="form-field-group">
+                  <label for="contact-email" class="field-label">Email Address <span class="required-mark">*</span></label>
+                  <input type="email" id="contact-email" name="email" class="field-input" placeholder="maya@company.com" required autocomplete="email">
+                  <span class="field-error-hint" id="error-email" aria-live="polite"></span>
+                </div>
+
+                <div class="form-field-group">
+                  <label for="contact-topic" class="field-label">Project Scope / Inquiries</label>
+                  <select id="contact-topic" name="topic" class="field-input field-select">
+                    <option value="frontend">Frontend Web Application</option>
+                    <option value="ai-three">AI Integration or Three.js 3D Project</option>
+                    <option value="internship">Internship / Full-time Opportunity</option>
+                    <option value="general">General Collaboration / Coffee Chat</option>
+                  </select>
+                </div>
+
+                <div class="form-field-group">
+                  <label for="contact-message" class="field-label">Message Details <span class="required-mark">*</span></label>
+                  <textarea id="contact-message" name="message" rows="4" class="field-input field-textarea" placeholder="Briefly describe your requirements, timeline, or idea..." required></textarea>
+                  <span class="field-error-hint" id="error-message" aria-live="polite"></span>
+                </div>
+
+                <button type="submit" class="submit-action-btn" id="contact-submit-btn">
+                  <span class="submit-label">Transmit Message</span>
+                  <svg class="submit-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                </button>
+              </form>
+
+              <!-- Form Confirmation Dialog Banner -->
+              <div class="form-feedback-banner" id="form-feedback-banner" role="status" aria-live="polite" hidden>
+                <div class="feedback-icon" aria-hidden="true">&checkmark;</div>
+                <div class="feedback-text-wrap">
+                  <div class="feedback-title">Message Simulated &amp; Received!</div>
+                  <div class="feedback-detail">Thank you! Sarthak will review your inquiry at <em>sarthak.v.k.2275@gmail.com</em>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== SITE FOOTER ==================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-col-left">
+        <div class="footer-brand">Sarthak Kshirsagar</div>
+        <p class="footer-tagline">
+          1st-year B.Tech CS &amp; AI/ML student at Newton School of Technology.
+          Crafting responsive, high-fidelity web applications with semantic standards.
+        </p>
+      </div>
+
+      <div class="footer-col-nav">
+        <span class="footer-nav-label">Navigation</span>
+        <ul class="footer-nav-list">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#projects">Selected Work</a></li>
+          <li><a href="#stack">Tech Stack</a></li>
+          <li><a href="#values">Philosophy</a></li>
+          <li><a href="#connect">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col-links">
+        <span class="footer-nav-label">Direct Connect</span>
+        <ul class="footer-nav-list">
+          <li><a href="mailto:sarthak.v.k.2275@gmail.com">sarthak.v.k.2275@gmail.com</a></li>
+          <li><a href="https://github.com/Sarthak-Kshirsagar-2275" target="_blank" rel="noopener noreferrer">GitHub Profile &nearr;</a></li>
+          <li><a href="#overview">Back to Top &uarr;</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <div class="footer-bottom-container">
+        <span>&copy; <span id="current-year">2026</span> Sarthak Kshirsagar. All rights reserved.</span>
+        <span>Built with Semantic HTML &bull; Vanilla CSS &bull; Vanilla JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Toast Notification Element -->
+  <div class="floating-toast" id="floating-toast" role="status" aria-live="polite" aria-hidden="true">
+    <span class="toast-message">Email copied to clipboard!</span>
+  </div>
+
+  <!-- Primary Application Script -->
+  <script src="script.js"></script>
+</body>
+
+</html>
