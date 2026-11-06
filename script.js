@@ -14,6 +14,7 @@
     initEmailClipboard();
     initHeroScrollExit();
     initSkillRollupPopup();
+    initSkillCardsScrollScale();
     initSkillMasterDirectory();
     initProjectFilters();
     initStickyProjectStack();
@@ -1023,12 +1024,12 @@
     ];
 
     // Cards and structural blocks that rise up with subtle scale & blur clearing
+    // (Note: .stack-card is excluded here because it uses its own 10%-to-100% scroll-scale engine)
     const blockSelectors = [
       '.metric-box',
       '.hero-hud-card',
       '.filter-tab-bar',
       '.skills-master-overview',
-      '.stack-card',
       '.value-block',
       '.academic-spotlight-card',
       '.curriculum-pillar',
@@ -1054,7 +1055,7 @@
 
     // Assign stagger delays to sibling items inside grids/containers
     const staggerContainers = document.querySelectorAll(
-      '.metrics-grid, .skills-card-matrix, .values-grid, .curriculum-grid, .contact-grid, .footer-container'
+      '.metrics-grid, .values-grid, .curriculum-grid, .contact-grid, .footer-container'
     );
     staggerContainers.forEach(function (container) {
       Array.from(container.children).forEach(function (child, index) {
@@ -1098,6 +1099,73 @@
     allTargets.forEach(function (el) {
       revealObserver.observe(el);
     });
+  }
+
+  /**
+   * 13B. SKILL CARDS 10%-TO-100% SCROLL-LINKED GROWTH ENGINE
+   * Starts the 4 skill cards at 10% scale (0.10) and smoothly grows them to 100% (1.00)
+   * as the user scrolls down through the Technical Stack section, without affecting
+   * their click-to-roll-up center popup functionality.
+   */
+  function initSkillCardsScrollScale() {
+    const matrix = document.querySelector('.skills-card-matrix');
+    const cards = Array.from(document.querySelectorAll('.stack-card'));
+    if (!matrix || !cards.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      cards.forEach(function (c) {
+        c.style.setProperty('--skill-card-scale', '1');
+        c.style.setProperty('--skill-card-opacity', '1');
+      });
+      return;
+    }
+
+    const cardStates = cards.map(function () {
+      return { current: 0, target: 0 };
+    });
+
+    function computeTargets() {
+      const viewH = window.innerHeight;
+      const matrixRect = matrix.getBoundingClientRect();
+
+      cards.forEach(function (card, idx) {
+        if (card.hasAttribute('hidden')) {
+          cardStates[idx].target = 1;
+          return;
+        }
+        // Unscaled top position of the card relative to the viewport
+        const unscaledTop = matrixRect.top + card.offsetTop;
+        // Start growing at 10% scale when card enters near bottom of viewport (96% viewH)
+        // Reach 100% full size when card reaches reading zone (50% viewH)
+        const startY = viewH * 0.96;
+        const endY = viewH * 0.50;
+        const rawProgress = (startY - unscaledTop) / Math.max(1, startY - endY);
+        cardStates[idx].target = Math.max(0, Math.min(1, rawProgress));
+      });
+    }
+
+    window.addEventListener('scroll', computeTargets, { passive: true });
+    window.addEventListener('resize', computeTargets);
+    computeTargets();
+
+    function animateSkillScale() {
+      for (let i = 0; i < cards.length; i++) {
+        const state = cardStates[i];
+        state.current += (state.target - state.current) * 0.14;
+        const p = state.current;
+
+        // Smoothly grow from 10% (0.10) to 100% (1.00)
+        const scale = 0.10 + p * 0.90;
+        const opacity = 0.20 + p * 0.80;
+
+        cards[i].style.setProperty('--skill-card-scale', scale.toFixed(4));
+        cards[i].style.setProperty('--skill-card-opacity', opacity.toFixed(4));
+      }
+      window.requestAnimationFrame(animateSkillScale);
+    }
+
+    window.requestAnimationFrame(animateSkillScale);
   }
 
   /**

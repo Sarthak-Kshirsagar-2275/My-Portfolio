@@ -1357,8 +1357,9 @@ body.skill-modal-open .telemetry-bar {
 .dot-aiml { background-color: #8c5230; }
 .dot-tooling { background-color: #665b4c; }
 
-/* Grid of 4 Minimal Modern Cards (Click to Roll Up & Spin into Center Popup) */
+/* Grid of 4 Minimal Modern Cards (Grow from 10% to 100% on Scroll + Click to Roll Up & Spin Popup) */
 .skills-card-matrix {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
@@ -1375,14 +1376,18 @@ body.skill-modal-open .telemetry-bar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  transform-origin: center center;
+  transform: translate3d(0, var(--skill-hover-y, 0px), 0) scale(var(--skill-card-scale, 0.1));
+  opacity: var(--skill-card-opacity, 0.2);
+  will-change: transform, opacity;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .stack-card:hover,
 .stack-card:focus-visible {
+  --skill-hover-y: -4px;
   border-color: var(--accent-caramel);
   box-shadow: var(--shadow-hover);
-  transform: translateY(-4px);
   outline: none;
 }
 
