@@ -1,10 +1,4 @@
-/**
- * ==========================================================================
- * SARTHAK KSHIRSAGAR — PERSONAL PORTFOLIO
- * Vanilla JavaScript (Zero External Libraries / Zero Frameworks)
- * Strict Semantic Logic, Anti-Gravity Spatial Physics & Framer-Motion Style Scroll Reveals
- * ==========================================================================
- */
+
 
 (function () {
   'use strict';
@@ -18,11 +12,13 @@
     initMobileNavigation();
     initScrollSpy();
     initEmailClipboard();
+    initHeroScrollExit();
     initSkillRollupPopup();
     initSkillMasterDirectory();
     initProjectFilters();
     initStickyProjectStack();
     initProjectBlueprintToggles();
+    initLusionSection4Stage();
     initContactFormConsole();
     initFooterYear();
     initAntigravityBackground();
@@ -30,8 +26,7 @@
   }
 
   /**
-   * 01. LIVE CLOCK (IST / Indian Standard Time)
-   * Displays local time in India (UTC+5:30) for contextual availability
+   * 01. LIVE CLOCK (IST)
    */
   function initLiveClock() {
     const clockElement = document.getElementById('live-clock');
@@ -239,8 +234,6 @@
 
   /**
    * 06. 3D ROLL-UP SPINNING SKILL POPUP MODAL
-   * Clicking a skill card spins and rolls it up to the center of the screen
-   * as an exclusive interactive layer with a top-right cross (×) close button.
    */
   let openSkillPopupForCard = null;
 
@@ -352,7 +345,6 @@
 
     openSkillPopupForCard = openPopup;
 
-    // Open popup only when user clicks or presses Enter/Space on a skill card
     cards.forEach(function (card) {
       card.addEventListener('click', function () {
         openPopup(card);
@@ -1167,6 +1159,294 @@
 
     window.addEventListener('resize', updateStackDepth);
     updateStackDepth();
+  }
+
+  /**
+   * 15. HERO SECTION SCROLL-EXIT CHOREOGRAPHY
+   * As the user scrolls down toward Selected Case Studies (#projects):
+   * - Left text (.hero-primary-block) pops out in 3D and sweeps toward the top-right
+   * - Right card (.hero-bench-card) shrinks down and travels toward the top-right
+   * - Both smoothly disappear as the user reaches the second section (#projects)
+   */
+  function initHeroScrollExit() {
+    const heroSection = document.getElementById('overview');
+    const projectsSection = document.getElementById('projects');
+    const leftBlock = document.querySelector('.hero-primary-block');
+    const rightCard = document.querySelector('.hero-bench-card');
+
+    if (!heroSection || !leftBlock || !rightCard) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let targetP = 0;
+    let currentP = 0;
+
+    function updateHeroScroll() {
+      const scrollY = window.scrollY;
+      const projectsTop = projectsSection
+        ? projectsSection.offsetTop - window.innerHeight * 0.25
+        : heroSection.offsetHeight;
+      const maxScroll = Math.max(260, projectsTop);
+      targetP = Math.max(0, Math.min(1, scrollY / maxScroll));
+    }
+
+    window.addEventListener('scroll', updateHeroScroll, { passive: true });
+    window.addEventListener('resize', updateHeroScroll);
+    updateHeroScroll();
+
+    function renderHeroExit() {
+      currentP += (targetP - currentP) * 0.14;
+      const p = currentP;
+
+      if (p < 0.003) {
+        leftBlock.style.transform = '';
+        leftBlock.style.opacity = '';
+        leftBlock.style.filter = '';
+        rightCard.style.transform = '';
+        rightCard.style.opacity = '';
+        rightCard.style.filter = '';
+      } else {
+        // Left text pops out (scale > 1 + Z lift) then arcs to the top-right and fades out
+        const popBell = Math.sin(Math.min(1, p * 1.35) * Math.PI);
+        const leftScale = 1 + popBell * 0.14 - p * 0.18;
+        const leftX = Math.pow(p, 1.15) * (window.innerWidth * 0.42);
+        const leftY = -Math.pow(p, 1.1) * (window.innerHeight * 0.44);
+        const leftZ = popBell * 90;
+        const leftRotZ = p * 5.5;
+        const leftOpacity = Math.max(0, 1 - Math.pow(p, 1.35) * 1.18);
+
+        leftBlock.style.transform =
+          'translate3d(' + leftX.toFixed(1) + 'px, ' + leftY.toFixed(1) + 'px, ' + leftZ.toFixed(1) + 'px) ' +
+          'scale(' + leftScale.toFixed(3) + ') rotateZ(' + leftRotZ.toFixed(2) + 'deg)';
+        leftBlock.style.opacity = leftOpacity.toFixed(3);
+        leftBlock.style.filter = 'blur(' + (Math.max(0, p - 0.35) * 6).toFixed(2) + 'px)';
+
+        // Right card shrinks smaller and travels toward the top-right until disappearing
+        const rightScale = Math.max(0.28, 1 - p * 0.72);
+        const rightX = Math.pow(p, 1.05) * (window.innerWidth * 0.24);
+        const rightY = -Math.pow(p, 1.12) * (window.innerHeight * 0.48);
+        const rightRot = p * 8;
+        const rightOpacity = Math.max(0, 1 - Math.pow(p, 1.3) * 1.2);
+
+        rightCard.style.transform =
+          'translate3d(' + rightX.toFixed(1) + 'px, ' + rightY.toFixed(1) + 'px, 0) ' +
+          'scale(' + rightScale.toFixed(3) + ') rotateZ(' + rightRot.toFixed(2) + 'deg)';
+        rightCard.style.opacity = rightOpacity.toFixed(3);
+        rightCard.style.filter = 'blur(' + (Math.max(0, p - 0.4) * 5).toFixed(2) + 'px)';
+      }
+
+      window.requestAnimationFrame(renderHeroExit);
+    }
+
+    window.requestAnimationFrame(renderHeroExit);
+  }
+
+  /**
+   * 16. WARM-THEME SECTION 4 SCROLL-EXPANDING WINDOW & ARCHITECTURAL WAVE LINE
+   * Drives the warm caramel/sage dual-filament wave spline, 3D perspective window warp & expansion,
+   * '+' crosshair reveals, and interactive warm portal canvas.
+   */
+  function initLusionSection4Stage() {
+    const section = document.getElementById('academic');
+    const path = document.getElementById('lusion-guiding-path');
+    const secondaryPath = document.getElementById('lusion-secondary-path');
+    const introHeader = document.getElementById('lusion-intro-header');
+    const expandingWindow = document.getElementById('lusion-expanding-window');
+    const windowInner = document.getElementById('lusion-window-inner');
+    const topCrosshairs = document.getElementById('lusion-crosshair-top');
+    const bottomCrosshairs = document.getElementById('lusion-crosshair-bottom');
+    const portalCanvas = document.getElementById('lusion-portal-canvas');
+
+    if (!section || !expandingWindow || !path) return;
+
+    const pathLength = path.getTotalLength ? path.getTotalLength() : 2800;
+    path.style.strokeDasharray = String(pathLength);
+    path.style.strokeDashoffset = String(pathLength * 0.72);
+
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let pointerOffsetX = 0;
+    let pointerOffsetY = 0;
+
+    window.addEventListener(
+      'mousemove',
+      function (e) {
+        const nx = (e.clientX / window.innerWidth - 0.5) * 2;
+        const ny = (e.clientY / window.innerHeight - 0.5) * 2;
+        pointerOffsetX = nx * 32;
+        pointerOffsetY = ny * 24;
+      },
+      { passive: true }
+    );
+
+    function computeScrollProgress() {
+      const rect = section.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      const totalScrollable = Math.max(1, rect.height - viewH * 0.85);
+      const scrolled = -rect.top + viewH * 0.18;
+      targetProgress = Math.max(0, Math.min(1, scrolled / totalScrollable));
+    }
+
+    window.addEventListener('scroll', computeScrollProgress, { passive: true });
+    window.addEventListener('resize', computeScrollProgress);
+    computeScrollProgress();
+
+    // Animated Warm Caramel / Sage Orbital Portal inside the Expanding Window
+    let pCtx = null;
+    let pW = 0;
+    let pH = 0;
+    const shards = [];
+
+    if (portalCanvas) {
+      pCtx = portalCanvas.getContext('2d');
+      function resizePortal() {
+        const rect = expandingWindow.getBoundingClientRect();
+        pW = Math.max(300, rect.width);
+        pH = Math.max(260, rect.height);
+        portalCanvas.width = pW;
+        portalCanvas.height = pH;
+      }
+      resizePortal();
+      window.addEventListener('resize', resizePortal);
+
+      for (let i = 0; i < 42; i++) {
+        shards.push({
+          angle: (Math.PI * 2 * i) / 42,
+          radius: 28 + (i % 7) * 26,
+          speed: 0.008 + (i % 5) * 0.003,
+          size: 4 + (i % 4) * 4.5,
+          hue: i % 2 === 0 ? 'rgba(212, 155, 106, 0.36)' : 'rgba(63, 123, 73, 0.30)'
+        });
+      }
+    }
+
+    let time = 0;
+    function animateStage() {
+      time += 0.018;
+      currentProgress += (targetProgress - currentProgress) * 0.11;
+      const p = currentProgress;
+
+      // 1. Creative Sweeping Diagonal Wave & S-Cascade (No Loop) in Warm Theme
+      const drawFraction = Math.min(1, 0.22 + p * 0.78);
+      path.style.strokeDashoffset = String(pathLength * (1 - drawFraction));
+
+      const flexX = Math.sin(time * 1.35 + p * 4.2) * 28 + pointerOffsetX;
+      const flexY = Math.cos(time * 1.15 + p * 3.4) * 22 + pointerOffsetY;
+      const dString =
+        'M 1490 60 ' +
+        'C ' + (1140 - flexX * 0.6).toFixed(1) + ' ' + (90 + flexY * 0.5).toFixed(1) + ', ' +
+        (960 + flexX * 0.5).toFixed(1) + ' ' + (280 - flexY * 0.7).toFixed(1) + ', ' +
+        (680 + flexX * 0.35).toFixed(1) + ' ' + (310 + flexY * 0.4).toFixed(1) + ' ' +
+        'C ' + (390 - flexX * 0.5).toFixed(1) + ' ' + (340 + flexY).toFixed(1) + ', ' +
+        (140 + flexX * 0.4).toFixed(1) + ' ' + (460 - flexY * 0.5).toFixed(1) + ', ' +
+        (70 + flexX * 0.25).toFixed(1) + ' 670 ' +
+        'C 20 820, ' + (340 - flexX * 0.6).toFixed(1) + ' ' + (910 + flexY * 0.6).toFixed(1) + ', ' +
+        (760 + flexX * 0.4).toFixed(1) + ' ' + (860 - flexY * 0.5).toFixed(1) + ' ' +
+        'C 1120 815, 1310 920, 1510 980';
+      path.setAttribute('d', dString);
+
+      if (secondaryPath) {
+        const secString =
+          'M -60 220 ' +
+          'C ' + (240 + flexX * 0.5).toFixed(1) + ' ' + (180 - flexY * 0.5).toFixed(1) + ', ' +
+          (510 - flexX * 0.4).toFixed(1) + ' ' + (380 + flexY * 0.6).toFixed(1) + ', ' +
+          (820 + flexX * 0.3).toFixed(1) + ' 340 ' +
+          'C 1120 300, ' + (1290 - flexX * 0.5).toFixed(1) + ' ' + (520 + flexY * 0.5).toFixed(1) + ', ' +
+          '1040 710 C 790 900, 380 780, -40 920';
+        secondaryPath.setAttribute('d', secString);
+        secondaryPath.style.strokeDashoffset = String(-time * 40 - p * 180);
+      }
+
+      // 2. Window Expansion + 3D Mid-Scroll Warp
+      if (window.innerWidth > 900) {
+        const widthPct = 44 + p * 56;
+        const warpBell = Math.sin(p * Math.PI);
+        const rotX = warpBell * 11;
+        const rotY = warpBell * -9;
+        const rotZ = warpBell * -2.8;
+        const skewX = warpBell * -4.5;
+        const translateY = (1 - p) * 14 - warpBell * 10;
+
+        expandingWindow.style.width = widthPct.toFixed(2) + '%';
+        expandingWindow.style.transform =
+          'translate3d(0, ' + translateY.toFixed(1) + 'px, 0) ' +
+          'rotateX(' + rotX.toFixed(2) + 'deg) ' +
+          'rotateY(' + rotY.toFixed(2) + 'deg) ' +
+          'rotateZ(' + rotZ.toFixed(2) + 'deg) ' +
+          'skewX(' + skewX.toFixed(2) + 'deg)';
+
+        if (introHeader) {
+          const headerShift = Math.max(0, (p - 0.35) / 0.65);
+          introHeader.style.transform = 'translate3d(0, ' + (-headerShift * 18).toFixed(1) + 'px, 0)';
+          introHeader.style.opacity = String((1 - headerShift * 0.22).toFixed(3));
+        }
+
+        if (windowInner) {
+          const contentAlpha = Math.max(0.22, Math.min(1, (p - 0.15) / 0.6));
+          const contentY = (1 - contentAlpha) * 20;
+          const contentScale = 0.95 + contentAlpha * 0.05;
+          windowInner.style.opacity = contentAlpha.toFixed(3);
+          windowInner.style.transform =
+            'translate3d(0, ' + contentY.toFixed(1) + 'px, 0) scale(' + contentScale.toFixed(3) + ')';
+        }
+      }
+
+      // 3. Toggle '+' Crosshair Framing Rows when Window is Expanded
+      if (topCrosshairs && bottomCrosshairs) {
+        if (p > 0.62) {
+          topCrosshairs.classList.add('is-visible');
+          bottomCrosshairs.classList.add('is-visible');
+        } else {
+          topCrosshairs.classList.remove('is-visible');
+          bottomCrosshairs.classList.remove('is-visible');
+        }
+      }
+
+      // 4. Render Warm Caramel & Sage Swirling Portal Canvas Backdrop
+      if (pCtx && pW > 0 && pH > 0) {
+        pCtx.clearRect(0, 0, pW, pH);
+        const cx = pW * 0.5;
+        const cy = pH * 0.5;
+
+        for (let r = 1; r <= 4; r++) {
+          pCtx.save();
+          pCtx.translate(cx, cy);
+          pCtx.rotate(time * 0.4 * (r % 2 === 0 ? 1 : -1) + p * 2.2);
+          pCtx.strokeStyle = 'rgba(212, 155, 106, ' + (0.22 - r * 0.035).toFixed(3) + ')';
+          pCtx.lineWidth = 2;
+          pCtx.beginPath();
+          pCtx.ellipse(0, 0, 55 * r + p * 35, 28 * r + p * 18, 0.35, 0, Math.PI * 2);
+          pCtx.stroke();
+          pCtx.restore();
+        }
+
+        for (let i = 0; i < shards.length; i++) {
+          const s = shards[i];
+          s.angle += s.speed;
+          const rad = s.radius + p * 65;
+          const sx = cx + Math.cos(s.angle) * rad * 1.35;
+          const sy = cy + Math.sin(s.angle) * rad * 0.72;
+
+          pCtx.save();
+          pCtx.translate(sx, sy);
+          pCtx.rotate(s.angle * 1.8);
+          pCtx.fillStyle = s.hue;
+          pCtx.beginPath();
+          pCtx.moveTo(0, -s.size);
+          pCtx.lineTo(s.size * 0.85, 0);
+          pCtx.lineTo(0, s.size);
+          pCtx.lineTo(-s.size * 0.85, 0);
+          pCtx.closePath();
+          pCtx.fill();
+          pCtx.restore();
+        }
+      }
+
+      window.requestAnimationFrame(animateStage);
+    }
+
+    window.requestAnimationFrame(animateStage);
   }
 
 })();

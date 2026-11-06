@@ -470,6 +470,7 @@ body.skill-modal-open .telemetry-bar {
    -------------------------------------------------------------------------- */
 .section-hero {
   padding: clamp(48px, 6vw, 90px) 0 clamp(64px, 8vw, 100px);
+  perspective: 1400px;
 }
 
 .hero-container {
@@ -480,6 +481,13 @@ body.skill-modal-open .telemetry-bar {
   grid-template-columns: 1.35fr 1fr;
   gap: clamp(32px, 5vw, 64px);
   align-items: start;
+  transform-style: preserve-3d;
+}
+
+.hero-primary-block,
+.hero-bench-card {
+  transform-origin: right top;
+  will-change: transform, opacity, filter;
 }
 
 .pill-badge-row {
@@ -1737,29 +1745,87 @@ body.skill-modal-open {
 }
 
 /* --------------------------------------------------------------------------
-   10. ACADEMIC & PEDAGOGY FOUNDATION
+   10. ACADEMIC & PEDAGOGY FOUNDATION (LUSION-STYLE SCROLL-EXPANDING STAGE)
    -------------------------------------------------------------------------- */
-.section-academic {
-  padding: var(--section-pad-y) 0;
+.section-academic.lusion-scroll-section {
+  position: relative;
+  min-height: 225vh;
+  padding: clamp(56px, 7vw, 96px) 0 clamp(80px, 9vw, 130px);
 }
 
-.academic-card-wrapper {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-lg);
-  padding: clamp(32px, 5vw, 56px);
+.lusion-sticky-viewport {
+  position: sticky;
+  top: 64px;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: 24px 0 40px;
+}
+
+/* Warm Theme Architectural Wave & Telemetry Filament SVG */
+.lusion-ribbon-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+  filter: drop-shadow(0 12px 26px rgba(168, 108, 59, 0.2));
+}
+
+#lusion-guiding-path,
+#lusion-secondary-path {
+  transition: stroke-dashoffset 0.06s linear;
+  will-change: stroke-dashoffset, d;
+}
+
+.lusion-stage-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Top Stage: Giant Catchy Headline + Right Editorial Narrative */
+.lusion-intro-header {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 48px;
-  align-items: center;
-  box-shadow: var(--shadow-card);
+  grid-template-columns: 1.25fr 1fr;
+  gap: clamp(28px, 4.5vw, 64px);
+  align-items: end;
+  margin-bottom: clamp(28px, 4vw, 48px);
+  will-change: transform, opacity;
+}
+
+.lusion-giant-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5.6vw, 4.6rem);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lusion-title-line {
+  display: block;
+}
+
+.lusion-editorial-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .academic-narrative {
-  font-size: 1.05rem;
-  line-height: 1.8;
+  font-size: 1.04rem;
+  line-height: 1.76;
   color: var(--text-body);
-  margin-bottom: 20px;
+  margin: 0;
 }
 
 .academic-narrative strong {
@@ -1767,66 +1833,287 @@ body.skill-modal-open {
   font-weight: 600;
 }
 
-.academic-points {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 24px;
+.lusion-approach-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-card);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-main);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
-.academic-bullet {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 0.92rem;
-  color: var(--text-body);
+.lusion-approach-pill:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-caramel);
+  box-shadow: var(--shadow-hover);
 }
 
-.bullet-dot {
+.approach-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-caramel);
+  box-shadow: 0 0 0 4px var(--accent-caramel-soft);
+}
+
+/* Expanding Window Stage & '+' Coordinate Crosshairs */
+.lusion-window-stage {
+  position: relative;
+  width: 100%;
+  perspective: 1400px;
+}
+
+.lusion-crosshair-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px;
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 500;
   color: var(--accent-caramel);
-  font-size: 1.2rem;
-  line-height: 1;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  user-select: none;
 }
 
-.academic-stat-side {
+.lusion-crosshair-top {
+  margin-bottom: 12px;
+}
+
+.lusion-crosshair-bottom {
+  margin-top: 12px;
+}
+
+.lusion-crosshair-row.is-visible {
+  opacity: 0.85;
+  transform: translateY(0);
+}
+
+/* The Expanding & 3D Perspective-Warping Window (Matched to Warm Espresso, Caramel & Cream Theme) */
+.lusion-expanding-window {
+  position: relative;
+  width: 44%;
+  min-height: 350px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: radial-gradient(circle at 28% 22%, #3a281b 0%, #241a12 55%, #18110c 100%);
+  border: 1.5px solid rgba(212, 155, 106, 0.42);
+  box-shadow:
+    0 28px 70px rgba(35, 25, 16, 0.28),
+    0 0 0 1px rgba(251, 248, 243, 0.08) inset;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  will-change: width, transform, border-radius;
+  padding: clamp(24px, 3.6vw, 44px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+
+.lusion-portal-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Giant Watermark ('BUILD ▶ SHIP') in Warm Cream/Sand */
+.lusion-window-watermark {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(24px, 5vw, 68px);
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.5vw, 5.2rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(251, 248, 243, 0.11);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.lusion-center-badge {
+  width: clamp(54px, 6vw, 84px);
+  height: clamp(38px, 4.2vw, 56px);
+  border-radius: 999px;
+  background-color: var(--bg-page);
+  border: 1px solid rgba(212, 155, 106, 0.5);
+  color: var(--accent-caramel);
+  font-size: clamp(0.95rem, 1.5vw, 1.35rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+
+/* Inner Info Card Content (Reveals cleanly as window expands) */
+.lusion-window-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  opacity: 0.18;
+  transform: translateY(18px) scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.lusion-card-top-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(251, 248, 243, 0.14);
+}
+
+.lusion-meta-badge {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: #e6be9a;
+  font-weight: 600;
+}
+
+.lusion-meta-status {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(168, 108, 59, 0.28);
+  border: 1px solid rgba(212, 155, 106, 0.48);
+  color: #fbf8f3;
+}
+
+/* Two Non-Duplicated Sub-Sections Inside Expanding Window */
+.lusion-sub-sections-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
-.stat-box-large {
-  background-color: var(--bg-page);
-  border: 1px solid var(--border-medium);
+.lusion-sub-card {
+  background: rgba(251, 248, 243, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 155, 106, 0.24);
   border-radius: var(--radius-md);
-  padding: 28px;
+  padding: 24px;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
 }
 
-.stat-number-giant {
-  font-family: var(--font-serif);
-  font-size: clamp(3.2rem, 5vw, 4.4rem);
-  font-weight: 400;
-  line-height: 0.95;
-  color: var(--text-main);
+.lusion-sub-card:hover {
+  background: rgba(251, 248, 243, 0.11);
+  border-color: rgba(212, 155, 106, 0.55);
+}
+
+.lusion-sub-index {
   display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  color: #e6be9a;
   margin-bottom: 8px;
+  font-weight: 600;
 }
 
-.stat-plus {
-  color: var(--accent-caramel);
-}
-
-.stat-title {
+.lusion-sub-title {
+  font-family: var(--font-display);
+  font-size: 1.32rem;
   font-weight: 700;
-  font-size: 1rem;
-  color: var(--text-main);
-  display: block;
-  margin-bottom: 6px;
+  color: #fbf8f3;
+  margin-bottom: 10px;
 }
 
-.stat-detail {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  line-height: 1.5;
+.lusion-sub-body {
+  font-size: 0.92rem;
+  line-height: 1.68;
+  color: rgba(251, 248, 243, 0.84);
+  margin: 0;
+}
+
+/* Metrics Row Inside Expanding Window */
+.lusion-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.lusion-stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: rgba(20, 14, 10, 0.58);
+  border: 1px solid rgba(212, 155, 106, 0.22);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+}
+
+.lusion-stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 3.6vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #fbf8f3;
+  flex-shrink: 0;
+}
+
+.lusion-stat-num .stat-plus {
+  color: #d49b6a;
+}
+
+.lusion-stat-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lusion-stat-meta strong {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  color: #fbf8f3;
+}
+
+.lusion-stat-meta span {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: rgba(251, 248, 243, 0.74);
+}
+
+@media (max-width: 900px) {
+  .lusion-intro-header {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .lusion-expanding-window {
+    width: 100% !important;
+    transform: none !important;
+  }
+  .lusion-window-inner {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .lusion-sub-sections-grid,
+  .lusion-metrics-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* --------------------------------------------------------------------------
