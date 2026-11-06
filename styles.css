@@ -96,7 +96,7 @@ body {
   background-color: var(--bg-page);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Clean text selection */
@@ -219,7 +219,21 @@ img, svg {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-subtle);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    opacity 0.28s ease,
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.28s ease;
+}
+
+/* Hide Navbar & Telemetry Bar completely when Skill Card Popup is open */
+body.skill-modal-open .site-header,
+body.skill-modal-open .telemetry-bar {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-100%) !important;
 }
 
 .site-header.is-scrolled {
@@ -739,25 +753,49 @@ img, svg {
   font-weight: 600;
 }
 
-/* Projects Exhibition Grid */
+/* Projects Sticky Stacking Deck */
 .projects-exhibition-grid {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 14vh;
+  padding-bottom: 6vh;
 }
 
 .exhibition-card {
+  position: sticky;
+  top: calc(88px + var(--card-stack-offset, 0px));
   background-color: var(--bg-surface);
-  border: 1px solid var(--border-medium);
+  border: 1.5px solid var(--border-medium);
   border-radius: var(--radius-lg);
   padding: 36px;
-  box-shadow: var(--shadow-card);
-  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-fast);
+  box-shadow: 0 -10px 34px rgba(34, 25, 16, 0.08), var(--shadow-card);
+  transform-origin: center top;
+  transform: translate3d(0, 0, 0) scale(var(--stack-scale, 1));
+  filter: brightness(var(--stack-brightness, 1));
+  will-change: transform, filter;
+  transition:
+    box-shadow var(--transition-smooth),
+    border-color var(--transition-fast);
+}
+
+.exhibition-card:nth-child(1) {
+  --card-stack-offset: 0px;
+  z-index: 10;
+}
+
+.exhibition-card:nth-child(2) {
+  --card-stack-offset: 28px;
+  z-index: 20;
+}
+
+.exhibition-card:nth-child(3) {
+  --card-stack-offset: 56px;
+  z-index: 30;
 }
 
 .exhibition-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 -12px 40px rgba(34, 25, 16, 0.12), var(--shadow-hover);
   border-color: var(--border-prominent);
 }
 
@@ -2286,7 +2324,119 @@ body.skill-modal-open {
 }
 
 /* --------------------------------------------------------------------------
-   15. ACCESSIBILITY & PREFERS-REDUCED-MOTION
+   15. ANTI-GRAVITY SPATIAL BACKGROUND & FRAMER-MOTION SCROLL REVEALS
+   -------------------------------------------------------------------------- */
+.ambient-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient-bg-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 1;
+}
+
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  opacity: 0.42;
+  will-change: transform;
+}
+
+.ambient-glow-1 {
+  width: 48vw;
+  height: 48vw;
+  max-width: 620px;
+  max-height: 620px;
+  top: -10%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(168, 108, 59, 0.24) 0%, rgba(168, 108, 59, 0) 70%);
+  animation: ambientFloatSlow 22s ease-in-out infinite alternate;
+}
+
+.ambient-glow-2 {
+  width: 44vw;
+  height: 44vw;
+  max-width: 560px;
+  max-height: 560px;
+  bottom: -12%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(63, 123, 73, 0.18) 0%, rgba(168, 108, 59, 0.12) 45%, rgba(251, 248, 243, 0) 70%);
+  animation: ambientFloatSlow 28s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes ambientFloatSlow {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(28px, -32px, 0) scale(1.06);
+  }
+}
+
+.telemetry-bar,
+#main-content,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep alternating sections slightly translucent (no backdrop-filter on .section-projects so sticky cards work seamlessly) */
+.section-projects {
+  background-color: rgba(244, 238, 228, 0.56);
+}
+
+.section-values,
+.section-contact {
+  background-color: rgba(244, 238, 228, 0.56);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+}
+
+/* Framer-Motion Style Spring Scroll Reveal System */
+.fm-reveal {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0) scale(0.985);
+  filter: blur(3px);
+  transition:
+    opacity 0.78s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.82s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--fm-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.fm-reveal.is-inview {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0px);
+}
+
+/* Individual Text Line / Heading Upward Mask Reveal */
+.fm-text-rise {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--fm-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.fm-text-rise.is-inview {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* --------------------------------------------------------------------------
+   16. ACCESSIBILITY & PREFERS-REDUCED-MOTION
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -2294,5 +2444,12 @@ body.skill-modal-open {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .fm-reveal,
+  .fm-text-rise {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }

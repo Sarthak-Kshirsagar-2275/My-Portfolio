@@ -2,7 +2,7 @@
  * ==========================================================================
  * SARTHAK KSHIRSAGAR — PERSONAL PORTFOLIO
  * Vanilla JavaScript (Zero External Libraries / Zero Frameworks)
- * Strict Semantic Logic & Accessible Interaction Handlers
+ * Strict Semantic Logic, Anti-Gravity Spatial Physics & Framer-Motion Style Scroll Reveals
  * ==========================================================================
  */
 
@@ -21,9 +21,12 @@
     initSkillRollupPopup();
     initSkillMasterDirectory();
     initProjectFilters();
+    initStickyProjectStack();
     initProjectBlueprintToggles();
     initContactFormConsole();
     initFooterYear();
+    initAntigravityBackground();
+    initFramerScrollReveals();
   }
 
   /**
@@ -657,6 +660,513 @@
     if (yearEl) {
       yearEl.textContent = new Date().getFullYear();
     }
+  }
+
+  /**
+   * 12. ANTI-GRAVITY INSPIRED SPATIAL PHYSICS BACKGROUND CANVAS
+   * Richer, darker weightless geometric primitives + HTML, CSS, JS, and Python tech badges
+   * with zero-gravity upward drift, scroll-velocity inertia, and damped spring cursor repulsion.
+   */
+  function initAntigravityBackground() {
+    const canvas = document.getElementById('ambient-bg-canvas');
+    if (!canvas) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // Darker, richer warm editorial & tech palette so shapes are clearly visible
+    const palette = [
+      { stroke: 'rgba(118, 62, 22, 0.46)', fill: 'rgba(168, 108, 59, 0.12)' }, // Deep Caramel
+      { stroke: 'rgba(54, 42, 30, 0.42)',  fill: 'rgba(54, 42, 30, 0.09)' },   // Dark Espresso
+      { stroke: 'rgba(42, 94, 52, 0.44)',  fill: 'rgba(63, 123, 73, 0.11)' },  // Forest Sage
+      { stroke: 'rgba(136, 68, 28, 0.45)', fill: 'rgba(140, 82, 48, 0.11)' },  // Rich Terracotta
+      { stroke: 'rgba(78, 60, 44, 0.40)',  fill: 'rgba(102, 91, 76, 0.09)' }   // Warm Bronze
+    ];
+
+    // Kept all existing shapes + added HTML, CSS, JS, Python, code glyphs, hexagons & triangles
+    const shapes = [
+      'ring',
+      'pill',
+      'cross',
+      'dot',
+      'diamond',
+      'hexagon',
+      'triangle',
+      'html',
+      'css',
+      'js',
+      'python',
+      'code_tag',
+      'code_braces'
+    ];
+    const particles = [];
+
+    const pointer = {
+      x: -9999,
+      y: -9999,
+      vx: 0,
+      vy: 0,
+      active: false
+    };
+
+    let lastScrollY = window.scrollY;
+    let scrollVelocity = 0;
+
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function createParticles() {
+      particles.length = 0;
+      // Increased density so floating geometric & tech shapes populate the screen richly
+      const count = Math.max(48, Math.min(86, Math.floor((width * height) / 16500)));
+
+      for (let i = 0; i < count; i++) {
+        const shapeType = shapes[i % shapes.length];
+        const isTechBadge =
+          shapeType === 'html' ||
+          shapeType === 'css' ||
+          shapeType === 'js' ||
+          shapeType === 'python' ||
+          shapeType === 'code_tag' ||
+          shapeType === 'code_braces';
+
+        const size = isTechBadge ? 14 + Math.random() * 8 : 8 + Math.random() * 17;
+        const colorPair = palette[i % palette.length];
+
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          // Spring offset displacement (Framer-Motion spring state)
+          ox: 0,
+          oy: 0,
+          vx: 0,
+          vy: 0,
+          // Natural weightless anti-gravity upward drift
+          driftX: (Math.random() - 0.5) * 0.32,
+          driftY: -(0.22 + Math.random() * 0.46),
+          size: size,
+          // Keep tech badges mostly upright with gentle tilt oscillation
+          angle: isTechBadge ? (Math.random() - 0.5) * 0.35 : Math.random() * Math.PI * 2,
+          spinSpeed: isTechBadge ? (Math.random() - 0.5) * 0.0025 : (Math.random() - 0.5) * 0.009,
+          isTechBadge: isTechBadge,
+          shape: shapeType,
+          stroke: colorPair.stroke,
+          fill: colorPair.fill,
+          depth: 0.45 + Math.random() * 0.85
+        });
+      }
+    }
+
+    resizeCanvas();
+    createParticles();
+
+    window.addEventListener('resize', function () {
+      resizeCanvas();
+      createParticles();
+    });
+
+    window.addEventListener(
+      'mousemove',
+      function (e) {
+        pointer.vx = e.clientX - pointer.x;
+        pointer.vy = e.clientY - pointer.y;
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+        pointer.active = true;
+      },
+      { passive: true }
+    );
+
+    window.addEventListener(
+      'mouseleave',
+      function () {
+        pointer.active = false;
+        pointer.x = -9999;
+        pointer.y = -9999;
+      },
+      { passive: true }
+    );
+
+    window.addEventListener(
+      'scroll',
+      function () {
+        const currentY = window.scrollY;
+        const delta = currentY - lastScrollY;
+        scrollVelocity = Math.max(-20, Math.min(20, delta * 0.16));
+        lastScrollY = currentY;
+      },
+      { passive: true }
+    );
+
+    function drawRoundedRectPath(w, h, r) {
+      const radius = Math.min(r, w / 2, h / 2);
+      ctx.beginPath();
+      ctx.moveTo(-w / 2 + radius, -h / 2);
+      ctx.lineTo(w / 2 - radius, -h / 2);
+      ctx.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + radius);
+      ctx.lineTo(w / 2, h / 2 - radius);
+      ctx.quadraticCurveTo(w / 2, h / 2, w / 2 - radius, h / 2);
+      ctx.lineTo(-w / 2 + radius, h / 2);
+      ctx.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - radius);
+      ctx.lineTo(-w / 2, -h / 2 + radius);
+      ctx.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + radius, -h / 2);
+      ctx.closePath();
+    }
+
+    function drawTechChip(label, w, h, strokeColor, fillColor, fontSize) {
+      drawRoundedRectPath(w, h, 6);
+      ctx.fillStyle = fillColor;
+      ctx.fill();
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+
+      ctx.fillStyle = strokeColor;
+      ctx.font = '600 ' + fontSize + 'px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, 0, 0.5);
+    }
+
+    function renderFrame() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Decay scroll impulse smoothly
+      scrollVelocity *= 0.92;
+
+      const interactionRadius = 165;
+      const springStiffness = 0.036;
+      const springDamping = 0.86;
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        // Weightless upward anti-gravity motion + subtle scroll parallax
+        p.x += p.driftX * p.depth;
+        p.y += p.driftY * p.depth - scrollVelocity * p.depth * 0.48;
+
+        if (p.isTechBadge) {
+          p.angle += p.spinSpeed;
+          if (p.angle > 0.38 || p.angle < -0.38) {
+            p.spinSpeed = -p.spinSpeed;
+          }
+        } else {
+          p.angle += p.spinSpeed;
+        }
+
+        // Wrap seamlessly around viewport edges
+        const margin = 48;
+        if (p.y < -margin) p.y = height + margin;
+        if (p.y > height + margin) p.y = -margin;
+        if (p.x < -margin) p.x = width + margin;
+        if (p.x > width + margin) p.x = -margin;
+
+        // Cursor anti-gravity repulsion force
+        const renderX = p.x + p.ox;
+        const renderY = p.y + p.oy;
+        const dx = renderX - pointer.x;
+        const dy = renderY - pointer.y;
+        const distSq = dx * dx + dy * dy;
+
+        if (pointer.active && distSq < interactionRadius * interactionRadius && distSq > 1) {
+          const dist = Math.sqrt(distSq);
+          const force = (1 - dist / interactionRadius) * 1.65 * p.depth;
+          p.vx += (dx / dist) * force;
+          p.vy += (dy / dist) * force;
+          if (!p.isTechBadge) {
+            p.angle += 0.014 * force;
+          }
+        }
+
+        // Spring physics restoring offset back to (0, 0)
+        p.vx += -p.ox * springStiffness;
+        p.vy += -p.oy * springStiffness;
+        p.vx *= springDamping;
+        p.vy *= springDamping;
+        p.ox += p.vx;
+        p.oy += p.vy;
+
+        const finalX = p.x + p.ox;
+        const finalY = p.y + p.oy;
+
+        // Draw visible constellation lines between nearby floating elements
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const nx = finalX - (p2.x + p2.ox);
+          const ny = finalY - (p2.y + p2.oy);
+          const ndSq = nx * nx + ny * ny;
+          if (ndSq < 145 * 145) {
+            const alpha = (1 - Math.sqrt(ndSq) / 145) * 0.16;
+            ctx.strokeStyle = 'rgba(112, 64, 28, ' + alpha.toFixed(3) + ')';
+            ctx.lineWidth = 1.15;
+            ctx.beginPath();
+            ctx.moveTo(finalX, finalY);
+            ctx.lineTo(p2.x + p2.ox, p2.y + p2.oy);
+            ctx.stroke();
+          }
+        }
+
+        ctx.save();
+        ctx.translate(finalX, finalY);
+        ctx.rotate(p.angle);
+        ctx.strokeStyle = p.stroke;
+        ctx.fillStyle = p.stroke;
+        ctx.lineWidth = 1.75;
+
+        if (p.shape === 'ring') {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size * 0.58, 0, Math.PI * 2);
+          ctx.fillStyle = p.fill;
+          ctx.fill();
+          ctx.stroke();
+        } else if (p.shape === 'pill') {
+          drawRoundedRectPath(p.size * 1.55, p.size * 0.66, p.size * 0.33);
+          ctx.fillStyle = p.fill;
+          ctx.fill();
+          ctx.stroke();
+        } else if (p.shape === 'cross') {
+          const arm = p.size * 0.48;
+          ctx.beginPath();
+          ctx.moveTo(-arm, 0);
+          ctx.lineTo(arm, 0);
+          ctx.moveTo(0, -arm);
+          ctx.lineTo(0, arm);
+          ctx.stroke();
+        } else if (p.shape === 'diamond') {
+          const r = p.size * 0.56;
+          ctx.beginPath();
+          ctx.moveTo(0, -r);
+          ctx.lineTo(r, 0);
+          ctx.lineTo(0, r);
+          ctx.lineTo(-r, 0);
+          ctx.closePath();
+          ctx.fillStyle = p.fill;
+          ctx.fill();
+          ctx.stroke();
+        } else if (p.shape === 'hexagon') {
+          const r = p.size * 0.55;
+          ctx.beginPath();
+          for (let k = 0; k < 6; k++) {
+            const a = (Math.PI / 3) * k;
+            const hx = Math.cos(a) * r;
+            const hy = Math.sin(a) * r;
+            if (k === 0) ctx.moveTo(hx, hy);
+            else ctx.lineTo(hx, hy);
+          }
+          ctx.closePath();
+          ctx.fillStyle = p.fill;
+          ctx.fill();
+          ctx.stroke();
+        } else if (p.shape === 'triangle') {
+          const r = p.size * 0.58;
+          ctx.beginPath();
+          ctx.moveTo(0, -r);
+          ctx.lineTo(r * 0.88, r * 0.65);
+          ctx.lineTo(-r * 0.88, r * 0.65);
+          ctx.closePath();
+          ctx.fillStyle = p.fill;
+          ctx.fill();
+          ctx.stroke();
+        } else if (p.shape === 'html') {
+          drawTechChip('</> HTML', 62, 22, p.stroke, p.fill, 10);
+        } else if (p.shape === 'css') {
+          drawTechChip('{ } CSS', 56, 22, p.stroke, p.fill, 10);
+        } else if (p.shape === 'js') {
+          drawTechChip('JS ()', 46, 22, p.stroke, p.fill, 10.5);
+        } else if (p.shape === 'python') {
+          drawTechChip('PY def:', 56, 22, p.stroke, p.fill, 10);
+        } else if (p.shape === 'code_tag') {
+          drawTechChip('</>', 34, 20, p.stroke, p.fill, 10.5);
+        } else if (p.shape === 'code_braces') {
+          drawTechChip('{ }', 34, 20, p.stroke, p.fill, 10.5);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, Math.max(2.8, p.size * 0.25), 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      window.requestAnimationFrame(renderFrame);
+    }
+
+    window.requestAnimationFrame(renderFrame);
+  }
+
+  /**
+   * 13. FRAMER-MOTION STYLE SCROLL REVEAL ENGINE
+   * Sections, headings, paragraphs, and cards start hidden below their resting position
+   * and smoothly rise up into view with staggered spring timing as the user scrolls down.
+   */
+  function initFramerScrollReveals() {
+    if (!('IntersectionObserver' in window)) return;
+
+    // Text elements that rise up cleanly
+    const textSelectors = [
+      '.section-eyebrow',
+      '.section-title',
+      '.section-description',
+      '.hero-display-title',
+      '.hero-lead-copy',
+      '.pill-badge-row',
+      '.hero-cta-group',
+      '.skills-overview-header',
+      '.footer-brand-col',
+      '.footer-links-col',
+      '.footer-meta-col'
+    ];
+
+    // Cards and structural blocks that rise up with subtle scale & blur clearing
+    const blockSelectors = [
+      '.metric-box',
+      '.hero-hud-card',
+      '.filter-tab-bar',
+      '.skills-master-overview',
+      '.stack-card',
+      '.value-block',
+      '.academic-spotlight-card',
+      '.curriculum-pillar',
+      '.contact-direct-col',
+      '.contact-form-col'
+    ];
+
+    const allTargets = [];
+
+    textSelectors.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        el.classList.add('fm-text-rise');
+        allTargets.push(el);
+      });
+    });
+
+    blockSelectors.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        el.classList.add('fm-reveal');
+        allTargets.push(el);
+      });
+    });
+
+    // Assign stagger delays to sibling items inside grids/containers
+    const staggerContainers = document.querySelectorAll(
+      '.metrics-grid, .skills-card-matrix, .values-grid, .curriculum-grid, .contact-grid, .footer-container'
+    );
+    staggerContainers.forEach(function (container) {
+      Array.from(container.children).forEach(function (child, index) {
+        child.style.setProperty('--fm-delay', index * 95 + 'ms');
+      });
+    });
+
+    // Also stagger hero elements so the opening feels choreographed
+    const heroSequence = [
+      '.pill-badge-row',
+      '.hero-display-title',
+      '.hero-lead-copy',
+      '.hero-cta-group',
+      '.hero-hud-card'
+    ];
+    heroSequence.forEach(function (sel, idx) {
+      const el = document.querySelector(sel);
+      if (el) {
+        el.style.setProperty('--fm-delay', idx * 85 + 'ms');
+      }
+    });
+
+    const revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-inview');
+          } else if (entry.boundingClientRect.top > 0) {
+            // Reset elements below the viewport so scrolling back down replays the upward rise
+            entry.target.classList.remove('is-inview');
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -8% 0px',
+        threshold: 0.08
+      }
+    );
+
+    allTargets.forEach(function (el) {
+      revealObserver.observe(el);
+    });
+  }
+
+  /**
+   * 14. STICKY STACKING PROJECT CARDS SCROLL ENGINE
+   * Scales and shades underlying project cards as the next card slides up on top of them.
+   */
+  function initStickyProjectStack() {
+    const cards = Array.from(document.querySelectorAll('.exhibition-card'));
+    if (!cards.length) return;
+
+    let ticking = false;
+
+    function updateStackDepth() {
+      const visibleCards = cards.filter(function (c) {
+        return c.style.display !== 'none';
+      });
+
+      for (let i = 0; i < visibleCards.length; i++) {
+        const card = visibleCards[i];
+        const nextCard = visibleCards[i + 1];
+        if (!nextCard) {
+          card.style.setProperty('--stack-scale', '1');
+          card.style.setProperty('--stack-brightness', '1');
+          continue;
+        }
+
+        const cardRect = card.getBoundingClientRect();
+        const nextRect = nextCard.getBoundingClientRect();
+        const distance = nextRect.top - cardRect.top;
+        const threshold = cardRect.height;
+
+        if (distance < threshold && distance > 0) {
+          const progress = 1 - distance / threshold;
+          const scale = 1 - progress * 0.045;
+          const brightness = 1 - progress * 0.06;
+          card.style.setProperty('--stack-scale', scale.toFixed(4));
+          card.style.setProperty('--stack-brightness', brightness.toFixed(4));
+        } else if (distance <= 0) {
+          card.style.setProperty('--stack-scale', '0.955');
+          card.style.setProperty('--stack-brightness', '0.94');
+        } else {
+          card.style.setProperty('--stack-scale', '1');
+          card.style.setProperty('--stack-brightness', '1');
+        }
+      }
+      ticking = false;
+    }
+
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (!ticking) {
+          window.requestAnimationFrame(updateStackDepth);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    window.addEventListener('resize', updateStackDepth);
+    updateStackDepth();
   }
 
 })();
