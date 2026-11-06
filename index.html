@@ -494,7 +494,7 @@
       </div>
     </section>
 
-    <!-- ==================== TECH STACK & EXPANDABLE SKILLS ==================== -->
+    <!-- ==================== TECH STACK & SPINNING POPUP SKILLS ==================== -->
     <section class="section-stack" id="stack" aria-labelledby="stack-heading">
       <div class="section-container">
         
@@ -511,12 +511,8 @@
           
           <div class="stack-header-actions">
             <p class="section-description">
-              All 23 core technologies organized across 4 engineering domains. Filter by category below or toggle any card's <span class="kbd-pill">+</span> control to inspect individual skill implementations.
+              All 23 core technologies organized across 4 engineering domains. Click any domain card or skill badge below to spin it up into a focused detail view.
             </p>
-            <div class="accordion-batch-controls">
-              <button type="button" class="batch-btn" id="btn-expand-all">Expand All (+)</button>
-              <button type="button" class="batch-btn" id="btn-collapse-all">Collapse All (x)</button>
-            </div>
           </div>
         </div>
 
@@ -525,7 +521,7 @@
           <div class="skills-overview-header">
             <div class="skills-overview-title-wrap">
               <span class="skills-overview-label">// COMPLETE SKILL INVENTORY (23 TECHNOLOGIES)</span>
-              <span class="skills-overview-sub">Click a domain filter or any skill badge to focus its architectural breakdown</span>
+              <span class="skills-overview-sub">Filter by category or click any skill badge to launch its domain popup</span>
             </div>
             <div class="skills-domain-filters" role="tablist" aria-label="Filter skill cards by domain">
               <button type="button" class="skill-filter-btn active" data-skill-filter="all" role="tab" aria-selected="true">All Domains (23)</button>
@@ -567,11 +563,11 @@
           </div>
         </div>
 
-        <!-- Expandable Modern Cards Grid -->
+        <!-- Compact Cards Grid (Click to Roll Up & Spin into Center Popup) -->
         <div class="skills-card-matrix">
 
           <!-- CARD 1: Core Web & Modern Frontend -->
-          <article class="stack-card is-expanded" id="card-frontend">
+          <article class="stack-card" id="card-frontend" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Core Web and Frontend Engineering details popup">
             <div class="stack-card-primary">
               <div class="stack-badge-strip">
                 <span class="domain-tag">DOMAIN 01</span>
@@ -593,15 +589,14 @@
                 <span class="tech-chip">Three.js</span>
               </div>
 
-              <!-- User-Required Expand '+' Trigger -->
-              <button type="button" class="expand-card-trigger" aria-expanded="true" aria-controls="subitems-frontend" aria-label="Toggle Core Web and Frontend details">
-                <span class="trigger-label">Hide Sub-Items &amp; Details</span>
-                <span class="trigger-icon" aria-hidden="true">+</span>
-              </button>
+              <div class="expand-card-trigger" aria-hidden="true">
+                <span class="trigger-label">Click to Roll Up &amp; Inspect Details</span>
+                <span class="trigger-icon">&#8599;</span>
+              </div>
             </div>
 
-            <!-- Expandable Sub-items Tray (Every Skill Itemized Individually) -->
-            <div class="stack-expandable-tray" id="subitems-frontend">
+            <!-- Hidden Template Data for Center Popup Layer -->
+            <div class="stack-expandable-tray" id="subitems-frontend" hidden>
               <div class="tray-inner">
                 <div class="sub-item-group">
                   <h4 class="sub-item-heading">All 6 Frontend Technologies &amp; Implementation Scope:</h4>
@@ -619,7 +614,7 @@
           </article>
 
           <!-- CARD 2: Backend, Microservices & Databases -->
-          <article class="stack-card is-expanded" id="card-backend">
+          <article class="stack-card" id="card-backend" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Server Architecture and Databases details popup">
             <div class="stack-card-primary">
               <div class="stack-badge-strip">
                 <span class="domain-tag">DOMAIN 02</span>
@@ -638,13 +633,13 @@
                 <span class="tech-chip">SQLite</span>
               </div>
 
-              <button type="button" class="expand-card-trigger" aria-expanded="true" aria-controls="subitems-backend" aria-label="Toggle Server Architecture and Database details">
-                <span class="trigger-label">Hide Sub-Items &amp; Details</span>
-                <span class="trigger-icon" aria-hidden="true">+</span>
-              </button>
+              <div class="expand-card-trigger" aria-hidden="true">
+                <span class="trigger-label">Click to Roll Up &amp; Inspect Details</span>
+                <span class="trigger-icon">&#8599;</span>
+              </div>
             </div>
 
-            <div class="stack-expandable-tray" id="subitems-backend">
+            <div class="stack-expandable-tray" id="subitems-backend" hidden>
               <div class="tray-inner">
                 <div class="sub-item-group">
                   <h4 class="sub-item-heading">All 4 Backend &amp; Database Technologies:</h4>
@@ -660,7 +655,7 @@
           </article>
 
           <!-- CARD 3: AI, Machine Learning, Computer Vision & rPPG -->
-          <article class="stack-card is-expanded" id="card-aiml">
+          <article class="stack-card" id="card-aiml" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open AI, Computer Vision, and rPPG details popup">
             <div class="stack-card-primary">
               <div class="stack-badge-strip">
                 <span class="domain-tag">DOMAIN 03</span>
@@ -683,13 +678,13 @@
                 <span class="tech-chip">AI API</span>
               </div>
 
-              <button type="button" class="expand-card-trigger" aria-expanded="true" aria-controls="subitems-aiml" aria-label="Toggle AI, Computer Vision, and rPPG details">
-                <span class="trigger-label">Hide Sub-Items &amp; Details</span>
-                <span class="trigger-icon" aria-hidden="true">+</span>
-              </button>
+              <div class="expand-card-trigger" aria-hidden="true">
+                <span class="trigger-label">Click to Roll Up &amp; Inspect Details</span>
+                <span class="trigger-icon">&#8599;</span>
+              </div>
             </div>
 
-            <div class="stack-expandable-tray" id="subitems-aiml">
+            <div class="stack-expandable-tray" id="subitems-aiml" hidden>
               <div class="tray-inner">
                 <div class="sub-item-group">
                   <h4 class="sub-item-heading">All 8 AI, Vision &amp; Signal Processing Technologies:</h4>
@@ -709,7 +704,7 @@
           </article>
 
           <!-- CARD 4: Environments & Developer Tooling -->
-          <article class="stack-card is-expanded" id="card-tooling">
+          <article class="stack-card" id="card-tooling" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Environments, IDEs, and Workflows details popup">
             <div class="stack-card-primary">
               <div class="stack-badge-strip">
                 <span class="domain-tag">DOMAIN 04</span>
@@ -729,13 +724,13 @@
                 <span class="tech-chip">Chrome DevTools</span>
               </div>
 
-              <button type="button" class="expand-card-trigger" aria-expanded="true" aria-controls="subitems-tooling" aria-label="Toggle Tooling and Workflow details">
-                <span class="trigger-label">Hide Sub-Items &amp; Details</span>
-                <span class="trigger-icon" aria-hidden="true">+</span>
-              </button>
+              <div class="expand-card-trigger" aria-hidden="true">
+                <span class="trigger-label">Click to Roll Up &amp; Inspect Details</span>
+                <span class="trigger-icon">&#8599;</span>
+              </div>
             </div>
 
-            <div class="stack-expandable-tray" id="subitems-tooling">
+            <div class="stack-expandable-tray" id="subitems-tooling" hidden>
               <div class="tray-inner">
                 <div class="sub-item-group">
                   <h4 class="sub-item-heading">All 5 Development Environments &amp; Tooling Systems:</h4>
@@ -751,6 +746,16 @@
             </div>
           </article>
 
+        </div>
+      </div>
+
+      <!-- 3D Roll-Up Spinning Center Popup Modal Layer (Hidden by Default) -->
+      <div class="skill-popup-overlay" id="skill-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-domain-title" hidden>
+        <div class="skill-popup-card" id="skill-popup-card">
+          <button type="button" class="skill-popup-close" id="skill-popup-close" aria-label="Close skill details popup" title="Close (Esc)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="skill-popup-content" id="skill-popup-content"></div>
         </div>
       </div>
     </section>
@@ -1050,6 +1055,7 @@
 
   <!-- Primary Application Script -->
   <script src="script.js"></script>
+  
 </body>
 
 </html>

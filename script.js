@@ -18,8 +18,7 @@
     initMobileNavigation();
     initScrollSpy();
     initEmailClipboard();
-    initExpandableSkillCards();
-    initBatchAccordionControls();
+    initSkillRollupPopup();
     initSkillMasterDirectory();
     initProjectFilters();
     initProjectBlueprintToggles();
@@ -47,7 +46,6 @@
         const formatter = new Intl.DateTimeFormat('en-IN', options);
         clockElement.textContent = formatter.format(new Date()) + ' IST';
       } catch (err) {
-        // Fallback to local time string if Intl timezone fails
         const fallback = new Date();
         clockElement.textContent = fallback.toLocaleTimeString() + ' Local';
       }
@@ -101,7 +99,6 @@
       trigger.classList.toggle('is-active', isOpen);
     });
 
-    // Close when clicking any nav link
     nav.querySelectorAll('.nav-anchor').forEach(function (link) {
       link.addEventListener('click', function () {
         nav.classList.remove('is-open');
@@ -110,7 +107,6 @@
       });
     });
 
-    // Close on outside click
     document.addEventListener('click', function (e) {
       if (nav.classList.contains('is-open')) {
         if (!nav.contains(e.target) && !trigger.contains(e.target)) {
@@ -121,7 +117,6 @@
       }
     });
 
-    // Close on Escape key press
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && nav.classList.contains('is-open')) {
         nav.classList.remove('is-open');
@@ -240,74 +235,179 @@
   }
 
   /**
-   * 06. EXPANDABLE SKILLS CARDS (USER '+' ICON UI REQUIREMENT)
-   * Smoothly expands/collapses grouped skill sub-items with '+' rotate animation
+   * 06. 3D ROLL-UP SPINNING SKILL POPUP MODAL
+   * Clicking a skill card spins and rolls it up to the center of the screen
+   * as an exclusive interactive layer with a top-right cross (×) close button.
    */
-  function setSkillCardExpanded(card, shouldExpand) {
-    if (!card) return;
-    const trigger = card.querySelector('.expand-card-trigger');
-    const tray = card.querySelector('.stack-expandable-tray');
-    if (!trigger || !tray) return;
+  let openSkillPopupForCard = null;
 
-    if (shouldExpand) {
-      card.classList.add('is-expanded');
-      tray.removeAttribute('hidden');
-      trigger.setAttribute('aria-expanded', 'true');
-      const label = trigger.querySelector('.trigger-label');
-      if (label) label.textContent = 'Hide Sub-Items & Details';
-    } else {
-      card.classList.remove('is-expanded');
-      tray.setAttribute('hidden', '');
-      trigger.setAttribute('aria-expanded', 'false');
-      const label = trigger.querySelector('.trigger-label');
-      if (label) label.textContent = 'Inspect Sub-Items & Details';
-    }
-  }
-
-  function initExpandableSkillCards() {
+  function initSkillRollupPopup() {
+    const overlay = document.getElementById('skill-popup-overlay');
+    const popupCard = document.getElementById('skill-popup-card');
+    const popupContent = document.getElementById('skill-popup-content');
+    const closeBtn = document.getElementById('skill-popup-close');
     const cards = document.querySelectorAll('.stack-card');
 
-    cards.forEach(function (card) {
-      const trigger = card.querySelector('.expand-card-trigger');
-      const tray = card.querySelector('.stack-expandable-tray');
-      if (!trigger || !tray) return;
+    if (!overlay || !popupCard || !popupContent || !closeBtn) return;
 
-      trigger.addEventListener('click', function () {
-        const shouldExpand = !card.classList.contains('is-expanded');
-        setSkillCardExpanded(card, shouldExpand);
+    // Ensure popup is hidden by default on page load
+    overlay.setAttribute('hidden', '');
+    overlay.classList.remove('is-active', 'is-opening', 'is-closing');
+
+    let lastFocusedElement = null;
+    let isClosing = false;
+
+    function setBackgroundInert(makeInert) {
+      const topLevelNodes = document.querySelectorAll(
+        '.telemetry-bar, .site-header, .site-footer, main > section:not(#stack), #stack > .section-container'
+      );
+      topLevelNodes.forEach(function (node) {
+        if (makeInert) {
+          node.setAttribute('inert', '');
+          node.setAttribute('aria-hidden', 'true');
+        } else {
+          node.removeAttribute('inert');
+          node.removeAttribute('aria-hidden');
+        }
       });
+    }
+
+    function openPopup(card, highlightedSkillText) {
+      if (!card || isClosing) return;
+
+      lastFocusedElement = document.activeElement;
+
+      const badgeStrip = card.querySelector('.stack-badge-strip');
+      const titleEl = card.querySelector('.stack-domain-title');
+      const descEl = card.querySelector('.stack-domain-desc');
+      const chipsEl = card.querySelector('.prominent-chips');
+      const trayInner = card.querySelector('.tray-inner');
+
+      popupContent.innerHTML = '';
+
+      if (badgeStrip) {
+        popupContent.appendChild(badgeStrip.cloneNode(true));
+      }
+      if (titleEl) {
+        const clonedTitle = titleEl.cloneNode(true);
+        clonedTitle.id = 'popup-domain-title';
+        popupContent.appendChild(clonedTitle);
+      }
+      if (descEl) {
+        popupContent.appendChild(descEl.cloneNode(true));
+      }
+      if (chipsEl) {
+        const clonedChips = chipsEl.cloneNode(true);
+        if (highlightedSkillText) {
+          clonedChips.querySelectorAll('.tech-chip').forEach(function (chip) {
+            if (chip.textContent.trim().toLowerCase() === highlightedSkillText.trim().toLowerCase()) {
+              chip.classList.add('is-selected-skill');
+            }
+          });
+        }
+        popupContent.appendChild(clonedChips);
+      }
+      if (trayInner) {
+        popupContent.appendChild(trayInner.cloneNode(true));
+      }
+
+      // Activate modal layer & lock background interaction
+      overlay.removeAttribute('hidden');
+      document.body.classList.add('skill-modal-open');
+      setBackgroundInert(true);
+
+      // Trigger roll-up spin animation
+      overlay.classList.remove('is-closing');
+      overlay.classList.add('is-active', 'is-opening');
+      popupCard.scrollTop = 0;
+
+      setTimeout(function () {
+        closeBtn.focus();
+      }, 60);
+    }
+
+    function closePopup() {
+      if (overlay.hasAttribute('hidden') || isClosing) return;
+      isClosing = true;
+
+      overlay.classList.remove('is-opening');
+      overlay.classList.add('is-closing');
+      overlay.classList.remove('is-active');
+
+      setTimeout(function () {
+        overlay.setAttribute('hidden', '');
+        overlay.classList.remove('is-closing');
+        document.body.classList.remove('skill-modal-open');
+        setBackgroundInert(false);
+        isClosing = false;
+
+        if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+          lastFocusedElement.focus();
+        }
+      }, 360);
+    }
+
+    openSkillPopupForCard = openPopup;
+
+    // Open popup only when user clicks or presses Enter/Space on a skill card
+    cards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        openPopup(card);
+      });
+
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openPopup(card);
+        }
+      });
+    });
+
+    // Close via top-right cross (×) button
+    closeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      closePopup();
+    });
+
+    // Close when clicking outside the popup card on the backdrop
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) {
+        closePopup();
+      }
+    });
+
+    // Close on Escape key and trap Tab focus inside the popup layer
+    document.addEventListener('keydown', function (e) {
+      if (overlay.hasAttribute('hidden')) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closePopup();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const focusable = popupCard.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     });
   }
 
   /**
-   * 07. BATCH ACCORDION CONTROLS (EXPAND ALL / COLLAPSE ALL)
-   */
-  function initBatchAccordionControls() {
-    const expandAllBtn = document.getElementById('btn-expand-all');
-    const collapseAllBtn = document.getElementById('btn-collapse-all');
-    const cards = document.querySelectorAll('.stack-card');
-
-    if (expandAllBtn) {
-      expandAllBtn.addEventListener('click', function () {
-        cards.forEach(function (card) {
-          card.removeAttribute('hidden');
-          setSkillCardExpanded(card, true);
-        });
-      });
-    }
-
-    if (collapseAllBtn) {
-      collapseAllBtn.addEventListener('click', function () {
-        cards.forEach(function (card) {
-          setSkillCardExpanded(card, false);
-        });
-      });
-    }
-  }
-
-  /**
-   * 07B. MASTER SKILL DIRECTORY & DOMAIN FILTERING
-   * Lets visitors filter by domain or click any of the 23 skill pills to focus its card
+   * 07. MASTER SKILL DIRECTORY & DOMAIN FILTERING
+   * Lets visitors filter by domain or click any of the 23 skill pills to spin open its card popup
    */
   function initSkillMasterDirectory() {
     const filterBtns = document.querySelectorAll('.skill-filter-btn');
@@ -337,7 +437,6 @@
         stackCards.forEach(function (card) {
           if (targetFilter === 'all' || card.id === targetFilter) {
             card.removeAttribute('hidden');
-            setSkillCardExpanded(card, true);
           } else {
             card.setAttribute('hidden', '');
           }
@@ -351,16 +450,14 @@
         const targetCard = document.getElementById(targetCardId);
         if (!targetCard) return;
 
-        // Ensure card is visible and expanded
-        targetCard.removeAttribute('hidden');
-        setSkillCardExpanded(targetCard, true);
-
         skillPills.forEach(function (p) {
           p.classList.remove('is-highlighted');
         });
         pill.classList.add('is-highlighted');
 
-        targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (typeof openSkillPopupForCard === 'function') {
+          openSkillPopupForCard(targetCard, pill.textContent);
+        }
       });
     });
   }
@@ -378,7 +475,6 @@
       tab.addEventListener('click', function () {
         const filterValue = tab.getAttribute('data-filter');
 
-        // Update active tab state
         filterTabs.forEach(function (t) {
           t.classList.remove('active');
           t.setAttribute('aria-selected', 'false');
@@ -386,7 +482,6 @@
         tab.classList.add('active');
         tab.setAttribute('aria-selected', 'true');
 
-        // Filter projects
         projectCards.forEach(function (card) {
           const cardCategory = card.getAttribute('data-category');
           if (filterValue === 'all' || cardCategory === filterValue) {
