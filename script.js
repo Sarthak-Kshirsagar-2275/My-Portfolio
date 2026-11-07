@@ -55,31 +55,103 @@
   }
 
   /**
-   * 02. STICKY HEADER SCROLL DETECTION
-   * Adds elevation shadow and boundary border when user scrolls
+   * 02. MORPHING LEFT FLOATING DOCK & VERTICAL TELEMETRY PROGRESS SPINE
+   * Detaches the top header into a left-side vertical floating dock on scroll,
+   * updates the live telemetry progress spine (000%-100%), and supports click/drag scrubbing.
    */
+  let syncLiquidIndicator = null;
+
   function initHeaderScroll() {
     const header = document.getElementById('site-header');
+    const spineTrack = document.getElementById('dock-spine-track');
+    const spineFill = document.getElementById('dock-spine-fill');
+    const spineThumb = document.getElementById('dock-spine-thumb');
+    const scrollPctEl = document.getElementById('dock-scroll-pct');
+    const spineContainer = document.getElementById('dock-telemetry-spine');
+
     if (!header) return;
 
-    let ticking = false;
+    let wasDocked = false;
 
-    function onScroll() {
-      if (!ticking) {
-        window.requestAnimationFrame(function () {
-          if (window.scrollY > 20) {
-            header.classList.add('is-scrolled');
-          } else {
-            header.classList.remove('is-scrolled');
-          }
-          ticking = false;
-        });
-        ticking = true;
+    function updateDockAndTelemetry() {
+      const scrollY = window.scrollY;
+      const docHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const pct = Math.max(0, Math.min(1, scrollY / docHeight));
+      const pctNum = Math.round(pct * 100);
+
+      // Update vertical telemetry spine fill, thumb position, and 3-digit readout
+      if (spineFill) spineFill.style.height = (pct * 100).toFixed(2) + '%';
+      if (spineThumb) spineThumb.style.top = (pct * 100).toFixed(2) + '%';
+      if (scrollPctEl) {
+        scrollPctEl.textContent = String(pctNum).padStart(3, '0') + '%';
+      }
+
+      const shouldDock = scrollY > 90 && window.innerWidth > 960;
+      if (shouldDock) {
+        header.classList.add('is-scrolled', 'is-docked-left');
+      } else {
+        header.classList.remove('is-docked-left');
+        if (scrollY > 20) {
+          header.classList.add('is-scrolled');
+        } else {
+          header.classList.remove('is-scrolled');
+        }
+      }
+
+      if (shouldDock !== wasDocked) {
+        wasDocked = shouldDock;
+        if (typeof syncLiquidIndicator === 'function') {
+          setTimeout(syncLiquidIndicator, 40);
+          setTimeout(syncLiquidIndicator, 340);
+        }
       }
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    window.addEventListener('scroll', updateDockAndTelemetry, { passive: true });
+    window.addEventListener('resize', updateDockAndTelemetry);
+    header.addEventListener('mouseenter', function () {
+      if (typeof syncLiquidIndicator === 'function') {
+        setTimeout(syncLiquidIndicator, 60);
+        setTimeout(syncLiquidIndicator, 280);
+      }
+    });
+    header.addEventListener('mouseleave', function () {
+      if (typeof syncLiquidIndicator === 'function') {
+        setTimeout(syncLiquidIndicator, 60);
+        setTimeout(syncLiquidIndicator, 280);
+      }
+    });
+    updateDockAndTelemetry();
+
+    // Interactive Click & Drag Scrubbing on the Vertical Telemetry Spine
+    if (spineContainer && spineTrack) {
+      let isScrubbing = false;
+
+      function scrubToClientY(clientY) {
+        const rect = spineTrack.getBoundingClientRect();
+        if (rect.height <= 0) return;
+        const ratio = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        window.scrollTo({
+          top: ratio * maxScroll,
+          behavior: 'auto'
+        });
+      }
+
+      spineContainer.addEventListener('mousedown', function (e) {
+        isScrubbing = true;
+        scrubToClientY(e.clientY);
+      });
+
+      window.addEventListener('mousemove', function (e) {
+        if (!isScrubbing) return;
+        scrubToClientY(e.clientY);
+      });
+
+      window.addEventListener('mouseup', function () {
+        isScrubbing = false;
+      });
+    }
   }
 
   /**
@@ -127,42 +199,128 @@
   }
 
   /**
-   * 04. SCROLL SPY (ACTIVE NAV ANCHOR TRACKING)
-   * Uses IntersectionObserver for performant section visibility tracking
+   * 04. SCROLL SPY & SPRING-PHYSICS LIQUID DOCK INDICATOR
+   * Tracks active section and glides the liquid highlight pill smoothly across horizontal & vertical dock modes
    */
   function initScrollSpy() {
-    const navAnchors = document.querySelectorAll('.nav-anchor');
-    const observedSections = document.querySelectorAll('section[id]');
+    const navList = document.getElementById('nav-list');
+    const indicator = document.getElementById('nav-liquid-indicator');
+    const navAnchors = Array.from(document.querySelectorAll('.nav-anchor'));
+    const observedSections = Array.from(document.querySelectorAll('section[id]'));
     if (!navAnchors.length || !observedSections.length) return;
 
-    if (!('IntersectionObserver' in window)) return;
+    let activeAnchor = navAnchors[0];
+    let hoveredAnchor = null;
 
-    const observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            const currentId = entry.target.id;
-            navAnchors.forEach(function (anchor) {
-              const href = anchor.getAttribute('href');
-              if (href === '#' + currentId) {
-                anchor.classList.add('is-active');
-              } else {
-                anchor.classList.remove('is-active');
-              }
-            });
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '-20% 0px -70% 0px',
-        threshold: 0
+    // Spring state for the liquid sliding indicator
+    const spring = {
+      x: 0,
+      y: 0,
+      w: 0,
+      h: 0,
+      tx: 0,
+      ty: 0,
+      tw: 0,
+      th: 0,
+      vx: 0,
+      vy: 0,
+      vw: 0,
+      vh: 0,
+      initialized: false
+    };
+
+    function measureTargetAnchor() {
+      const target = hoveredAnchor || activeAnchor;
+      if (!target || !navList || !indicator) return;
+
+      const listRect = navList.getBoundingClientRect();
+      const itemRect = target.getBoundingClientRect();
+
+      spring.tx = itemRect.left - listRect.left;
+      spring.ty = itemRect.top - listRect.top;
+      spring.tw = itemRect.width;
+      spring.th = itemRect.height;
+
+      if (!spring.initialized && spring.tw > 0) {
+        spring.x = spring.tx;
+        spring.y = spring.ty;
+        spring.w = spring.tw;
+        spring.h = spring.th;
+        spring.initialized = true;
+        indicator.style.opacity = '1';
       }
-    );
+    }
 
-    observedSections.forEach(function (section) {
-      observer.observe(section);
+    syncLiquidIndicator = measureTargetAnchor;
+
+    function animateLiquidPill() {
+      measureTargetAnchor();
+
+      const stiffness = 0.18;
+      const damping = 0.76;
+
+      spring.vx = (spring.vx + (spring.tx - spring.x) * stiffness) * damping;
+      spring.vy = (spring.vy + (spring.ty - spring.y) * stiffness) * damping;
+      spring.vw = (spring.vw + (spring.tw - spring.w) * stiffness) * damping;
+      spring.vh = (spring.vh + (spring.th - spring.h) * stiffness) * damping;
+
+      spring.x += spring.vx;
+      spring.y += spring.vy;
+      spring.w += spring.vw;
+      spring.h += spring.vh;
+
+      if (indicator && spring.initialized) {
+        indicator.style.transform =
+          'translate3d(' + spring.x.toFixed(2) + 'px, ' + spring.y.toFixed(2) + 'px, 0)';
+        indicator.style.width = Math.max(0, spring.w).toFixed(2) + 'px';
+        indicator.style.height = Math.max(0, spring.h).toFixed(2) + 'px';
+      }
+
+      window.requestAnimationFrame(animateLiquidPill);
+    }
+
+    navAnchors.forEach(function (anchor) {
+      anchor.addEventListener('mouseenter', function () {
+        hoveredAnchor = anchor;
+        measureTargetAnchor();
+      });
+      anchor.addEventListener('mouseleave', function () {
+        hoveredAnchor = null;
+        measureTargetAnchor();
+      });
     });
+
+    function updateActiveSectionByScroll() {
+      const checkY = window.innerHeight * 0.36;
+      let currentSectionId = observedSections[0].id;
+
+      for (let i = 0; i < observedSections.length; i++) {
+        const sec = observedSections[i];
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= checkY) {
+          currentSectionId = sec.id;
+        }
+      }
+
+      if (currentSectionId === 'overview') {
+        currentSectionId = 'projects';
+      }
+
+      navAnchors.forEach(function (anchor) {
+        const href = anchor.getAttribute('href');
+        if (href === '#' + currentSectionId) {
+          anchor.classList.add('is-active');
+          activeAnchor = anchor;
+        } else {
+          anchor.classList.remove('is-active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveSectionByScroll, { passive: true });
+    window.addEventListener('resize', measureTargetAnchor);
+    updateActiveSectionByScroll();
+    window.requestAnimationFrame(animateLiquidPill);
   }
 
   /**

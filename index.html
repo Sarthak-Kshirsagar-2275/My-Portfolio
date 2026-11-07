@@ -56,51 +56,100 @@
     </div>
   </aside>
 
-  <!-- Primary Site Navigation -->
-  <header class="site-header" id="site-header">
-    <div class="header-container">
-      <a href="#overview" class="brand-signature" aria-label="Sarthak Kshirsagar Home">
-        <span class="brand-monogram">SK</span>
-        <span class="brand-text">
-          <span class="brand-name">Sarthak Kshirsagar</span>
-          <span class="brand-role">CS &amp; AI/ML &bull; Web Development</span>
-        </span>
-      </a>
-
-      <nav class="primary-nav" id="primary-nav" aria-label="Main Navigation">
-        <ul class="nav-list" role="menubar">
-          <li role="none"><a href="#projects" class="nav-anchor" role="menuitem">Work <span class="nav-count">[3]</span></a></li>
-          <li role="none"><a href="#stack" class="nav-anchor" role="menuitem">Stack <span class="nav-count">[23]</span></a></li>
-          <li role="none"><a href="#values" class="nav-anchor" role="menuitem">Philosophy</a></li>
-          <li role="none"><a href="#academic" class="nav-anchor" role="menuitem">Academic</a></li>
-          <li role="none"><a href="#connect" class="nav-anchor" role="menuitem">Contact</a></li>
-        </ul>
-      </nav>
-
-      <div class="header-actions">
-        <button type="button" class="action-btn copy-email-btn" id="header-copy-email" aria-label="Copy Sarthak's email address">
-          <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-          </svg>
-          <span class="btn-text">Copy Email</span>
-        </button>
-
-        <a href="#connect" class="action-btn action-btn-solid">
-          <span>Let's Build</span>
-          <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="7" y1="17" x2="17" y2="7"></line>
-            <polyline points="7 7 17 7 17 17"></polyline>
-          </svg>
+  <!-- Primary Site Navigation (Morphs from Top Bar into Left Floating Dock + Telemetry Spine on Scroll) -->
+  <div class="header-dock-slot" id="header-dock-slot">
+    <header class="site-header" id="site-header">
+      <div class="header-container">
+        <a href="#overview" class="brand-signature" aria-label="Sarthak Kshirsagar Home" title="Back to Top (Overview)">
+          <span class="brand-monogram">
+            <span>SK</span>
+            <span class="dock-live-dot" aria-hidden="true"></span>
+          </span>
+          <span class="brand-text">
+            <span class="brand-name">Sarthak Kshirsagar</span>
+            <span class="brand-role">CS &amp; AI/ML &bull; Web Development</span>
+          </span>
         </a>
 
-        <button type="button" class="mobile-menu-trigger" id="mobile-menu-trigger" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
-          <span class="burger-bar"></span>
-          <span class="burger-bar"></span>
-        </button>
+        <nav class="primary-nav" id="primary-nav" aria-label="Main Navigation">
+          <!-- Integrated Vertical Telemetry Progress Spine (Active in Left Floating Dock Mode) -->
+          <div class="dock-telemetry-spine" id="dock-telemetry-spine" aria-hidden="true" title="Click or drag to scrub page depth">
+            <span class="spine-scale-tag">00</span>
+            <div class="spine-track" id="dock-spine-track">
+              <div class="spine-fill" id="dock-spine-fill"></div>
+              <span class="spine-thumb" id="dock-spine-thumb"></span>
+            </div>
+            <span class="spine-scale-tag">05</span>
+          </div>
+
+          <ul class="nav-list" id="nav-list" role="menubar">
+            <!-- Liquid Sliding Active/Hover Pill -->
+            <span class="nav-liquid-indicator" id="nav-liquid-indicator" aria-hidden="true"></span>
+
+            <li role="none">
+              <a href="#projects" class="nav-anchor is-active" role="menuitem" data-section="projects">
+                <span class="nav-step-idx">01</span>
+                <span class="nav-label-text">Work <span class="nav-count">[3]</span></span>
+              </a>
+            </li>
+            <li role="none">
+              <a href="#stack" class="nav-anchor" role="menuitem" data-section="stack">
+                <span class="nav-step-idx">02</span>
+                <span class="nav-label-text">Stack <span class="nav-count">[23]</span></span>
+              </a>
+            </li>
+            <li role="none">
+              <a href="#values" class="nav-anchor" role="menuitem" data-section="values">
+                <span class="nav-step-idx">03</span>
+                <span class="nav-label-text">Philosophy</span>
+              </a>
+            </li>
+            <li role="none">
+              <a href="#academic" class="nav-anchor" role="menuitem" data-section="academic">
+                <span class="nav-step-idx">04</span>
+                <span class="nav-label-text">Academic</span>
+              </a>
+            </li>
+            <li role="none">
+              <a href="#connect" class="nav-anchor" role="menuitem" data-section="connect">
+                <span class="nav-step-idx">05</span>
+                <span class="nav-label-text">Contact</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Live Scroll Depth Readout (Shown in Left Floating Dock) -->
+        <div class="dock-telemetry-readout" id="dock-telemetry-readout" aria-hidden="true">
+          <span class="readout-label">DEPTH</span>
+          <span class="readout-val" id="dock-scroll-pct">000%</span>
+        </div>
+
+        <div class="header-actions">
+          <button type="button" class="action-btn copy-email-btn" id="header-copy-email" aria-label="Copy Sarthak's email address" title="Copy Email Address">
+            <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span class="btn-text">Copy Email</span>
+          </button>
+
+          <a href="#connect" class="action-btn action-btn-solid" title="Jump to Contact">
+            <span class="btn-text">Let's Build</span>
+            <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
+
+          <button type="button" class="mobile-menu-trigger" id="mobile-menu-trigger" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
+            <span class="burger-bar"></span>
+            <span class="burger-bar"></span>
+          </button>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
+  </div>
 
   <!-- Main Content Container -->
   <main id="main-content">

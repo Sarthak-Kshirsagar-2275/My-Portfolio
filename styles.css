@@ -209,8 +209,14 @@ img, svg {
 }
 
 /* --------------------------------------------------------------------------
-   04. PRIMARY SITE HEADER & NAVIGATION
+   04. PRIMARY SITE HEADER & MORPHING LEFT FLOATING DOCK + TELEMETRY SPINE
    -------------------------------------------------------------------------- */
+.header-dock-slot {
+  min-height: 68px;
+  position: relative;
+  z-index: 1000;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -220,20 +226,22 @@ img, svg {
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-subtle);
   transition:
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast),
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
     opacity 0.28s ease,
-    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
     visibility 0.28s ease;
 }
 
-/* Hide Navbar & Telemetry Bar completely when Skill Card Popup is open */
+/* Hide Navbar, Left Dock & Telemetry Bar completely when Skill Card Popup is open */
 body.skill-modal-open .site-header,
+body.skill-modal-open .site-header.is-docked-left,
 body.skill-modal-open .telemetry-bar {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
-  transform: translateY(-100%) !important;
+  transform: translate3d(-120%, -50%, 0) !important;
 }
 
 .site-header.is-scrolled {
@@ -259,6 +267,7 @@ body.skill-modal-open .telemetry-bar {
 }
 
 .brand-monogram {
+  position: relative;
   width: 38px;
   height: 38px;
   border-radius: var(--radius-sm);
@@ -272,8 +281,23 @@ body.skill-modal-open .telemetry-bar {
   font-size: 0.85rem;
   color: var(--text-main);
   box-shadow: var(--shadow-subtle);
-  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), border-radius var(--transition-fast);
 }
+
+.dock-live-dot {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-green);
+  border: 2px solid var(--bg-surface);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
 .brand-signature:hover .brand-monogram {
   transform: translateY(-1px);
   border-color: var(--accent-caramel);
@@ -302,18 +326,45 @@ body.skill-modal-open .telemetry-bar {
   color: var(--text-muted);
 }
 
-/* Nav Menu */
+/* Nav Menu & Liquid Sliding Indicator */
 .primary-nav {
-  display: block;
+  display: flex;
+  align-items: center;
+}
+
+.dock-telemetry-spine,
+.dock-telemetry-readout {
+  display: none;
 }
 
 .nav-list {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
+}
+
+.nav-liquid-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface-tint);
+  border: 1px solid var(--accent-caramel-border);
+  box-shadow: 0 2px 10px rgba(168, 108, 59, 0.12);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  will-change: transform, width, height, opacity;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
 .nav-anchor {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   padding: 8px 15px;
   border-radius: var(--radius-pill);
   font-family: var(--font-display);
@@ -321,7 +372,16 @@ body.skill-modal-open .telemetry-bar {
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--text-muted);
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition: color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.nav-step-idx {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent-caramel);
+  opacity: 0.75;
 }
 
 .nav-count {
@@ -334,7 +394,10 @@ body.skill-modal-open .telemetry-bar {
 .nav-anchor:hover,
 .nav-anchor.is-active {
   color: var(--text-main);
-  background-color: var(--bg-surface-tint);
+}
+
+.nav-anchor.is-active .nav-step-idx {
+  opacity: 1;
 }
 
 /* Header Action Buttons */
@@ -376,6 +439,225 @@ body.skill-modal-open .telemetry-bar {
   border-color: var(--accent-caramel);
   color: #ffffff;
   transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   MORPHING LEFT-SIDE FLOATING DOCK + VERTICAL TELEMETRY PROGRESS SPINE
+   ========================================================================== */
+@media (min-width: 961px) {
+  .site-header.is-docked-left {
+    position: fixed;
+    left: 18px;
+    top: 50%;
+    bottom: auto;
+    right: auto;
+    width: auto;
+    transform: translate3d(0, -50%, 0);
+    background: rgba(255, 253, 249, 0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1.5px solid var(--border-prominent);
+    border-radius: 26px;
+    box-shadow:
+      0 24px 60px rgba(35, 25, 16, 0.16),
+      0 0 0 1px rgba(255, 255, 255, 0.75) inset;
+    padding: 16px 14px;
+    animation: dockDropLeftSpring 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes dockDropLeftSpring {
+    0% {
+      opacity: 0;
+      transform: translate3d(-42px, -68%, 0) scale(0.88);
+    }
+    65% {
+      opacity: 1;
+      transform: translate3d(4px, -49%, 0) scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, -50%, 0) scale(1);
+    }
+  }
+
+  .site-header.is-docked-left .header-container {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  /* Compact Monogram Header in Left Dock */
+  .site-header.is-docked-left .brand-text {
+    display: none;
+  }
+
+  .site-header.is-docked-left .brand-monogram {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background-color: var(--bg-page);
+    border-color: var(--accent-caramel-border);
+  }
+
+  .site-header.is-docked-left .dock-live-dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Primary Nav Layout in Left Dock: Telemetry Spine on Left + Nav Pills on Right */
+  .site-header.is-docked-left .primary-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 10px;
+    padding: 8px 0;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  /* Vertical Telemetry Progress Spine */
+  .site-header.is-docked-left .dock-telemetry-spine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 4px 2px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .spine-scale-tag {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+
+  .spine-track {
+    position: relative;
+    width: 4px;
+    flex: 1;
+    min-height: 148px;
+    border-radius: 999px;
+    background-color: var(--border-medium);
+    overflow: visible;
+  }
+
+  .spine-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--accent-caramel) 0%, var(--status-green) 100%);
+    transition: height 0.08s linear;
+  }
+
+  .spine-thumb {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--accent-caramel);
+    border: 2px solid var(--bg-surface);
+    box-shadow: 0 0 0 3px var(--accent-caramel-soft);
+    transform: translate(-50%, -50%);
+    transition: top 0.08s linear, transform 0.18s ease;
+  }
+
+  .dock-telemetry-spine:hover .spine-thumb {
+    transform: translate(-50%, -50%) scale(1.28);
+  }
+
+  /* Vertical Nav List inside Left Floating Dock */
+  .site-header.is-docked-left .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .site-header.is-docked-left .nav-anchor {
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-size: 0.84rem;
+    justify-content: flex-start;
+  }
+
+  .site-header.is-docked-left .nav-liquid-indicator {
+    border-radius: 12px;
+  }
+
+  /* Auto-collapse labels on narrower laptop viewports (< 1480px) so the dock never covers content, expanding smoothly on hover */
+  @media (max-width: 1480px) {
+    .site-header.is-docked-left:not(:hover) .nav-label-text {
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin-left: -4px;
+    }
+
+    .site-header.is-docked-left .nav-label-text {
+      display: inline-block;
+      max-width: 140px;
+      opacity: 1;
+      transition: max-width 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+    }
+  }
+
+  /* Live Depth Percentage Telemetry Readout */
+  .site-header.is-docked-left .dock-telemetry-readout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 8px;
+    border-radius: var(--radius-xs);
+    background-color: var(--bg-page);
+    border: 1px solid var(--border-subtle);
+    width: 100%;
+  }
+
+  .readout-label {
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+
+  .readout-val {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--accent-caramel);
+    letter-spacing: 0.04em;
+  }
+
+  /* Compact Icon-Only Action Buttons at Bottom of Left Dock */
+  .site-header.is-docked-left .header-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .site-header.is-docked-left .action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 9px;
+    border-radius: 12px;
+  }
+
+  .site-header.is-docked-left:not(:hover) .action-btn .btn-text {
+    display: none;
+  }
 }
 
 .mobile-menu-trigger {
