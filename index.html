@@ -816,7 +816,7 @@
       </div>
     </section>
 
-    <!-- ==================== CORE VALUES & PHILOSOPHY ==================== -->
+    <!-- ==================== CORE VALUES & PHILOSOPHY (3D FAN-OUT & SPOTLIGHT DECK) ==================== -->
     <section class="section-values" id="values" aria-labelledby="values-heading">
       <div class="section-container">
         
@@ -835,7 +835,22 @@
           </p>
         </div>
 
-        <div class="values-grid">
+        <!-- Interactive Blueprint Progress Rail (01 -> 06) -->
+        <div class="values-blueprint-rail" id="values-blueprint-rail" aria-hidden="true">
+          <div class="blueprint-rail-track">
+            <div class="blueprint-rail-fill" id="blueprint-rail-fill"></div>
+          </div>
+          <div class="blueprint-rail-nodes">
+            <button type="button" class="rail-node is-active" data-node-idx="0">01 // RESPONSIVE</button>
+            <button type="button" class="rail-node" data-node-idx="1">02 // SLEEK UI/UX</button>
+            <button type="button" class="rail-node" data-node-idx="2">03 // SEMANTIC</button>
+            <button type="button" class="rail-node" data-node-idx="3">04 // REUSABLE</button>
+            <button type="button" class="rail-node" data-node-idx="4">05 // SCALABLE</button>
+            <button type="button" class="rail-node" data-node-idx="5">06 // LOW DEBT</button>
+          </div>
+        </div>
+
+        <div class="values-grid" id="values-grid">
           
           <div class="value-block">
             <span class="value-index">01</span>
@@ -1031,10 +1046,46 @@
       </div>
     </section>
 
-    <!-- ==================== CONTACT / CONNECTION DESK ==================== -->
+    <!-- ==================== CONTACT / CONNECTION DESK (SCROLL-TRIGGERED SPLIT CURTAIN PORTAL) ==================== -->
     <section class="section-connect" id="connect" aria-labelledby="connect-heading">
-      <div class="section-container">
+      
+      <!-- Scroll-Triggered Split Curtain Portal Stage (Parts Left & Right as User Scrolls In) -->
+      <div class="connect-split-curtain" id="connect-split-curtain" aria-hidden="true">
+        <div class="curtain-panel curtain-panel-left">
+          <div class="curtain-corner-meta">PORTAL // 05-A &bull; NST STUDIO</div>
+          <div class="curtain-giant-word">
+            <span class="curtain-eyebrow-tag">INITIATE DIRECT CHANNEL</span>
+            <span class="curtain-main-word">READY TO</span>
+          </div>
+          <div class="curtain-bottom-coords">+ &mdash;&mdash; LAT 18.52&deg; N</div>
+        </div>
+
+        <div class="curtain-panel curtain-panel-right">
+          <div class="curtain-corner-meta">IST (UTC+5:30) &bull; PORTAL // 05-B</div>
+          <div class="curtain-giant-word">
+            <span class="curtain-eyebrow-tag">SCROLL TO OPEN CONSOLE</span>
+            <span class="curtain-main-word curtain-word-accent">ENGINEER?</span>
+          </div>
+          <div class="curtain-bottom-coords">LON 73.85&deg; E &mdash;&mdash; +</div>
+        </div>
+
+        <div class="curtain-center-seal" id="curtain-center-seal">
+          <span>05 // OPEN DESK</span>
+        </div>
+      </div>
+
+      <div class="section-container connect-stage-inner" id="connect-stage-inner">
         
+        <!-- Live Visitor-to-IST Timezone Sync Telemetry Strip -->
+        <div class="timezone-sync-banner" id="timezone-sync-banner">
+          <div class="tz-sync-left">
+            <span class="tz-pulse-dot" aria-hidden="true"></span>
+            <span class="tz-sync-label">// LIVE TIMEZONE SYNC:</span>
+            <span class="tz-sync-readout" id="timezone-sync-readout">Synchronizing your local clock with Sarthak (IST UTC+5:30)...</span>
+          </div>
+          <span class="tz-sync-badge">RESPONSE SLA &lt; 24H</span>
+        </div>
+
         <div class="connect-split-layout">
           
           <!-- Direct Channel Info -->
@@ -1051,6 +1102,55 @@
             <p class="connect-intro-text">
               Whether you need a dedicated frontend developer for a fast-turnaround product, want to discuss AI integration workflows, or have an open role: I'd love to connect.
             </p>
+
+            <!-- Interactive 3D Envelope / Live Blueprint Dispatch Preview -->
+            <div class="envelope-3d-stage" id="envelope-3d-stage" aria-label="Interactive 3D Envelope Preview">
+              <div class="envelope-stage-bar">
+                <span class="envelope-stage-tag">// 3D DISPATCH PACKET</span>
+                <span class="envelope-stage-state" id="envelope-stage-state"> Click envelope or type to preview</span>
+              </div>
+
+              <div class="envelope-3d-scene">
+                <div class="envelope-3d-wrapper is-open" id="interactive-envelope-3d" tabindex="0" role="button" aria-label="Toggle 3D envelope flap">
+                  <!-- Envelope Back Plate -->
+                  <div class="envelope-back"></div>
+
+                  <!-- Live Sliding Letter Sheet Inside Envelope -->
+                  <div class="envelope-letter-sheet" id="envelope-letter-sheet">
+                    <div class="letter-sheet-header">
+                      <span class="letter-stamp-chip" id="env-preview-topic">WEB APPLICATION</span>
+                      <span class="letter-ist-tag">IST // UTC+5:30</span>
+                    </div>
+                    <div class="letter-from-line">
+                      <span class="letter-key">FROM:</span>
+                      <span class="letter-val" id="env-preview-name">Awaiting Sender...</span>
+                    </div>
+                    <div class="letter-from-line">
+                      <span class="letter-key">REPLY:</span>
+                      <span class="letter-val" id="env-preview-email">awaiting@domain.com</span>
+                    </div>
+                    <div class="letter-body-snippet" id="env-preview-msg">
+                      Start typing in the console on the right to draft your live blueprint packet...
+                    </div>
+                  </div>
+
+                  <!-- Front Folded Pocket Flaps -->
+                  <div class="envelope-pocket-left"></div>
+                  <div class="envelope-pocket-right"></div>
+                  <div class="envelope-pocket-bottom">
+                    <span class="pocket-Dest-label">TO: SARTHAK KSHIRSAGAR // NST LAB</span>
+                  </div>
+
+                  <!-- 3D Hinged Top Triangular Flap -->
+                  <div class="envelope-flap-top"></div>
+
+                  <!-- Embossed Caramel Wax Seal -->
+                  <div class="envelope-wax-seal" id="envelope-wax-seal">
+                    <span>SK</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <!-- Verified Direct Links -->
             <div class="channels-list">
@@ -1097,8 +1197,19 @@
           <!-- Interactive Contact Console -->
           <div class="connect-form-panel">
             <div class="form-surface-card">
-              <h3 class="form-heading">Send a Direct Message</h3>
-              <p class="form-subheading">Responses usually dispatched within 24 hours.</p>
+              <div class="form-telemetry-header">
+                <div>
+                  <h3 class="form-heading">Send a Direct Message</h3>
+                  <p class="form-subheading">Responses usually dispatched within 24 hours.</p>
+                </div>
+                <div class="signal-waveform-box" aria-hidden="true">
+                  <div class="signal-meta-row">
+                    <span class="signal-dot" id="signal-status-dot"></span>
+                    <span class="signal-status-text" id="signal-status-text">SIGNAL // STANDBY</span>
+                  </div>
+                  <canvas class="contact-waveform-canvas" id="contact-waveform-canvas" width="180" height="34"></canvas>
+                </div>
+              </div>
 
               <form id="portfolio-contact-form" class="direct-contact-form" novalidate>
                 <div class="form-field-group">
@@ -1184,6 +1295,11 @@
           <li><a href="#overview">Back to Top &uarr;</a></li>
         </ul>
       </div>
+    </div>
+
+    <!-- Giant Interactive Kinetic Wordmark Finale -->
+    <div class="footer-kinetic-stage" id="footer-kinetic-stage" aria-hidden="true">
+      <div class="kinetic-wordmark" id="kinetic-wordmark" data-text="SARTHAK KSHIRSAGAR">SARTHAK KSHIRSAGAR</div>
     </div>
 
     <div class="footer-bottom-bar">

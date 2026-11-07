@@ -16,11 +16,17 @@
     initSkillRollupPopup();
     initSkillCardsScrollScale();
     initSkillMasterDirectory();
+    initKineticSkillPills();
     initProjectFilters();
     initStickyProjectStack();
     initProjectBlueprintToggles();
+    initValuesFanOutAndTilt();
     initLusionSection4Stage();
+    initConnectSplitCurtain();
     initContactFormConsole();
+    initContactSignalWaveform();
+    initKineticFooterWordmark();
+    initGlobalMagneticAndSpotlight();
     initFooterYear();
     initAntigravityBackground();
     initFramerScrollReveals();
@@ -695,15 +701,31 @@
    * Client-side validation, error messaging, and simulated response lifecycle
    * Ensures the green tick confirmation banner ONLY appears after valid submission
    */
+  /**
+   * 10. DIRECT CONTACT FORM CONSOLE & INTERACTIVE 3D ENVELOPE DISPATCH
+   * Live-binds form inputs to the 3D envelope letter sheet, tilts the 3D envelope with cursor movement,
+   * folds & seals the 3D envelope on valid submission, and reveals the green tick banner after dispatch.
+   */
   function initContactFormConsole() {
     const form = document.getElementById('portfolio-contact-form');
     if (!form) return;
 
     const nameInput = document.getElementById('contact-name');
     const emailInput = document.getElementById('contact-email');
+    const topicInput = document.getElementById('contact-topic');
     const messageInput = document.getElementById('contact-message');
     const submitBtn = document.getElementById('contact-submit-btn');
     const feedbackBanner = document.getElementById('form-feedback-banner');
+    const formSurfaceCard = form.closest('.form-surface-card');
+
+    // Interactive 3D Envelope Elements
+    const envelopeStage = document.getElementById('envelope-3d-stage');
+    const envelope3D = document.getElementById('interactive-envelope-3d');
+    const envStateText = document.getElementById('envelope-stage-state');
+    const envName = document.getElementById('env-preview-name');
+    const envEmail = document.getElementById('env-preview-email');
+    const envTopic = document.getElementById('env-preview-topic');
+    const envMsg = document.getElementById('env-preview-msg');
 
     const errName = document.getElementById('error-name');
     const errEmail = document.getElementById('error-email');
@@ -720,17 +742,78 @@
       return re.test(String(email).toLowerCase());
     }
 
-    // Clear individual errors on input and hide previous submission banner when user types again
-    [nameInput, emailInput, messageInput].forEach(function (input) {
+    // Sync live form typing onto the 3D Envelope's letter sheet
+    function syncEnvelopePreview() {
+      if (envName && nameInput) {
+        envName.textContent = nameInput.value.trim() || 'Awaiting Sender...';
+      }
+      if (envEmail && emailInput) {
+        envEmail.textContent = emailInput.value.trim() || 'awaiting@domain.com';
+      }
+      if (envTopic && topicInput) {
+        const selectedOption = topicInput.options[topicInput.selectedIndex];
+        envTopic.textContent = selectedOption
+          ? selectedOption.textContent.toUpperCase()
+          : 'WEB APPLICATION';
+      }
+      if (envMsg && messageInput) {
+        envMsg.textContent =
+          messageInput.value.trim() ||
+          'Start typing in the console on the right to draft your live blueprint packet...';
+      }
+      if (envelope3D && !envelope3D.classList.contains('is-sealing')) {
+        envelope3D.classList.add('is-open');
+        if (envStateText) envStateText.textContent = 'Drafting live packet inside envelope...';
+      }
+    }
+
+    // Allow clicking/pressing Enter on the 3D envelope to toggle its flap open/closed
+    if (envelope3D) {
+      envelope3D.addEventListener('click', function () {
+        if (envelope3D.classList.contains('is-sealing') || envelope3D.classList.contains('is-launching')) return;
+        const isOpen = envelope3D.classList.toggle('is-open');
+        if (envStateText) {
+          envStateText.textContent = isOpen ? 'Flap open • Ready for drafting' : 'Flap sealed • Click to open';
+        }
+      });
+
+      envelope3D.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          envelope3D.click();
+        }
+      });
+    }
+
+    // 3D Perspective Tilt on the Envelope Stage when moving cursor
+    if (envelopeStage && envelope3D) {
+      envelopeStage.addEventListener('mousemove', function (e) {
+        const rect = envelopeStage.getBoundingClientRect();
+        const nx = ((e.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2;
+        const ny = ((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2;
+        envelope3D.style.setProperty('--env-rot-x', (-ny * 12).toFixed(2) + 'deg');
+        envelope3D.style.setProperty('--env-rot-y', (nx * 14).toFixed(2) + 'deg');
+      });
+
+      envelopeStage.addEventListener('mouseleave', function () {
+        envelope3D.style.setProperty('--env-rot-x', '4deg');
+        envelope3D.style.setProperty('--env-rot-y', '-6deg');
+      });
+    }
+
+    // Clear individual errors on input, update 3D envelope letter, and hide previous submission banner
+    [nameInput, emailInput, messageInput, topicInput].forEach(function (input) {
       if (!input) return;
       input.addEventListener('input', function () {
         const errorEl = document.getElementById('error-' + input.name);
         if (errorEl) errorEl.textContent = '';
+        syncEnvelopePreview();
         if (feedbackBanner && feedbackBanner.classList.contains('is-visible')) {
           feedbackBanner.classList.remove('is-visible');
           feedbackBanner.setAttribute('hidden', '');
         }
       });
+      input.addEventListener('change', syncEnvelopePreview);
     });
 
     form.addEventListener('submit', function (e) {
@@ -779,27 +862,61 @@
 
       if (!isValid) return;
 
-      // Simulate submission state
+      // Step 1: Fold letter into 3D envelope & stamp SK wax seal shut
       const originalBtnHTML = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Transmitting...</span>';
+      submitBtn.innerHTML = '<span>Sealing 3D Packet...</span>';
 
+      if (envelope3D) {
+        envelope3D.classList.remove('is-open');
+        envelope3D.classList.add('is-sealing');
+      }
+      if (envStateText) {
+        envStateText.textContent = 'Sealing packet with SK verification stamp...';
+      }
+      if (formSurfaceCard) {
+        formSurfaceCard.classList.add('is-dispatching');
+      }
+
+      // Step 2: Launch the sealed 3D envelope into space
+      setTimeout(function () {
+        submitBtn.innerHTML = '<span>Launching Packet...</span>';
+        if (envelope3D) {
+          envelope3D.classList.add('is-launching');
+        }
+        if (envStateText) {
+          envStateText.textContent = 'Packet transmitted ✓';
+        }
+      }, 520);
+
+      // Step 3: Reveal Green Tick Confirmation Banner & reset
       setTimeout(function () {
         submitBtn.innerHTML = '<span>Message Dispatched ✓</span>';
         if (feedbackBanner) {
           feedbackBanner.removeAttribute('hidden');
           feedbackBanner.classList.add('is-visible');
         }
+        if (formSurfaceCard) {
+          formSurfaceCard.classList.remove('is-dispatching');
+        }
 
         // Reset inputs
         form.reset();
-        showToast('Message transmitted! Sarthak will follow up soon.');
+        showToast('3D Packet sealed & transmitted! Sarthak will follow up soon.');
 
         setTimeout(function () {
           submitBtn.innerHTML = originalBtnHTML;
           submitBtn.disabled = false;
-        }, 3500);
-      }, 900);
+          if (envelope3D) {
+            envelope3D.classList.remove('is-sealing', 'is-launching');
+            envelope3D.classList.add('is-open');
+          }
+          syncEnvelopePreview();
+          if (envStateText) {
+            envStateText.textContent = 'Click envelope or type to preview';
+          }
+        }, 3200);
+      }, 1220);
     });
   }
 
@@ -1182,13 +1299,13 @@
     ];
 
     // Cards and structural blocks that rise up with subtle scale & blur clearing
-    // (Note: .stack-card is excluded here because it uses its own 10%-to-100% scroll-scale engine)
+    // (Note: .stack-card and .value-block use dedicated scroll physics engines)
     const blockSelectors = [
       '.metric-box',
       '.hero-hud-card',
       '.filter-tab-bar',
       '.skills-master-overview',
-      '.value-block',
+      '.values-blueprint-rail',
       '.academic-spotlight-card',
       '.curriculum-pillar',
       '.contact-direct-col',
@@ -1213,7 +1330,7 @@
 
     // Assign stagger delays to sibling items inside grids/containers
     const staggerContainers = document.querySelectorAll(
-      '.metrics-grid, .values-grid, .curriculum-grid, .contact-grid, .footer-container'
+      '.metrics-grid, .curriculum-grid, .contact-grid, .footer-container'
     );
     staggerContainers.forEach(function (container) {
       Array.from(container.children).forEach(function (child, index) {
@@ -1285,6 +1402,7 @@
 
     function computeTargets() {
       const viewH = window.innerHeight;
+      const isMobile = window.innerWidth <= 768;
       const matrixRect = matrix.getBoundingClientRect();
 
       cards.forEach(function (card, idx) {
@@ -1294,10 +1412,10 @@
         }
         // Unscaled top position of the card relative to the viewport
         const unscaledTop = matrixRect.top + card.offsetTop;
-        // Start growing at 10% scale when card enters near bottom of viewport (96% viewH)
-        // Reach 100% full size when card reaches reading zone (50% viewH)
-        const startY = viewH * 0.96;
-        const endY = viewH * 0.50;
+        // On mobile (single column), complete growth higher in the lower viewport (72% viewH)
+        // so cards are already 100% width when in the reading zone
+        const startY = isMobile ? viewH * 0.98 : viewH * 0.96;
+        const endY = isMobile ? viewH * 0.72 : viewH * 0.50;
         const rawProgress = (startY - unscaledTop) / Math.max(1, startY - endY);
         cardStates[idx].target = Math.max(0, Math.min(1, rawProgress));
       });
@@ -1433,13 +1551,14 @@
         rightCard.style.opacity = '';
         rightCard.style.filter = '';
       } else {
+        const isMobile = window.innerWidth <= 768;
         // Left text pops out (scale > 1 + Z lift) then arcs to the top-right and fades out
         const popBell = Math.sin(Math.min(1, p * 1.35) * Math.PI);
-        const leftScale = 1 + popBell * 0.14 - p * 0.18;
-        const leftX = Math.pow(p, 1.15) * (window.innerWidth * 0.42);
-        const leftY = -Math.pow(p, 1.1) * (window.innerHeight * 0.44);
-        const leftZ = popBell * 90;
-        const leftRotZ = p * 5.5;
+        const leftScale = 1 + popBell * (isMobile ? 0.06 : 0.14) - p * 0.18;
+        const leftX = Math.pow(p, 1.15) * (window.innerWidth * (isMobile ? 0.16 : 0.42));
+        const leftY = -Math.pow(p, 1.1) * (window.innerHeight * (isMobile ? 0.28 : 0.44));
+        const leftZ = popBell * (isMobile ? 40 : 90);
+        const leftRotZ = p * (isMobile ? 3 : 5.5);
         const leftOpacity = Math.max(0, 1 - Math.pow(p, 1.35) * 1.18);
 
         leftBlock.style.transform =
@@ -1450,9 +1569,9 @@
 
         // Right card shrinks smaller and travels toward the top-right until disappearing
         const rightScale = Math.max(0.28, 1 - p * 0.72);
-        const rightX = Math.pow(p, 1.05) * (window.innerWidth * 0.24);
-        const rightY = -Math.pow(p, 1.12) * (window.innerHeight * 0.48);
-        const rightRot = p * 8;
+        const rightX = Math.pow(p, 1.05) * (window.innerWidth * (isMobile ? 0.12 : 0.24));
+        const rightY = -Math.pow(p, 1.12) * (window.innerHeight * (isMobile ? 0.32 : 0.48));
+        const rightRot = p * (isMobile ? 4.5 : 8);
         const rightOpacity = Math.max(0, 1 - Math.pow(p, 1.3) * 1.2);
 
         rightCard.style.transform =
@@ -1673,6 +1792,510 @@
     }
 
     window.requestAnimationFrame(animateStage);
+  }
+
+  /**
+   * 17. SECTION 03: 3D FAN-OUT BLUEPRINT DECK, RAIL & 3D CURSOR TILT / SPOTLIGHT
+   * Deals the 6 Engineering Manifesto cards out from a central stacked deck as the user scrolls,
+   * syncs the 01->06 Blueprint Progress Rail, and applies 3D tilt + radial caramel cursor spotlight.
+   */
+  function initValuesFanOutAndTilt() {
+    const section = document.getElementById('values');
+    const grid = document.getElementById('values-grid');
+    const cards = Array.from(document.querySelectorAll('.value-block'));
+    const railFill = document.getElementById('blueprint-rail-fill');
+    const railNodes = Array.from(document.querySelectorAll('.rail-node'));
+
+    if (!section || !grid || !cards.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Fan-out offsets from the center of the 3x2 grid for each of the 6 cards
+    const dealOffsets = [
+      { x: 160, y: 95, rot: -9 },
+      { x: 0,   y: 105, rot: 0 },
+      { x: -160, y: 95, rot: 9 },
+      { x: 160, y: -45, rot: 7 },
+      { x: 0,   y: -55, rot: 0 },
+      { x: -160, y: -45, rot: -7 }
+    ];
+
+    let targetScrollP = prefersReducedMotion ? 1 : 0;
+    let currentScrollP = prefersReducedMotion ? 1 : 0;
+    let hoveredCardIdx = -1;
+
+    function updateValuesScroll() {
+      if (prefersReducedMotion) return;
+      const rect = grid.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      const startY = viewH * 0.96;
+      const endY = viewH * 0.36;
+      const raw = (startY - rect.top) / Math.max(1, startY - endY);
+      targetScrollP = Math.max(0, Math.min(1, raw));
+    }
+
+    window.addEventListener('scroll', updateValuesScroll, { passive: true });
+    window.addEventListener('resize', updateValuesScroll);
+    updateValuesScroll();
+
+    // 3D Tilt & Radial Spotlight on each Value Card
+    cards.forEach(function (card, idx) {
+      card.addEventListener('mousemove', function (e) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const nx = (x / Math.max(1, rect.width) - 0.5) * 2;
+        const ny = (y / Math.max(1, rect.height) - 0.5) * 2;
+
+        card.style.setProperty('--spot-x', x.toFixed(1) + 'px');
+        card.style.setProperty('--spot-y', y.toFixed(1) + 'px');
+        card.style.setProperty('--tilt-x', (-ny * 6.5).toFixed(2) + 'deg');
+        card.style.setProperty('--tilt-y', (nx * 6.5).toFixed(2) + 'deg');
+        hoveredCardIdx = idx;
+        syncRailHighlight();
+      });
+
+      card.addEventListener('mouseleave', function () {
+        card.style.setProperty('--tilt-x', '0deg');
+        card.style.setProperty('--tilt-y', '0deg');
+        hoveredCardIdx = -1;
+        syncRailHighlight();
+      });
+    });
+
+    // Interactive Blueprint Rail Nodes
+    railNodes.forEach(function (node, idx) {
+      node.addEventListener('mouseenter', function () {
+        hoveredCardIdx = idx;
+        cards.forEach(function (c, cIdx) {
+          c.classList.toggle('is-spotlighted', cIdx === idx);
+        });
+        syncRailHighlight();
+      });
+      node.addEventListener('mouseleave', function () {
+        hoveredCardIdx = -1;
+        cards.forEach(function (c) {
+          c.classList.remove('is-spotlighted');
+        });
+        syncRailHighlight();
+      });
+      node.addEventListener('click', function () {
+        if (cards[idx]) {
+          cards[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    function syncRailHighlight() {
+      const activeCount = hoveredCardIdx >= 0
+        ? hoveredCardIdx + 1
+        : Math.max(1, Math.min(6, Math.ceil(currentScrollP * 6)));
+
+      if (railFill) {
+        railFill.style.width = ((activeCount / 6) * 100).toFixed(2) + '%';
+      }
+      railNodes.forEach(function (n, idx) {
+        if (hoveredCardIdx >= 0) {
+          n.classList.toggle('is-active', idx === hoveredCardIdx);
+        } else {
+          n.classList.toggle('is-active', idx < activeCount);
+        }
+      });
+    }
+
+    function animateValuesDeck() {
+      currentScrollP += (targetScrollP - currentScrollP) * 0.12;
+
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i];
+        const offset = dealOffsets[i] || { x: 0, y: 0, rot: 0 };
+        // Stagger each card slightly along the scroll progress
+        const staggerStart = i * 0.06;
+        const localP = Math.max(0, Math.min(1, (currentScrollP - staggerStart) / (1 - staggerStart)));
+        const inv = 1 - localP;
+
+        const fx = window.innerWidth > 900 ? offset.x * inv : 0;
+        const fy = offset.y * inv;
+        const frot = window.innerWidth > 900 ? offset.rot * inv : 0;
+        const fscale = 0.76 + localP * 0.24;
+        const fop = 0.18 + localP * 0.82;
+
+        card.style.setProperty('--fan-x', fx.toFixed(1) + 'px');
+        card.style.setProperty('--fan-y', fy.toFixed(1) + 'px');
+        card.style.setProperty('--fan-rot', frot.toFixed(2) + 'deg');
+        card.style.setProperty('--fan-scale', fscale.toFixed(3));
+        card.style.setProperty('--fan-opacity', fop.toFixed(3));
+      }
+
+      syncRailHighlight();
+      window.requestAnimationFrame(animateValuesDeck);
+    }
+
+    window.requestAnimationFrame(animateValuesDeck);
+  }
+
+  /**
+   * 18. SECTION 02: PHYSICS-DRIVEN FLOATING WAVE & MAGNETIC SKILL PILLS
+   * Gives the 23 skill pills a subtle weightless sine wave drift that pauses on hover
+   * and attracts individual pills toward the cursor.
+   */
+  function initKineticSkillPills() {
+    const container = document.querySelector('.skills-all-pills-grid');
+    const pills = Array.from(document.querySelectorAll('.master-skill-pill'));
+    if (!container || !pills.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let isContainerHovered = false;
+    container.addEventListener('mouseenter', function () {
+      isContainerHovered = true;
+    });
+    container.addEventListener('mouseleave', function () {
+      isContainerHovered = false;
+    });
+
+    let waveTime = 0;
+    function animatePillWave() {
+      if (!isContainerHovered) {
+        waveTime += 0.032;
+      }
+      for (let i = 0; i < pills.length; i++) {
+        const pill = pills[i];
+        if (pill.hasAttribute('hidden')) continue;
+        const floatY = isContainerHovered ? 0 : Math.sin(waveTime + i * 0.55) * 3.2;
+        pill.style.setProperty('--pill-float-y', floatY.toFixed(2) + 'px');
+      }
+      window.requestAnimationFrame(animatePillWave);
+    }
+
+    window.requestAnimationFrame(animatePillWave);
+  }
+
+  /**
+   * 19. SECTION 05: LIVE CONTACT CONSOLE SIGNAL WAVEFORM
+   * Renders a real-time dual-harmonic telemetry sine wave in the contact form header
+   * that spikes in amplitude and frequency as the user types.
+   */
+  function initContactSignalWaveform() {
+    const canvas = document.getElementById('contact-waveform-canvas');
+    const statusDot = document.getElementById('signal-status-dot');
+    const statusText = document.getElementById('signal-status-text');
+    const form = document.getElementById('portfolio-contact-form');
+    if (!canvas || !form) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let energy = 0;
+    let targetEnergy = 0;
+    let phase = 0;
+    let statusResetTimer = null;
+
+    function triggerSignalSpike(label) {
+      targetEnergy = Math.min(1, targetEnergy + 0.45);
+      if (statusDot) statusDot.classList.add('is-spiking');
+      if (statusText && label) statusText.textContent = label;
+
+      clearTimeout(statusResetTimer);
+      statusResetTimer = setTimeout(function () {
+        if (statusDot) statusDot.classList.remove('is-spiking');
+        if (statusText) statusText.textContent = 'SIGNAL // STANDBY';
+      }, 900);
+    }
+
+    form.querySelectorAll('input, textarea, select').forEach(function (field) {
+      field.addEventListener('input', function () {
+        triggerSignalSpike('SIGNAL // MODULATING INPUT');
+      });
+      field.addEventListener('focus', function () {
+        triggerSignalSpike('SIGNAL // CHANNEL LOCKED');
+      });
+    });
+
+    form.addEventListener('submit', function () {
+      targetEnergy = 1;
+      triggerSignalSpike('SIGNAL // DISPATCHING PACKET');
+    });
+
+    function renderWaveform() {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      targetEnergy *= 0.94;
+      energy += (targetEnergy - energy) * 0.18;
+      phase += 0.08 + energy * 0.22;
+
+      const midY = h * 0.5;
+      const baseAmp = 3.2 + energy * 10.5;
+      const freq = 0.055 + energy * 0.045;
+
+      // Secondary echo wave
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(63, 123, 73, 0.35)';
+      ctx.lineWidth = 1.3;
+      for (let x = 0; x <= w; x += 2) {
+        const env = Math.sin((x / w) * Math.PI);
+        const y = midY + Math.cos(x * freq * 0.85 - phase * 0.7) * (baseAmp * 0.65) * env;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Primary caramel signal wave
+      ctx.beginPath();
+      ctx.strokeStyle = '#a86c3b';
+      ctx.lineWidth = 1.9;
+      for (let x = 0; x <= w; x += 2) {
+        const env = Math.sin((x / w) * Math.PI);
+        const y = midY + Math.sin(x * freq - phase) * baseAmp * env;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      window.requestAnimationFrame(renderWaveform);
+    }
+
+    window.requestAnimationFrame(renderWaveform);
+  }
+
+  /**
+   * 20. GIANT KINETIC TYPOGRAPHY FOOTER WORDMARK
+   * Splits 'SARTHAK KSHIRSAGAR' into interactive character spans that lift, scale,
+   * and shift toward warm caramel based on Gaussian cursor proximity.
+   */
+  function initKineticFooterWordmark() {
+    const wordmark = document.getElementById('kinetic-wordmark');
+    const stage = document.getElementById('footer-kinetic-stage');
+    if (!wordmark || !stage) return;
+
+    const rawText = wordmark.getAttribute('data-text') || 'SARTHAK KSHIRSAGAR';
+    wordmark.innerHTML = '';
+
+    const charSpans = [];
+    for (let i = 0; i < rawText.length; i++) {
+      const ch = rawText[i];
+      const span = document.createElement('span');
+      if (ch === ' ') {
+        span.className = 'kinetic-space';
+        span.innerHTML = '&nbsp;';
+      } else {
+        span.className = 'kinetic-char';
+        span.textContent = ch;
+        charSpans.push({ el: span, y: 0, scale: 1, rot: 0, ty: 0, tscale: 1, trot: 0 });
+      }
+      wordmark.appendChild(span);
+    }
+
+    let pointerX = -9999;
+    let isHoveringStage = false;
+
+    stage.addEventListener('mousemove', function (e) {
+      pointerX = e.clientX;
+      isHoveringStage = true;
+    });
+
+    stage.addEventListener('mouseleave', function () {
+      isHoveringStage = false;
+      pointerX = -9999;
+    });
+
+    function animateKineticChars() {
+      for (let i = 0; i < charSpans.length; i++) {
+        const item = charSpans[i];
+        if (isHoveringStage) {
+          const rect = item.el.getBoundingClientRect();
+          const centerX = rect.left + rect.width * 0.5;
+          const dist = Math.abs(pointerX - centerX);
+          const radius = 175;
+          if (dist < radius) {
+            const weight = Math.cos((dist / radius) * (Math.PI * 0.5));
+            item.ty = -weight * 18;
+            item.tscale = 1 + weight * 0.18;
+            item.trot = ((pointerX - centerX) / radius) * -5;
+            item.el.style.setProperty('--char-color', weight > 0.35 ? 'var(--accent-caramel)' : 'var(--text-main)');
+          } else {
+            item.ty = 0;
+            item.tscale = 1;
+            item.trot = 0;
+            item.el.style.setProperty('--char-color', 'var(--text-main)');
+          }
+        } else {
+          item.ty = 0;
+          item.tscale = 1;
+          item.trot = 0;
+          item.el.style.setProperty('--char-color', 'var(--text-main)');
+        }
+
+        item.y += (item.ty - item.y) * 0.18;
+        item.scale += (item.tscale - item.scale) * 0.18;
+        item.rot += (item.trot - item.rot) * 0.18;
+
+        item.el.style.setProperty('--char-y', item.y.toFixed(2) + 'px');
+        item.el.style.setProperty('--char-scale', item.scale.toFixed(3));
+        item.el.style.setProperty('--char-rot', item.rot.toFixed(2) + 'deg');
+      }
+
+      window.requestAnimationFrame(animateKineticChars);
+    }
+
+    window.requestAnimationFrame(animateKineticChars);
+  }
+
+  /**
+   * 21. GLOBAL MAGNETIC PULL BUTTONS & RADIAL CURSOR SPOTLIGHT
+   * Adds Framer-Motion-style spring magnetic attraction to primary interactive buttons
+   * and radial warm-caramel cursor spotlight tracking across cards.
+   */
+  function initGlobalMagneticAndSpotlight() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const magneticTargets = document.querySelectorAll(
+      '.primary-pill-btn, .secondary-pill-btn, .lusion-approach-pill, .project-action-link, .submit-action-btn, .channel-card, .master-skill-pill'
+    );
+
+    magneticTargets.forEach(function (el) {
+      let mx = 0;
+      let my = 0;
+      let tx = 0;
+      let ty = 0;
+      let vx = 0;
+      let vy = 0;
+      let rafId = null;
+
+      function stepSpring() {
+        vx = (vx + (tx - mx) * 0.2) * 0.74;
+        vy = (vy + (ty - my) * 0.2) * 0.74;
+        mx += vx;
+        my += vy;
+
+        el.style.setProperty('--mag-x', mx.toFixed(2) + 'px');
+        el.style.setProperty('--mag-y', my.toFixed(2) + 'px');
+
+        if (Math.abs(tx - mx) > 0.08 || Math.abs(ty - my) > 0.08 || Math.abs(vx) > 0.08 || Math.abs(vy) > 0.08) {
+          rafId = window.requestAnimationFrame(stepSpring);
+        } else {
+          rafId = null;
+        }
+      }
+
+      el.addEventListener('mousemove', function (e) {
+        const rect = el.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width * 0.5);
+        const dy = e.clientY - (rect.top + rect.height * 0.5);
+        const strength = el.classList.contains('channel-card') ? 0.12 : 0.26;
+        tx = Math.max(-10, Math.min(10, dx * strength));
+        ty = Math.max(-8, Math.min(8, dy * strength));
+        if (!rafId) {
+          rafId = window.requestAnimationFrame(stepSpring);
+        }
+      });
+
+      el.addEventListener('mouseleave', function () {
+        tx = 0;
+        ty = 0;
+        if (!rafId) {
+          rafId = window.requestAnimationFrame(stepSpring);
+        }
+      });
+    });
+
+    // Radial spotlight tracking on .stack-card and .channel-card
+    document.querySelectorAll('.stack-card, .channel-card').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--spot-x', (e.clientX - rect.left).toFixed(1) + 'px');
+        card.style.setProperty('--spot-y', (e.clientY - rect.top).toFixed(1) + 'px');
+      });
+    });
+  }
+
+  /**
+   * 22. SECTION 05: SCROLL-TRIGGERED SPLIT CURTAIN PORTAL & LIVE TIMEZONE SYNC
+   * Smoothly parts the left ('READY TO') and right ('ENGINEER?') curtain doors as the user
+   * scrolls from Section 04 into Section 05 (#connect), revealing the 3D Envelope and
+   * Contact Console underneath, while computing the visitor's real-time offset from IST.
+   */
+  function initConnectSplitCurtain() {
+    const connectSection = document.getElementById('connect');
+    const curtain = document.getElementById('connect-split-curtain');
+    const tzReadout = document.getElementById('timezone-sync-readout');
+
+    if (!connectSection) return;
+
+    // Live Visitor-to-IST (UTC+5:30) Timezone Sync Calculation
+    function updateTimezoneSync() {
+      if (!tzReadout) return;
+      try {
+        const now = new Date();
+        const visitorTimeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const istTimeStr = new Intl.DateTimeFormat('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        }).format(now);
+
+        // Visitor UTC offset in minutes (Date.getTimezoneOffset() is positive west of UTC, negative east)
+        const visitorOffsetMins = -now.getTimezoneOffset();
+        const istOffsetMins = 330; // UTC+5:30 = +330 mins
+        const diffMins = istOffsetMins - visitorOffsetMins;
+
+        let diffLabel = 'Same timezone as Sarthak (IST)';
+        if (diffMins !== 0) {
+          const absHours = Math.floor(Math.abs(diffMins) / 60);
+          const absRemMins = Math.abs(diffMins) % 60;
+          const aheadBehind = diffMins > 0 ? 'ahead of you' : 'behind you';
+          diffLabel =
+            'Sarthak is ' +
+            (absHours > 0 ? absHours + 'h ' : '') +
+            (absRemMins > 0 ? absRemMins + 'm ' : '') +
+            aheadBehind;
+        }
+
+        tzReadout.textContent =
+          'Your Local: ' + visitorTimeStr + '  ↔  Sarthak: ' + istTimeStr + ' IST (' + diffLabel + ')';
+      } catch (e) {
+        tzReadout.textContent = 'Sarthak operates in IST (UTC+5:30) • Active for global collaborations';
+      }
+    }
+    updateTimezoneSync();
+    setInterval(updateTimezoneSync, 30000);
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion || !curtain) {
+      connectSection.style.setProperty('--curtain-split', '1');
+      return;
+    }
+
+    let targetSplit = 0;
+    let currentSplit = 0;
+
+    function computeCurtainProgress() {
+      const rect = connectSection.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      // Curtain begins closed (0) when #connect top is at 92% of viewport height
+      // and parts completely open (1) by the time #connect top reaches 38% of viewport height
+      const startY = viewH * 0.92;
+      const endY = viewH * 0.38;
+      const raw = (startY - rect.top) / Math.max(1, startY - endY);
+      targetSplit = Math.max(0, Math.min(1, raw));
+    }
+
+    window.addEventListener('scroll', computeCurtainProgress, { passive: true });
+    window.addEventListener('resize', computeCurtainProgress);
+    computeCurtainProgress();
+
+    function animateCurtain() {
+      currentSplit += (targetSplit - currentSplit) * 0.13;
+      connectSection.style.setProperty('--curtain-split', currentSplit.toFixed(4));
+      window.requestAnimationFrame(animateCurtain);
+    }
+
+    window.requestAnimationFrame(animateCurtain);
   }
 
 })();
