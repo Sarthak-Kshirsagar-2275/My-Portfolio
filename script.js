@@ -401,6 +401,7 @@
    * 06. 3D ROLL-UP SPINNING SKILL POPUP MODAL
    */
   let openSkillPopupForCard = null;
+  let openAllSkillsRollupPopup = null;
 
   function initSkillRollupPopup() {
     const overlay = document.getElementById('skill-popup-overlay');
@@ -431,6 +432,20 @@
           node.removeAttribute('aria-hidden');
         }
       });
+    }
+
+    function triggerModalOpenAnimation() {
+      overlay.removeAttribute('hidden');
+      document.body.classList.add('skill-modal-open');
+      setBackgroundInert(true);
+
+      overlay.classList.remove('is-closing');
+      overlay.classList.add('is-active', 'is-opening');
+      popupCard.scrollTop = 0;
+
+      setTimeout(function () {
+        closeBtn.focus();
+      }, 60);
     }
 
     function openPopup(card, highlightedSkillText) {
@@ -472,19 +487,54 @@
         popupContent.appendChild(trayInner.cloneNode(true));
       }
 
-      // Activate modal layer & lock background interaction
-      overlay.removeAttribute('hidden');
-      document.body.classList.add('skill-modal-open');
-      setBackgroundInert(true);
+      triggerModalOpenAnimation();
+    }
 
-      // Trigger roll-up spin animation
-      overlay.classList.remove('is-closing');
-      overlay.classList.add('is-active', 'is-opening');
-      popupCard.scrollTop = 0;
+    function openAllSkillsPopup() {
+      if (isClosing) return;
+      lastFocusedElement = document.activeElement;
 
-      setTimeout(function () {
-        closeBtn.focus();
-      }, 60);
+      popupContent.innerHTML = '';
+
+      const headerStrip = document.createElement('div');
+      headerStrip.className = 'stack-badge-strip';
+      headerStrip.innerHTML =
+        '<span class="domain-tag">ALL 04 DOMAINS</span>' +
+        '<span class="item-count-pill">23 Core Technologies</span>';
+      popupContent.appendChild(headerStrip);
+
+      const masterTitle = document.createElement('h3');
+      masterTitle.className = 'stack-domain-title';
+      masterTitle.id = 'popup-domain-title';
+      masterTitle.textContent = 'Complete Technical Stack & Engineering Index';
+      popupContent.appendChild(masterTitle);
+
+      const masterDesc = document.createElement('p');
+      masterDesc.className = 'stack-domain-desc';
+      masterDesc.textContent =
+        'All 23 production technologies across Frontend & 3D, Backend & Databases, AI/ML & Computer Vision (rPPG), and Developer Workflows.';
+      popupContent.appendChild(masterDesc);
+
+      const allChipsWrap = document.createElement('div');
+      allChipsWrap.className = 'prominent-chips';
+      document.querySelectorAll('.skills-all-pills-grid .master-skill-pill').forEach(function (pill) {
+        const chip = document.createElement('span');
+        chip.className = 'tech-chip';
+        chip.textContent = pill.textContent.trim();
+        allChipsWrap.appendChild(chip);
+      });
+      popupContent.appendChild(allChipsWrap);
+
+      cards.forEach(function (card) {
+        const trayInner = card.querySelector('.tray-inner');
+        if (trayInner) {
+          const clone = trayInner.cloneNode(true);
+          clone.style.marginBottom = '20px';
+          popupContent.appendChild(clone);
+        }
+      });
+
+      triggerModalOpenAnimation();
     }
 
     function closePopup() {
@@ -509,6 +559,7 @@
     }
 
     openSkillPopupForCard = openPopup;
+    openAllSkillsRollupPopup = openAllSkillsPopup;
 
     cards.forEach(function (card) {
       card.addEventListener('click', function () {
@@ -571,8 +622,18 @@
    */
   function initSkillMasterDirectory() {
     const filterBtns = document.querySelectorAll('.skill-filter-btn');
+    const pillsGrid = document.querySelector('.skills-all-pills-grid');
     const skillPills = document.querySelectorAll('.master-skill-pill');
     const stackCards = document.querySelectorAll('.stack-card');
+    const mobileViewMoreBtn = document.getElementById('mobile-skills-view-more-btn');
+
+    if (mobileViewMoreBtn) {
+      mobileViewMoreBtn.addEventListener('click', function () {
+        if (typeof openAllSkillsRollupPopup === 'function') {
+          openAllSkillsRollupPopup();
+        }
+      });
+    }
 
     filterBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -584,6 +645,10 @@
         });
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
+
+        if (pillsGrid) {
+          pillsGrid.classList.toggle('is-filtered', targetFilter !== 'all');
+        }
 
         skillPills.forEach(function (pill) {
           const pillCard = pill.getAttribute('data-target-card');
@@ -768,9 +833,31 @@
     }
 
     // Allow clicking/pressing Enter on the 3D envelope to toggle its flap open/closed
+    // On mobile/stacked screens (<= 1024px), clicking the envelope smoothly scrolls down to the form console
     if (envelope3D) {
       envelope3D.addEventListener('click', function () {
         if (envelope3D.classList.contains('is-sealing') || envelope3D.classList.contains('is-launching')) return;
+
+        if (window.innerWidth <= 1024) {
+          envelope3D.classList.add('is-open');
+          if (envStateText) {
+            envStateText.textContent = 'Flap open • Jumping to message console ↓';
+          }
+          const formTarget = formSurfaceCard || form;
+          if (formTarget) {
+            const headerOffset = 74;
+            const targetTop = formTarget.getBoundingClientRect().top + window.scrollY - headerOffset;
+            window.scrollTo({
+              top: Math.max(0, targetTop),
+              behavior: 'smooth'
+            });
+            setTimeout(function () {
+              if (nameInput) nameInput.focus({ preventScroll: true });
+            }, 520);
+          }
+          return;
+        }
+
         const isOpen = envelope3D.classList.toggle('is-open');
         if (envStateText) {
           envStateText.textContent = isOpen ? 'Flap open • Ready for drafting' : 'Flap sealed • Click to open';
@@ -1508,9 +1595,11 @@
   /**
    * 15. HERO SECTION SCROLL-EXIT CHOREOGRAPHY
    * As the user scrolls down toward Selected Case Studies (#projects):
-   * - Left text (.hero-primary-block) pops out in 3D and sweeps toward the top-right
-   * - Right card (.hero-bench-card) shrinks down and travels toward the top-right
-   * - Both smoothly disappear as the user reaches the second section (#projects)
+   * - On desktop (> 1024px): Left text (.hero-primary-block) and Right card (.hero-bench-card) sit side-by-side
+   *   and exit together as the user scrolls toward #projects.
+   * - On mobile/tablet (<= 1024px): Left text and Right HUD card are stacked vertically in 1 column.
+   *   The top text block pops out in 3D, sweeps top-right, and disappears as the user scrolls down to the card,
+   *   while the HUD card (.hero-bench-card) stays 100% full-size and opaque until the user scrolls past the card itself!
    */
   function initHeroScrollExit() {
     const heroSection = document.getElementById('overview');
@@ -1523,16 +1612,41 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    let targetP = 0;
-    let currentP = 0;
+    let targetPLeft = 0;
+    let currentPLeft = 0;
+    let targetPRight = 0;
+    let currentPRight = 0;
 
     function updateHeroScroll() {
       const scrollY = window.scrollY;
-      const projectsTop = projectsSection
-        ? projectsSection.offsetTop - window.innerHeight * 0.25
-        : heroSection.offsetHeight;
-      const maxScroll = Math.max(260, projectsTop);
-      targetP = Math.max(0, Math.min(1, scrollY / maxScroll));
+      const isStackedMobile = window.innerWidth <= 1024;
+
+      if (!isStackedMobile) {
+        const projectsTop = projectsSection
+          ? projectsSection.offsetTop - window.innerHeight * 0.25
+          : heroSection.offsetHeight;
+        const maxScroll = Math.max(260, projectsTop);
+        const sharedP = Math.max(0, Math.min(1, scrollY / maxScroll));
+        targetPLeft = sharedP;
+        targetPRight = sharedP;
+      } else {
+        // 1. Top Text Block (.hero-primary-block): exits as user scrolls through the top text toward the HUD card
+        const leftExitSpan = Math.max(220, leftBlock.offsetHeight * 0.85);
+        targetPLeft = Math.max(0, Math.min(1, (scrollY - 12) / leftExitSpan));
+
+        // 2. Bottom HUD Card (.hero-bench-card): stays at 0 (100% visible & full size) while user scrolls to it and reads it!
+        // Only starts shrinking & exiting once the card's untransformed top rises above 24% of the viewport height.
+        const cardDocTop = heroSection.offsetTop + rightCard.offsetTop;
+        const cardViewportTop = cardDocTop - scrollY;
+        const exitStartTop = window.innerHeight * 0.24;
+        const exitDistance = Math.max(240, rightCard.offsetHeight * 0.82);
+
+        if (cardViewportTop >= exitStartTop) {
+          targetPRight = 0;
+        } else {
+          targetPRight = Math.max(0, Math.min(1, (exitStartTop - cardViewportTop) / exitDistance));
+        }
+      }
     }
 
     window.addEventListener('scroll', updateHeroScroll, { passive: true });
@@ -1540,45 +1654,51 @@
     updateHeroScroll();
 
     function renderHeroExit() {
-      currentP += (targetP - currentP) * 0.14;
-      const p = currentP;
+      currentPLeft += (targetPLeft - currentPLeft) * 0.15;
+      currentPRight += (targetPRight - currentPRight) * 0.15;
 
-      if (p < 0.003) {
+      const pL = currentPLeft;
+      const pR = currentPRight;
+      const isMobile = window.innerWidth <= 1024;
+
+      // Render Left Text Block (.hero-primary-block)
+      if (pL < 0.003) {
         leftBlock.style.transform = '';
         leftBlock.style.opacity = '';
         leftBlock.style.filter = '';
-        rightCard.style.transform = '';
-        rightCard.style.opacity = '';
-        rightCard.style.filter = '';
       } else {
-        const isMobile = window.innerWidth <= 768;
-        // Left text pops out (scale > 1 + Z lift) then arcs to the top-right and fades out
-        const popBell = Math.sin(Math.min(1, p * 1.35) * Math.PI);
-        const leftScale = 1 + popBell * (isMobile ? 0.06 : 0.14) - p * 0.18;
-        const leftX = Math.pow(p, 1.15) * (window.innerWidth * (isMobile ? 0.16 : 0.42));
-        const leftY = -Math.pow(p, 1.1) * (window.innerHeight * (isMobile ? 0.28 : 0.44));
-        const leftZ = popBell * (isMobile ? 40 : 90);
-        const leftRotZ = p * (isMobile ? 3 : 5.5);
-        const leftOpacity = Math.max(0, 1 - Math.pow(p, 1.35) * 1.18);
+        const popBell = Math.sin(Math.min(1, pL * 1.35) * Math.PI);
+        const leftScale = 1 + popBell * (isMobile ? 0.08 : 0.14) - pL * (isMobile ? 0.32 : 0.18);
+        const leftX = Math.pow(pL, 1.1) * (window.innerWidth * (isMobile ? 0.52 : 0.42));
+        const leftY = -Math.pow(pL, 1.08) * (window.innerHeight * (isMobile ? 0.36 : 0.44));
+        const leftZ = popBell * (isMobile ? 55 : 90);
+        const leftRotZ = pL * (isMobile ? 5 : 5.5);
+        const leftOpacity = Math.max(0, 1 - Math.pow(pL, 1.2) * 1.32);
 
         leftBlock.style.transform =
           'translate3d(' + leftX.toFixed(1) + 'px, ' + leftY.toFixed(1) + 'px, ' + leftZ.toFixed(1) + 'px) ' +
           'scale(' + leftScale.toFixed(3) + ') rotateZ(' + leftRotZ.toFixed(2) + 'deg)';
         leftBlock.style.opacity = leftOpacity.toFixed(3);
-        leftBlock.style.filter = 'blur(' + (Math.max(0, p - 0.35) * 6).toFixed(2) + 'px)';
+        leftBlock.style.filter = 'blur(' + (Math.max(0, pL - 0.3) * 6).toFixed(2) + 'px)';
+      }
 
-        // Right card shrinks smaller and travels toward the top-right until disappearing
-        const rightScale = Math.max(0.28, 1 - p * 0.72);
-        const rightX = Math.pow(p, 1.05) * (window.innerWidth * (isMobile ? 0.12 : 0.24));
-        const rightY = -Math.pow(p, 1.12) * (window.innerHeight * (isMobile ? 0.32 : 0.48));
-        const rightRot = p * (isMobile ? 4.5 : 8);
-        const rightOpacity = Math.max(0, 1 - Math.pow(p, 1.3) * 1.2);
+      // Render Right HUD Card (.hero-bench-card)
+      if (pR < 0.003) {
+        rightCard.style.transform = '';
+        rightCard.style.opacity = '';
+        rightCard.style.filter = '';
+      } else {
+        const rightScale = Math.max(0.28, 1 - pR * 0.72);
+        const rightX = Math.pow(pR, 1.05) * (window.innerWidth * (isMobile ? 0.38 : 0.24));
+        const rightY = -Math.pow(pR, 1.12) * (window.innerHeight * (isMobile ? 0.36 : 0.48));
+        const rightRot = pR * (isMobile ? 6 : 8);
+        const rightOpacity = Math.max(0, 1 - Math.pow(pR, 1.22) * 1.28);
 
         rightCard.style.transform =
           'translate3d(' + rightX.toFixed(1) + 'px, ' + rightY.toFixed(1) + 'px, 0) ' +
           'scale(' + rightScale.toFixed(3) + ') rotateZ(' + rightRot.toFixed(2) + 'deg)';
         rightCard.style.opacity = rightOpacity.toFixed(3);
-        rightCard.style.filter = 'blur(' + (Math.max(0, p - 0.4) * 5).toFixed(2) + 'px)';
+        rightCard.style.filter = 'blur(' + (Math.max(0, pR - 0.35) * 5).toFixed(2) + 'px)';
       }
 
       window.requestAnimationFrame(renderHeroExit);
