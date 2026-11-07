@@ -1,7 +1,7 @@
 /* ==========================================================================
    SARTHAK KSHIRSAGAR — PERSONAL PORTFOLIO
    Theme: Sophisticated Cream & Beige Light Palette (Strictly Light Theme)
-   Typography: Plus Jakarta Sans + Instrument Serif + JetBrains Mono
+   Typography: Outfit + Fraunces + DM Sans + JetBrains Mono
    Architecture: Semantic CSS3 with Modern Custom Properties
    ========================================================================== */
 
@@ -1488,17 +1488,17 @@ body.skill-modal-open .telemetry-bar {
   border-radius: 2px;
 }
 
-.frame-waffle .mockup-viewport {
+.frame-elanor .mockup-viewport {
   background: linear-gradient(135deg, #fdfaf5 0%, #f4ede1 100%);
 }
 
-.wire-waffle-palette {
+.wire-elanor-palette {
   position: relative;
   width: 140px;
   height: 120px;
 }
 
-.waffle-sheet {
+.elanor-sheet {
   position: absolute;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-medium);
@@ -1530,13 +1530,13 @@ body.skill-modal-open .telemetry-bar {
   box-shadow: var(--shadow-card);
 }
 
-.waffle-pattern-grid {
+.elanor-pattern-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
 }
 
-.waffle-pattern-grid span {
+.elanor-pattern-grid span {
   height: 14px;
   background-color: var(--accent-caramel-soft);
   border-radius: 3px;
@@ -2925,7 +2925,7 @@ body.skill-modal-open {
   pointer-events: none;
 }
 
-.pocket-Dest-label {
+.pocket-dest-label {
   font-family: var(--font-mono);
   font-size: 0.62rem;
   letter-spacing: 0.08em;
@@ -3500,11 +3500,6 @@ body.skill-modal-open {
 
   .card-main-layout {
     grid-template-columns: 1fr;
-  }
-
-  .academic-card-wrapper {
-    grid-template-columns: 1fr;
-    gap: 36px;
   }
 
   .values-grid {
@@ -4112,7 +4107,7 @@ body.skill-modal-open {
 }
 
 .section-values,
-.section-contact {
+.section-connect {
   background-color: rgba(244, 238, 228, 0.56);
   backdrop-filter: blur(1.5px);
   -webkit-backdrop-filter: blur(1.5px);

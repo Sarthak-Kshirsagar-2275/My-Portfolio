@@ -762,11 +762,6 @@
   }
 
   /**
-   * 10. DIRECT CONTACT FORM CONSOLE
-   * Client-side validation, error messaging, and simulated response lifecycle
-   * Ensures the green tick confirmation banner ONLY appears after valid submission
-   */
-  /**
    * 10. DIRECT CONTACT FORM CONSOLE & INTERACTIVE 3D ENVELOPE DISPATCH
    * Live-binds form inputs to the 3D envelope letter sheet, tilts the 3D envelope with cursor movement,
    * folds & seals the 3D envelope on valid submission, and reveals the green tick banner after dispatch.
@@ -1364,39 +1359,34 @@
 
   /**
    * 13. FRAMER-MOTION STYLE SCROLL REVEAL ENGINE
-   * Sections, headings, paragraphs, and cards start hidden below their resting position
+   * Sections, headings, paragraphs, and cards below the hero start hidden below their resting position
    * and smoothly rise up into view with staggered spring timing as the user scrolls down.
+   * (Note: Hero #overview elements, .stack-card, and .value-block use dedicated 60fps scroll physics engines
+   * and must not have .fm-reveal / .fm-text-rise CSS transitions attached.)
    */
   function initFramerScrollReveals() {
     if (!('IntersectionObserver' in window)) return;
 
-    // Text elements that rise up cleanly
+    // Text elements below the hero that rise up cleanly
     const textSelectors = [
       '.section-eyebrow',
       '.section-title',
       '.section-description',
-      '.hero-display-title',
-      '.hero-lead-copy',
-      '.pill-badge-row',
-      '.hero-cta-group',
       '.skills-overview-header',
-      '.footer-brand-col',
-      '.footer-links-col',
-      '.footer-meta-col'
+      '.footer-col-left',
+      '.footer-col-nav',
+      '.footer-col-links'
     ];
 
-    // Cards and structural blocks that rise up with subtle scale & blur clearing
-    // (Note: .stack-card and .value-block use dedicated scroll physics engines)
+    // Cards and structural blocks below the hero that rise up with subtle scale & blur clearing
     const blockSelectors = [
-      '.metric-box',
-      '.hero-hud-card',
-      '.filter-tab-bar',
+      '.project-filter-bar',
       '.skills-master-overview',
       '.values-blueprint-rail',
-      '.academic-spotlight-card',
-      '.curriculum-pillar',
-      '.contact-direct-col',
-      '.contact-form-col'
+      '.lusion-sub-card',
+      '.lusion-stat-pill',
+      '.connect-info-panel',
+      '.connect-form-panel'
     ];
 
     const allTargets = [];
@@ -1415,29 +1405,14 @@
       });
     });
 
-    // Assign stagger delays to sibling items inside grids/containers
+    // Assign stagger delays to sibling items inside grids/containers below the hero
     const staggerContainers = document.querySelectorAll(
-      '.metrics-grid, .curriculum-grid, .contact-grid, .footer-container'
+      '.lusion-sub-sections-grid, .connect-split-layout, .footer-container'
     );
     staggerContainers.forEach(function (container) {
       Array.from(container.children).forEach(function (child, index) {
         child.style.setProperty('--fm-delay', index * 95 + 'ms');
       });
-    });
-
-    // Also stagger hero elements so the opening feels choreographed
-    const heroSequence = [
-      '.pill-badge-row',
-      '.hero-display-title',
-      '.hero-lead-copy',
-      '.hero-cta-group',
-      '.hero-hud-card'
-    ];
-    heroSequence.forEach(function (sel, idx) {
-      const el = document.querySelector(sel);
-      if (el) {
-        el.style.setProperty('--fm-delay', idx * 85 + 'ms');
-      }
     });
 
     const revealObserver = new IntersectionObserver(
@@ -1630,16 +1605,16 @@
         targetPLeft = sharedP;
         targetPRight = sharedP;
       } else {
-        // 1. Top Text Block (.hero-primary-block): exits as user scrolls through the top text toward the HUD card
-        const leftExitSpan = Math.max(220, leftBlock.offsetHeight * 0.85);
-        targetPLeft = Math.max(0, Math.min(1, (scrollY - 12) / leftExitSpan));
+        // 1. Top Text Block (.hero-primary-block): exits cleanly before the user reaches the HUD card
+        const leftExitSpan = Math.max(150, leftBlock.offsetHeight * 0.56);
+        targetPLeft = Math.max(0, Math.min(1, (scrollY - 8) / leftExitSpan));
 
         // 2. Bottom HUD Card (.hero-bench-card): stays at 0 (100% visible & full size) while user scrolls to it and reads it!
-        // Only starts shrinking & exiting once the card's untransformed top rises above 24% of the viewport height.
+        // Only starts shrinking & exiting once the card's untransformed top rises above 22% of the viewport height.
         const cardDocTop = heroSection.offsetTop + rightCard.offsetTop;
         const cardViewportTop = cardDocTop - scrollY;
-        const exitStartTop = window.innerHeight * 0.24;
-        const exitDistance = Math.max(240, rightCard.offsetHeight * 0.82);
+        const exitStartTop = window.innerHeight * 0.22;
+        const exitDistance = Math.max(220, rightCard.offsetHeight * 0.78);
 
         if (cardViewportTop >= exitStartTop) {
           targetPRight = 0;
