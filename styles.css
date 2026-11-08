@@ -1490,7 +1490,7 @@ body.skill-modal-open .telemetry-bar {
   position: relative;
   overflow: hidden;
   height: 270px;
-  min-height: 270px;
+  min-height: 240px;
   background-color: var(--bg-page-subtle);
 }
 
@@ -1498,16 +1498,16 @@ body.skill-modal-open .telemetry-bar {
   position: absolute;
   top: 0;
   left: 0;
-  width: 1280px;
-  height: 820px;
+  width: var(--sandbox-frame-w, 1280px);
+  height: var(--sandbox-frame-h, 800px);
   transform-origin: 0 0;
   transform: scale(var(--sandbox-scale, 0.36));
   will-change: transform;
 }
 
 .sandbox-live-iframe {
-  width: 1280px;
-  height: 820px;
+  width: var(--sandbox-frame-w, 1280px);
+  height: var(--sandbox-frame-h, 800px);
   border: 0;
   display: block;
   background-color: #fbf8f3;
@@ -1523,17 +1523,16 @@ body.skill-modal-open .telemetry-bar {
   inset: 0;
   z-index: 3;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle, rgba(37, 30, 24, 0.08) 0%, rgba(37, 30, 24, 0.22) 100%);
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(1.5px);
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(37, 30, 24, 0) 65%, rgba(37, 30, 24, 0.12) 100%);
   cursor: pointer;
   transition: opacity 0.22s ease, background 0.22s ease;
 }
 
 .sandbox-click-shield:hover {
-  background: radial-gradient(circle, rgba(37, 30, 24, 0.04) 0%, rgba(37, 30, 24, 0.14) 100%);
+  background: linear-gradient(180deg, rgba(37, 30, 24, 0) 60%, rgba(168, 108, 59, 0.14) 100%);
 }
 
 .card-visual-stage.is-live-sandbox.is-interacting .sandbox-click-shield {
@@ -3920,7 +3919,7 @@ body.skill-modal-open {
   }
 
   .brand-name {
-    font-size: 0.94rem;
+    font-size: 0.86rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -3931,7 +3930,7 @@ body.skill-modal-open {
   }
 
   .header-actions {
-    gap: 8px;
+    gap: 6px;
     flex-shrink: 0;
   }
 
@@ -3940,8 +3939,8 @@ body.skill-modal-open {
   }
 
   .header-actions .action-btn-solid {
-    padding: 7px 12px;
-    font-size: 0.76rem;
+    padding: 6px 10px;
+    font-size: 0.72rem;
   }
 
   .mobile-menu-trigger {
@@ -4079,13 +4078,13 @@ body.skill-modal-open {
   }
 
   .project-link-group {
-    gap: 8px;
+    gap: 6px;
   }
 
   .project-action-link,
   .specs-toggle-btn {
-    padding: 7px 13px;
-    font-size: 0.75rem;
+    padding: 6px 11px;
+    font-size: 0.72rem;
   }
 
   .stage-frame {
@@ -4096,19 +4095,37 @@ body.skill-modal-open {
     padding: 6px 10px;
   }
 
+  .card-visual-stage.is-live-sandbox .mockup-dots-group {
+    display: none;
+  }
+
+  .card-visual-stage.is-live-sandbox .mockup-address {
+    font-size: 0.62rem;
+    margin-left: 0;
+  }
+
+  .sandbox-tool-btn {
+    font-size: 0.6rem;
+    padding: 3px 7px;
+  }
+
   .mockup-viewport {
     padding: 12px;
     min-height: 98px;
   }
 
   .sandbox-viewport {
-    height: 175px;
-    min-height: 175px;
+    height: 220px;
+    min-height: 220px;
+  }
+
+  .sandbox-click-shield {
+    padding: 8px;
   }
 
   .shield-pill {
-    padding: 6px 12px;
-    font-size: 0.65rem;
+    padding: 5px 10px;
+    font-size: 0.62rem;
   }
 
   .sandbox-modal-url {

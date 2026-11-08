@@ -838,16 +838,24 @@
     }
 
     function updateSandboxScales() {
+      const isMobileViewport = window.innerWidth <= 768;
+      const frameW = isMobileViewport ? 412 : 1280;
+      const frameH = isMobileViewport ? 600 : 800;
+
       Object.keys(sandboxUrls).forEach(function (key) {
         const viewport = document.getElementById('sandbox-viewport-' + key);
         const scaleStage = document.getElementById('sandbox-scale-' + key);
         if (!viewport || !scaleStage) return;
-        const vw = viewport.clientWidth || 420;
-        const vh = viewport.clientHeight || 270;
-        const scaleX = vw / 1280;
-        const scaleY = vh / 820;
-        const scale = Math.max(0.18, Math.min(1, Math.max(scaleX, scaleY)));
+
+        const vw = viewport.clientWidth || (isMobileViewport ? 300 : 460);
+        const scale = Math.max(0.2, Math.min(1, vw / frameW));
+        const scaledHeight = Math.round(frameH * scale);
+
+        scaleStage.style.setProperty('--sandbox-frame-w', frameW + 'px');
+        scaleStage.style.setProperty('--sandbox-frame-h', frameH + 'px');
         scaleStage.style.setProperty('--sandbox-scale', scale.toFixed(4));
+        viewport.style.height = scaledHeight + 'px';
+        viewport.style.minHeight = scaledHeight + 'px';
       });
     }
 
@@ -1770,13 +1778,34 @@
 
   /**
    * 14. STICKY STACKING PROJECT CARDS SCROLL ENGINE
-   * Scales and shades underlying project cards as the next card slides up on top of them.
+   * Dynamically adjusts sticky top offset when a card is taller than the viewport (e.g., on mobile)
+   * so the user can always scroll to see the bottom sandbox of each card before the next card stacks over it.
    */
   function initStickyProjectStack() {
     const cards = Array.from(document.querySelectorAll('.exhibition-card'));
     if (!cards.length) return;
 
     let ticking = false;
+
+    function updateStickyTopOffsets() {
+      const isMobile = window.innerWidth <= 768;
+      const baseHeaderOffset = isMobile ? 64 : 88;
+      const stepOffset = isMobile ? 14 : 28;
+      const viewH = window.innerHeight;
+
+      cards.forEach(function (card, idx) {
+        const desiredTop = baseHeaderOffset + idx * stepOffset;
+        const cardH = card.offsetHeight;
+        // If card is taller than the remaining viewport below desiredTop, shift sticky top negative
+        // so the card only sticks AFTER its bottom edge (the sandbox) has scrolled into view!
+        if (cardH + desiredTop + 16 > viewH) {
+          const adjustedTop = Math.min(desiredTop, viewH - cardH - 16);
+          card.style.top = adjustedTop + 'px';
+        } else {
+          card.style.top = desiredTop + 'px';
+        }
+      });
+    }
 
     function updateStackDepth() {
       const visibleCards = cards.filter(function (c) {
@@ -1794,13 +1823,13 @@
 
         const cardRect = card.getBoundingClientRect();
         const nextRect = nextCard.getBoundingClientRect();
-        const distance = nextRect.top - cardRect.top;
-        const threshold = cardRect.height;
+        const distance = nextRect.bottom - cardRect.bottom;
+        const threshold = Math.max(240, cardRect.height * 0.75);
 
-        if (distance < threshold && distance > 0) {
-          const progress = 1 - distance / threshold;
-          const scale = 1 - progress * 0.045;
-          const brightness = 1 - progress * 0.06;
+        if (nextRect.top < cardRect.bottom && distance > 0) {
+          const overlap = Math.min(1, (cardRect.bottom - nextRect.top) / threshold);
+          const scale = 1 - overlap * 0.045;
+          const brightness = 1 - overlap * 0.06;
           card.style.setProperty('--stack-scale', scale.toFixed(4));
           card.style.setProperty('--stack-brightness', brightness.toFixed(4));
         } else if (distance <= 0) {
@@ -1825,7 +1854,14 @@
       { passive: true }
     );
 
-    window.addEventListener('resize', updateStackDepth);
+    window.addEventListener('resize', function () {
+      updateStickyTopOffsets();
+      updateStackDepth();
+    });
+
+    setTimeout(updateStickyTopOffsets, 120);
+    setTimeout(updateStickyTopOffsets, 600);
+    updateStickyTopOffsets();
     updateStackDepth();
   }
 
