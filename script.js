@@ -31,6 +31,8 @@
     initKineticFooterWordmark();
     initGlobalMagneticAndSpotlight();
     initContextualMagneticCursor();
+    initLiveGitHubTelemetry();
+    initTactileWebAudio();
     initFooterYear();
     initAntigravityBackground();
     initFramerScrollReveals();
@@ -1669,6 +1671,7 @@
 
     // Cards and structural blocks below the hero that rise up with subtle scale & blur clearing
     const blockSelectors = [
+      '.github-live-telemetry-bar',
       '.project-filter-bar',
       '.skills-master-overview',
       '.values-blueprint-rail',
@@ -1910,33 +1913,31 @@
 
     function updateHeroScroll() {
       const scrollY = window.scrollY;
+      const docHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const isStackedMobile = window.innerWidth <= 1024;
 
       if (!isStackedMobile) {
+        // Keep hero 100% intact until the side navbar docks and 001% depth appears
+        const startScrollY = Math.max(90, docHeight * 0.01);
         const projectsTop = projectsSection
-          ? projectsSection.offsetTop - window.innerHeight * 0.25
+          ? projectsSection.offsetTop - window.innerHeight * 0.22
           : heroSection.offsetHeight;
-        const maxScroll = Math.max(260, projectsTop);
-        const sharedP = Math.max(0, Math.min(1, scrollY / maxScroll));
+        const fadeSpan = Math.max(260, projectsTop - startScrollY);
+        const sharedP = scrollY <= startScrollY
+          ? 0
+          : Math.max(0, Math.min(1, (scrollY - startScrollY) / fadeSpan));
         targetPLeft = sharedP;
         targetPRight = sharedP;
       } else {
-        // 1. Top Text Block (.hero-primary-block): exits cleanly before the user reaches the HUD card
-        const leftExitSpan = Math.max(150, leftBlock.offsetHeight * 0.56);
-        targetPLeft = Math.max(0, Math.min(1, (scrollY - 8) / leftExitSpan));
+        // 1. Top Text Block (.hero-primary-block): waits until 1% scroll depth before starting to exit
+        const mobileStartY = Math.max(48, docHeight * 0.01);
+        const leftExitSpan = Math.max(180, leftBlock.offsetHeight * 0.62);
+        targetPLeft = scrollY <= mobileStartY
+          ? 0
+          : Math.max(0, Math.min(1, (scrollY - mobileStartY) / leftExitSpan));
 
-        // 2. Bottom HUD Card (.hero-bench-card): stays at 0 (100% visible & full size) while user scrolls to it and reads it!
-        // Only starts shrinking & exiting once the card's untransformed top rises above 22% of the viewport height.
-        const cardDocTop = heroSection.offsetTop + rightCard.offsetTop;
-        const cardViewportTop = cardDocTop - scrollY;
-        const exitStartTop = window.innerHeight * 0.22;
-        const exitDistance = Math.max(220, rightCard.offsetHeight * 0.78);
-
-        if (cardViewportTop >= exitStartTop) {
-          targetPRight = 0;
-        } else {
-          targetPRight = Math.max(0, Math.min(1, (exitStartTop - cardViewportTop) / exitDistance));
-        }
+        // 2. Bottom HUD Card (.hero-bench-card): stays 100% intact whenever on screen in mobile viewports
+        targetPRight = 0;
       }
     }
 
@@ -3026,6 +3027,283 @@
       isPointerVisible = false;
       coreDot.style.opacity = '0';
       ring.style.opacity = '0';
+    });
+  }
+
+  /**
+   * 26. UPGRADE 7: LIVE GITHUB ACTIVITY & COMMIT TELEMETRY STRIP
+   * Fetches public profile & repository telemetry from GitHub REST API for Sarthak-Kshirsagar-2275,
+   * caches in sessionStorage to respect rate limits, updates the top bar, #projects telemetry strip,
+   * and per-card repository pills, and falls back cleanly if offline.
+   */
+  function initLiveGitHubTelemetry() {
+    const ghUser = 'Sarthak-Kshirsagar-2275';
+    const profileUrl = ['https:', '', 'github.com', ghUser].join('/');
+    const apiBase = ['https:', '', 'api.github.com'].join('/');
+
+    const stripProfileLink = document.getElementById('gh-strip-profile-link');
+    if (stripProfileLink) {
+      stripProfileLink.setAttribute('href', profileUrl);
+    }
+
+    const topReadout = document.getElementById('telemetry-gh-readout');
+    const statRepos = document.getElementById('gh-stat-repos');
+    const statLatest = document.getElementById('gh-stat-latest');
+    const statLangs = document.getElementById('gh-stat-langs');
+    const syncPill = document.getElementById('gh-sync-pill');
+    const repoPills = document.querySelectorAll('.gh-repo-commit-pill[data-gh-repo]');
+
+    function formatRelativeDays(isoDateStr) {
+      if (!isoDateStr) return 'Active';
+      const pushedMs = Date.parse(isoDateStr);
+      if (isNaN(pushedMs)) return 'Active';
+      const diffHours = Math.max(0, (Date.now() - pushedMs) / (1000 * 60 * 60));
+      if (diffHours < 1) return 'Just now';
+      if (diffHours < 24) return Math.round(diffHours) + 'h ago';
+      const diffDays = Math.round(diffHours / 24);
+      if (diffDays <= 30) return diffDays + 'd ago';
+      const pushedDate = new Date(pushedMs);
+      return pushedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    }
+
+    function applyGitHubTelemetry(data) {
+      if (!data) return;
+
+      if (typeof data.publicRepos === 'number' && data.publicRepos > 0) {
+        if (statRepos) {
+          statRepos.textContent = data.publicRepos + ' Public Repos • 20+ Builds';
+        }
+        if (topReadout) {
+          topReadout.textContent = data.publicRepos + ' Repos • Live';
+        }
+      }
+
+      if (data.latestRepoName) {
+        const relTime = formatRelativeDays(data.latestPushAt);
+        if (statLatest) {
+          statLatest.textContent = data.latestRepoName + ' (' + relTime + ')';
+        }
+      }
+
+      if (Array.isArray(data.topLanguages) && data.topLanguages.length > 0 && statLangs) {
+        statLangs.textContent = data.topLanguages.slice(0, 3).join(' • ');
+      }
+
+      if (syncPill) {
+        syncPill.textContent = 'LIVE // GITHUB API';
+      }
+
+      if (data.repoMap && repoPills.length) {
+        repoPills.forEach(function (pill) {
+          const repoKey = (pill.getAttribute('data-gh-repo') || '').toLowerCase();
+          const info = data.repoMap[repoKey];
+          if (info) {
+            const branch = info.branch || 'main';
+            const lang = info.language || 'Web';
+            const pushedLabel = formatRelativeDays(info.pushedAt);
+            pill.textContent = branch + ' • ' + lang + ' • ' + pushedLabel;
+            pill.classList.add('is-live-synced');
+          }
+        });
+      }
+    }
+
+    // Check sessionStorage cache first so refreshes don't exhaust unauthenticated GitHub API limits
+    const cacheKey = 'sk_gh_telemetry_v1';
+    try {
+      const cachedRaw = sessionStorage.getItem(cacheKey);
+      if (cachedRaw) {
+        const parsed = JSON.parse(cachedRaw);
+        if (parsed && parsed.timestamp && Date.now() - parsed.timestamp < 15 * 60 * 1000) {
+          applyGitHubTelemetry(parsed.payload);
+          return;
+        }
+      }
+    } catch (e) {}
+
+    if (typeof window.fetch !== 'function') return;
+
+    Promise.all([
+      fetch(apiBase + '/users/' + ghUser, { headers: { Accept: 'application/vnd.github.v3+json' } }).then(function (r) {
+        return r.ok ? r.json() : null;
+      }),
+      fetch(apiBase + '/users/' + ghUser + '/repos?sort=pushed&per_page=15', {
+        headers: { Accept: 'application/vnd.github.v3+json' }
+      }).then(function (r) {
+        return r.ok ? r.json() : null;
+      })
+    ])
+      .then(function (results) {
+        const userObj = results[0];
+        const reposArr = Array.isArray(results[1]) ? results[1] : [];
+        if (!userObj && !reposArr.length) return;
+
+        const langSet = [];
+        const repoMap = {};
+
+        reposArr.forEach(function (repo) {
+          if (!repo || !repo.name) return;
+          if (repo.language && langSet.indexOf(repo.language) === -1) {
+            langSet.push(repo.language);
+          }
+          repoMap[repo.name.toLowerCase()] = {
+            branch: repo.default_branch || 'main',
+            language: repo.language || 'JavaScript',
+            pushedAt: repo.pushed_at
+          };
+        });
+
+        const payload = {
+          publicRepos: userObj && typeof userObj.public_repos === 'number' ? userObj.public_repos : reposArr.length,
+          latestRepoName: reposArr[0] ? reposArr[0].name : 'My-Portfolio',
+          latestPushAt: reposArr[0] ? reposArr[0].pushed_at : null,
+          topLanguages: langSet.length ? langSet : ['JavaScript', 'Python', 'HTML/CSS'],
+          repoMap: repoMap
+        };
+
+        applyGitHubTelemetry(payload);
+
+        try {
+          sessionStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), payload: payload }));
+        } catch (e) {}
+      })
+      .catch(function () {
+        // Keep clean verified fallback text when offline
+      });
+  }
+
+  /**
+   * 27. UPGRADE 8: SUBTLE WEB AUDIO TACTILE UI TICKS (OPT-IN, MUTED BY DEFAULT)
+   * Synthesizes ultra-soft, zero-asset tactile acoustic ticks using the native browser
+   * AudioContext when the user enables the SFX toggle in the header/dock.
+   */
+  function initTactileWebAudio() {
+    const toggleBtn = document.getElementById('sound-fx-toggle');
+    const labelEl = document.getElementById('sound-fx-label');
+    if (!toggleBtn) return;
+
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+    let isSoundEnabled = false;
+    let lastHoverTickMs = 0;
+
+    function syncButtonUI() {
+      toggleBtn.classList.toggle('is-sound-on', isSoundEnabled);
+      toggleBtn.setAttribute('aria-pressed', String(isSoundEnabled));
+      if (labelEl) {
+        labelEl.textContent = isSoundEnabled ? 'SFX: ON' : 'SFX: OFF';
+      }
+    }
+
+    function ensureAudioContext() {
+      if (!AudioCtx) return null;
+      if (!audioCtx) {
+        audioCtx = new AudioCtx();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(function () {});
+      }
+      return audioCtx;
+    }
+
+    function playTone(kind) {
+      if (!isSoundEnabled) return;
+      const ctx = ensureAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+
+      if (kind === 'hover') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(660, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.016);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.015, now + 0.003);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.018);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.02);
+      } else if (kind === 'click') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(340, now);
+        osc.frequency.exponentialRampToValueAtTime(560, now + 0.028);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.032, now + 0.004);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.032);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.035);
+      } else if (kind === 'modal' || kind === 'enable') {
+        const freqs = kind === 'enable' ? [523.25, 659.25] : [440, 659.25];
+        freqs.forEach(function (f, idx) {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const start = now + idx * 0.035;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, start);
+
+          gain.gain.setValueAtTime(0.0001, start);
+          gain.gain.linearRampToValueAtTime(0.026, start + 0.008);
+          gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.095);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(start);
+          osc.stop(start + 0.1);
+        });
+      }
+    }
+
+    toggleBtn.addEventListener('click', function () {
+      isSoundEnabled = !isSoundEnabled;
+      syncButtonUI();
+      if (isSoundEnabled) {
+        playTone('enable');
+        showToast('Tactile UI audio ticks enabled');
+      } else {
+        showToast('Tactile UI audio muted');
+      }
+    });
+
+    // Subtle hover tick on interactive controls (throttled to avoid rapid chatter)
+    document.addEventListener(
+      'mouseover',
+      function (e) {
+        if (!isSoundEnabled || !e.target || typeof e.target.closest !== 'function') return;
+        const interactive = e.target.closest(
+          '.nav-anchor, .filter-tab, .skill-filter-btn, .master-skill-pill, .stack-card, .rail-node, .lusion-lab-chip, [data-hud-spec], .primary-pill-btn, .secondary-pill-btn, .project-action-link, .specs-toggle-btn'
+        );
+        if (!interactive) return;
+        const nowMs = performance.now();
+        if (nowMs - lastHoverTickMs < 65) return;
+        lastHoverTickMs = nowMs;
+        playTone('hover');
+      },
+      { passive: true }
+    );
+
+    // Tactile click/modal tone on interactive clicks
+    document.addEventListener('click', function (e) {
+      if (!isSoundEnabled || !e.target || typeof e.target.closest !== 'function') return;
+      if (e.target.closest('#sound-fx-toggle')) return;
+
+      if (
+        e.target.closest('.stack-card, .master-skill-pill, .lusion-lab-chip, .sandbox-expand-btn, #interactive-envelope-3d')
+      ) {
+        playTone('modal');
+      } else if (e.target.closest('a, button, [role="button"], [role="tab"]')) {
+        playTone('click');
+      }
     });
   }
 

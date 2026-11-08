@@ -65,6 +65,11 @@
         <span class="telemetry-label">Source:</span>
         <a href="#connect" id="telemetry-portfolio-repo-link" target="_blank" rel="noopener noreferrer" class="telemetry-repo-link" aria-label="Inspect this portfolio's public GitHub repository and commit history">My-Portfolio Repo &nearr;</a>
       </div>
+      <div class="telemetry-divider" aria-hidden="true">&bull;</div>
+      <div class="telemetry-item telemetry-gh-item" id="telemetry-gh-item">
+        <span class="telemetry-label">GitHub:</span>
+        <span class="telemetry-gh-readout" id="telemetry-gh-readout">20+ Builds &bull; Synced</span>
+      </div>
     </div>
   </aside>
 
@@ -138,6 +143,20 @@
         </div>
 
         <div class="header-actions">
+          <button type="button" class="action-btn sound-fx-btn" id="sound-fx-toggle" aria-pressed="false" aria-label="Toggle tactile UI sound effects" title="Toggle Subtle Web Audio UI Ticks (Muted by default)">
+            <svg class="btn-icon sound-icon-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+            <svg class="btn-icon sound-icon-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+            <span class="btn-text" id="sound-fx-label">SFX: OFF</span>
+          </button>
+
           <button type="button" class="action-btn copy-email-btn" id="header-copy-email" aria-label="Copy Sarthak's email address" title="Copy Email Address">
             <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -282,6 +301,32 @@
           </p>
         </div>
 
+        <!-- Live GitHub Activity & Commit Telemetry Strip (Upgrade 7) -->
+        <div class="github-live-telemetry-bar" id="github-live-telemetry-bar" aria-label="Live GitHub Repository and Commit Telemetry">
+          <div class="gh-telemetry-brand">
+            <span class="gh-live-dot" id="gh-live-dot" aria-hidden="true"></span>
+            <span class="gh-telemetry-tag">// LIVE GITHUB TELEMETRY</span>
+            <a href="#projects" id="gh-strip-profile-link" target="_blank" rel="noopener noreferrer" class="gh-strip-handle">@Sarthak-Kshirsagar-2275 &nearr;</a>
+          </div>
+
+          <div class="gh-telemetry-metrics">
+            <div class="gh-metric-pill">
+              <span class="gh-metric-key">REPOS:</span>
+              <strong class="gh-metric-val" id="gh-stat-repos">20+ Builds &bull; Public</strong>
+            </div>
+            <div class="gh-metric-pill">
+              <span class="gh-metric-key">LATEST PUSH:</span>
+              <strong class="gh-metric-val" id="gh-stat-latest">My-Portfolio &bull; Active</strong>
+            </div>
+            <div class="gh-metric-pill">
+              <span class="gh-metric-key">STACK:</span>
+              <strong class="gh-metric-val" id="gh-stat-langs">JS &bull; Python &bull; Three.js</strong>
+            </div>
+          </div>
+
+          <span class="gh-sync-pill" id="gh-sync-pill">VERIFIED // TELEMETRY</span>
+        </div>
+
         <!-- Interactive Category Quick-Filter -->
         <div class="project-filter-bar" role="tablist" aria-label="Filter projects by discipline">
           <button type="button" class="filter-tab active" role="tab" aria-selected="true" data-filter="all">All Releases (3)</button>
@@ -299,6 +344,7 @@
               <div class="card-serial">
                 <span class="serial-tag">PROJECT // 01</span>
                 <span class="status-pill status-shipped">Local Software</span>
+                <span class="gh-repo-commit-pill" data-gh-repo="LocaleIQ" title="GitHub Repository Telemetry">main &bull; Vanilla JS</span>
               </div>
               <span class="architecture-type">Frontend Architecture &bull; Dynamic Rendering</span>
             </div>
@@ -445,6 +491,7 @@
               <div class="card-serial">
                 <span class="serial-tag">PROJECT // 02</span>
                 <span class="status-pill status-shipped">Deployed</span>
+                <span class="gh-repo-commit-pill" data-gh-repo="Syllabus-Explainer" title="GitHub Repository Telemetry">main &bull; Node + Three.js</span>
               </div>
               <span class="architecture-type">Full-Stack AI &bull; Three.js 3D &bull; Editorial System</span>
             </div>
@@ -560,6 +607,7 @@
               <div class="card-serial">
                 <span class="serial-tag">PROJECT // 03</span>
                 <span class="status-pill status-shipped">Deployed</span>
+                <span class="gh-repo-commit-pill" data-gh-repo="Elanor" title="GitHub Repository Telemetry">main &bull; CSS3 Tokens</span>
               </div>
               <span class="architecture-type">Design Systems &bull; Solid Micro-Interactions &bull; Premium UI/UX</span>
             </div>

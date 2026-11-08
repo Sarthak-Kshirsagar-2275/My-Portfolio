@@ -3929,6 +3929,12 @@ body.skill-modal-open {
   .brand-signature {
     gap: 9px;
     min-width: 0;
+    flex: 1;
+  }
+
+  .brand-text {
+    min-width: 0;
+    overflow: hidden;
   }
 
   .brand-monogram {
@@ -3954,7 +3960,8 @@ body.skill-modal-open {
     flex-shrink: 0;
   }
 
-  .header-actions .copy-email-btn {
+  .header-actions .copy-email-btn,
+  .header-actions .sound-fx-btn {
     display: none; /* Keep header compact on phone viewports */
   }
 
@@ -5062,6 +5069,197 @@ body.skill-modal-open {
   .cursor-magnetic-ring.is-clicking {
     border-color: var(--status-green);
     background-color: rgba(63, 123, 73, 0.16);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16D. UPGRADE 7 & 8: LIVE GITHUB TELEMETRY STRIP & WEB AUDIO SFX TOGGLE
+   -------------------------------------------------------------------------- */
+.telemetry-gh-readout {
+  color: var(--status-green);
+  font-weight: 600;
+}
+
+/* Header & Dock Tactile Audio Toggle Button */
+.sound-fx-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  color: var(--text-muted);
+  text-shadow: 0 1px 8px rgba(251, 248, 243, 0.95);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55) inset;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.03em;
+}
+
+.sound-fx-btn .sound-icon-on {
+  display: none;
+}
+
+.sound-fx-btn.is-sound-on {
+  background: var(--accent-caramel-soft);
+  border-color: var(--accent-caramel);
+  color: var(--accent-caramel);
+}
+
+.sound-fx-btn.is-sound-on .sound-icon-off {
+  display: none;
+}
+
+.sound-fx-btn.is-sound-on .sound-icon-on {
+  display: block;
+  color: var(--status-green);
+}
+
+.sound-fx-btn:hover {
+  background: rgba(255, 255, 255, 0.26);
+  border-color: var(--accent-caramel-border);
+  color: var(--text-main);
+}
+
+/* Section 01 Live GitHub Activity & Commit Telemetry Strip */
+.github-live-telemetry-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px 18px;
+  margin-bottom: 22px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-subtle);
+}
+
+.gh-telemetry-brand {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gh-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-green);
+  box-shadow: 0 0 0 3px var(--status-green-soft);
+  animation: pulse-telemetry 2.4s infinite ease-in-out;
+}
+
+.gh-telemetry-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-caramel);
+}
+
+.gh-strip-handle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-main);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.gh-strip-handle:hover {
+  border-color: var(--accent-caramel);
+  color: var(--accent-caramel);
+  background-color: var(--bg-surface-tint);
+}
+
+.gh-telemetry-metrics {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gh-metric-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+}
+
+.gh-metric-key {
+  color: var(--text-faint);
+  font-weight: 600;
+}
+
+.gh-metric-val {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.gh-sync-pill {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 11px;
+  border-radius: var(--radius-pill);
+  background-color: var(--status-green-soft);
+  color: var(--status-green);
+  white-space: nowrap;
+}
+
+/* Per-Card Live GitHub Repo Telemetry Pill */
+.gh-repo-commit-pill {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-medium);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.gh-repo-commit-pill.is-live-synced {
+  border-color: var(--accent-caramel-border);
+  background-color: var(--bg-surface-tint);
+  color: var(--accent-caramel);
+}
+
+@media (max-width: 768px) {
+  .sound-fx-btn {
+    padding: 6px 9px;
+  }
+  .sound-fx-btn .btn-text {
+    display: none;
+  }
+  .github-live-telemetry-bar {
+    padding: 10px 12px;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .gh-telemetry-metrics {
+    width: 100%;
+    gap: 6px;
+  }
+  .gh-metric-pill {
+    font-size: 0.64rem;
+    padding: 4px 9px;
+  }
+  .gh-sync-pill {
+    display: none;
+  }
+  .gh-repo-commit-pill {
+    font-size: 0.6rem;
+    padding: 2px 7px;
   }
 }
 
