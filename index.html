@@ -53,6 +53,11 @@
         <span class="telemetry-label">Campus:</span>
         <span>Newton School of Technology</span>
       </div>
+      <div class="telemetry-divider" aria-hidden="true">&bull;</div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">Source:</span>
+        <a href="#connect" id="telemetry-portfolio-repo-link" target="_blank" rel="noopener noreferrer" class="telemetry-repo-link" aria-label="Inspect this portfolio's public GitHub repository and commit history">My-Portfolio Repo &nearr;</a>
+      </div>
     </div>
   </aside>
 
@@ -73,13 +78,13 @@
 
         <nav class="primary-nav" id="primary-nav" aria-label="Main Navigation">
           <!-- Integrated Vertical Telemetry Progress Spine (Active in Left Floating Dock Mode) -->
-          <div class="dock-telemetry-spine" id="dock-telemetry-spine" aria-hidden="true" title="Click or drag to scrub page depth">
-            <span class="spine-scale-tag">00</span>
+          <div class="dock-telemetry-spine" id="dock-telemetry-spine" role="slider" tabindex="0" aria-label="Page scroll depth progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" title="Click, drag, or use Up/Down arrows to scrub page depth">
+            <span class="spine-scale-tag" aria-hidden="true">00</span>
             <div class="spine-track" id="dock-spine-track">
               <div class="spine-fill" id="dock-spine-fill"></div>
               <span class="spine-thumb" id="dock-spine-thumb"></span>
             </div>
-            <span class="spine-scale-tag">05</span>
+            <span class="spine-scale-tag" aria-hidden="true">05</span>
           </div>
 
           <ul class="nav-list" id="nav-list" role="menubar">
@@ -190,7 +195,12 @@
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
               </svg>
               <span>GitHub Profile</span>
-              <span class="external-arrow">&nearr;</span>
+              <span class="external-arrow" aria-hidden="true">&nearr;</span>
+            </a>
+
+            <a href="#connect" id="hero-portfolio-repo-link" target="_blank" rel="noopener noreferrer" class="secondary-pill-btn repo-source-pill-btn" aria-label="View public GitHub source repository and commit history for this portfolio">
+              <span>Portfolio Source Repo</span>
+              <span class="external-arrow" aria-hidden="true">&nearr;</span>
             </a>
           </div>
         </div>
@@ -295,12 +305,19 @@
                 <div class="engineering-specs">
                   <div class="spec-label">Technical Stack &amp; Protocols:</div>
                   <ul class="spec-tag-list" aria-label="LocaleIQ technical stack">
-                    <li class="spec-tag">Vanilla JavaScript</li>
-                    <li class="spec-tag">HTML5</li>
-                    <li class="spec-tag">CSS3</li>
-                    <li class="spec-tag">Responsive Layouts</li>
-                    <li class="spec-tag">DOM Optimization</li>
+                    <li class="spec-tag">Vanilla JavaScript (ES6+)</li>
+                    <li class="spec-tag">Semantic HTML5</li>
+                    <li class="spec-tag">CSS3 Grid &amp; Clamp()</li>
+                    <li class="spec-tag">DocumentFragment Batching</li>
+                    <li class="spec-tag">Zero Dependencies</li>
                   </ul>
+                </div>
+
+                <!-- Verifiable Engineering Telemetry Strip -->
+                <div class="project-telemetry-strip" aria-label="LocaleIQ engineering specifications">
+                  <div class="telemetry-chip"><strong>0 KB</strong><span>External JS Dependencies</span></div>
+                  <div class="telemetry-chip"><strong>O(1)</strong><span>Delegated Event Routing</span></div>
+                  <div class="telemetry-chip"><strong>320px–4K</strong><span>Fluid Viewport Scaling</span></div>
                 </div>
 
                 <div class="project-link-group">
@@ -382,13 +399,19 @@
                 <div class="engineering-specs">
                   <div class="spec-label">Technical Stack &amp; Protocols:</div>
                   <ul class="spec-tag-list" aria-label="Syllabus Explainer technical stack">
-                    <li class="spec-tag">Node.js</li>
-                    <li class="spec-tag">AI API</li>
-                    <li class="spec-tag">Three.js</li>
-                    <li class="spec-tag">Express.js</li>
-                    <li class="spec-tag">WebGL Rendering</li>
-                    <li class="spec-tag">Structured Output</li>
+                    <li class="spec-tag">Node.js &amp; Express.js</li>
+                    <li class="spec-tag">AI API Synthesis</li>
+                    <li class="spec-tag">Three.js WebGL 3D</li>
+                    <li class="spec-tag">Structured JSON Schema</li>
+                    <li class="spec-tag">Editorial Design System</li>
                   </ul>
+                </div>
+
+                <!-- Verifiable Engineering Telemetry Strip -->
+                <div class="project-telemetry-strip" aria-label="Syllabus Explainer engineering specifications">
+                  <div class="telemetry-chip"><strong>Full-Stack</strong><span>Node.js + Express API</span></div>
+                  <div class="telemetry-chip"><strong>3D WebGL</strong><span>Three.js Concept Graph</span></div>
+                  <div class="telemetry-chip"><strong>Live App</strong><span>Vercel Edge Deployment</span></div>
                 </div>
 
                 <div class="project-link-group">
@@ -425,31 +448,45 @@
                 </div>
               </div>
 
-              <!-- Visual Representation / 3D Academic Canvas Mockup -->
-              <div class="card-visual-stage" aria-hidden="true">
+              <!-- Live Embedded Production Sandbox: Syllabus Explainer -->
+              <div class="card-visual-stage is-live-sandbox" data-sandbox-card="syllabus">
                 <div class="stage-frame frame-syllabus">
                   <div class="mockup-header-bar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-address">syllabus-explainer.ai/AI-core</span>
-                  </div>
-                  <div class="mockup-viewport">
-                    <div class="wire-3d-node-matrix">
-                      <div class="wire-poly-cube">
-                        <div class="cube-node node-a"></div>
-                        <div class="cube-node node-b"></div>
-                        <div class="cube-node node-c"></div>
-                        <div class="cube-edge edge-ab"></div>
-                        <div class="cube-edge edge-bc"></div>
-                      </div>
-                      <div class="wire-editorial-extract">
-                        <span class="extract-pill">AI-Engineered Concept Index</span>
-                        <div class="extract-line" style="width: 80%;"></div>
-                        <div class="extract-line" style="width: 60%;"></div>
-                      </div>
-                      <div class="stage-tag-badge">Three.js + Node.js Backend</div>
+                    <div class="mockup-dots-group" aria-hidden="true">
+                      <span class="mockup-dot"></span>
+                      <span class="mockup-dot"></span>
+                      <span class="mockup-dot"></span>
                     </div>
+                    <span class="mockup-address">syllabus-explainer.vercel.app</span>
+                    <div class="sandbox-toolbar">
+                      <button type="button" class="sandbox-tool-btn sandbox-toggle-interact" data-sandbox-target="syllabus" aria-pressed="false" title="Unlock interactive cursor inside sandbox">
+                        Interact
+                      </button>
+                      <button type="button" class="sandbox-tool-btn sandbox-reload-btn" data-sandbox-target="syllabus" aria-label="Reload Syllabus Explainer live preview" title="Reload Live Sandbox">
+                        &#8635;
+                      </button>
+                      <button type="button" class="sandbox-tool-btn sandbox-expand-btn" data-sandbox-target="syllabus" data-sandbox-title="Syllabus Explainer — Live Sandbox" aria-label="Expand Syllabus Explainer sandbox to full view" title="Expand Fullscreen Sandbox">
+                        &#10530; Expand
+                      </button>
+                    </div>
+                  </div>
+                  <div class="mockup-viewport sandbox-viewport" id="sandbox-viewport-syllabus">
+                    <div class="sandbox-scale-stage" id="sandbox-scale-syllabus">
+                      <iframe
+                        id="sandbox-iframe-syllabus"
+                        class="sandbox-live-iframe"
+                        title="Syllabus Explainer Live Interactive Sandbox"
+                        loading="lazy"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                      ></iframe>
+                    </div>
+                    <button type="button" class="sandbox-click-shield" data-sandbox-target="syllabus" aria-label="Click to interact live with Syllabus Explainer">
+                      <span class="shield-pill">
+                        <span class="shield-dot" aria-hidden="true"></span>
+                        <span>&#9654; Click Box to Interact Live</span>
+                      </span>
+                    </button>
+                    <div class="stage-tag-badge">Live Vercel Sandbox &bull; Click to Use</div>
                   </div>
                 </div>
               </div>
@@ -478,11 +515,19 @@
                 <div class="engineering-specs">
                   <div class="spec-label">Technical Stack &amp; Protocols:</div>
                   <ul class="spec-tag-list" aria-label="Elanor technical stack">
-                    <li class="spec-tag">Advanced CSS3</li>
-                    <li class="spec-tag">Frontend Focused</li>
-                    <li class="spec-tag">Yellow &amp; Black Aesthetic</li>
+                    <li class="spec-tag">Advanced CSS3 Tokens</li>
+                    <li class="spec-tag">GPU-Accelerated Motion</li>
+                    <li class="spec-tag">Cream &amp; Beige Editorial UI</li>
+                    <li class="spec-tag">WCAG AA+ Contrast</li>
                     <li class="spec-tag">Micro-Interactions</li>
                   </ul>
+                </div>
+
+                <!-- Verifiable Engineering Telemetry Strip -->
+                <div class="project-telemetry-strip" aria-label="Elanor engineering specifications">
+                  <div class="telemetry-chip"><strong>60 FPS</strong><span>GPU Transform Physics</span></div>
+                  <div class="telemetry-chip"><strong>&ge; 4.5:1</strong><span>Contrast Token System</span></div>
+                  <div class="telemetry-chip"><strong>Live App</strong><span>Netlify Production CDN</span></div>
                 </div>
 
                 <div class="project-link-group">
@@ -519,33 +564,82 @@
                 </div>
               </div>
 
-              <!-- Visual Representation / Cream Aesthetic Mockup -->
-              <div class="card-visual-stage" aria-hidden="true">
+              <!-- Live Embedded Production Sandbox: Elanor -->
+              <div class="card-visual-stage is-live-sandbox" data-sandbox-card="elanor">
                 <div class="stage-frame frame-elanor">
                   <div class="mockup-header-bar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-address">elanor.design/interactive-yellow</span>
-                  </div>
-                  <div class="mockup-viewport">
-                    <div class="wire-elanor-palette">
-                      <div class="elanor-sheet sheet-back"></div>
-                      <div class="elanor-sheet sheet-mid"></div>
-                      <div class="elanor-sheet sheet-front">
-                        <div class="elanor-pattern-grid">
-                          <span></span><span></span><span></span>
-                          <span></span><span></span><span></span>
-                        </div>
-                      </div>
-                      <div class="stage-tag-badge">Warm Editorial Palette</div>
+                    <div class="mockup-dots-group" aria-hidden="true">
+                      <span class="mockup-dot"></span>
+                      <span class="mockup-dot"></span>
+                      <span class="mockup-dot"></span>
                     </div>
+                    <span class="mockup-address">elanorofficial.netlify.app</span>
+                    <div class="sandbox-toolbar">
+                      <button type="button" class="sandbox-tool-btn sandbox-toggle-interact" data-sandbox-target="elanor" aria-pressed="false" title="Unlock interactive cursor inside sandbox">
+                        Interact
+                      </button>
+                      <button type="button" class="sandbox-tool-btn sandbox-reload-btn" data-sandbox-target="elanor" aria-label="Reload Elanor live preview" title="Reload Live Sandbox">
+                        &#8635;
+                      </button>
+                      <button type="button" class="sandbox-tool-btn sandbox-expand-btn" data-sandbox-target="elanor" data-sandbox-title="Elanor — Live Sandbox" aria-label="Expand Elanor sandbox to full view" title="Expand Fullscreen Sandbox">
+                        &#10530; Expand
+                      </button>
+                    </div>
+                  </div>
+                  <div class="mockup-viewport sandbox-viewport" id="sandbox-viewport-elanor">
+                    <div class="sandbox-scale-stage" id="sandbox-scale-elanor">
+                      <iframe
+                        id="sandbox-iframe-elanor"
+                        class="sandbox-live-iframe"
+                        title="Elanor Live Interactive Sandbox"
+                        loading="lazy"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                      ></iframe>
+                    </div>
+                    <button type="button" class="sandbox-click-shield" data-sandbox-target="elanor" aria-label="Click to interact live with Elanor">
+                      <span class="shield-pill">
+                        <span class="shield-dot" aria-hidden="true"></span>
+                        <span>&#9654; Click Box to Interact Live</span>
+                      </span>
+                    </button>
+                    <div class="stage-tag-badge">Live Netlify Sandbox &bull; Click to Use</div>
                   </div>
                 </div>
               </div>
             </div>
           </article>
 
+        </div>
+      </div>
+
+      <!-- Fullscreen Expanded Live Sandbox Modal (For Project 02 & Project 03) -->
+      <div class="sandbox-modal-overlay" id="sandbox-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sandbox-modal-title" hidden>
+        <div class="sandbox-modal-window">
+          <div class="sandbox-modal-header">
+            <div class="sandbox-modal-meta">
+              <span class="mockup-dot" aria-hidden="true"></span>
+              <span class="mockup-dot" aria-hidden="true"></span>
+              <span class="mockup-dot" aria-hidden="true"></span>
+              <strong class="sandbox-modal-title" id="sandbox-modal-title">Live Project Sandbox</strong>
+              <span class="sandbox-modal-url" id="sandbox-modal-url"></span>
+            </div>
+            <div class="sandbox-modal-actions">
+              <a href="#projects" id="sandbox-modal-external" target="_blank" rel="noopener noreferrer" class="sandbox-modal-open-tab">
+                Open in New Tab &nearr;
+              </a>
+              <button type="button" class="sandbox-modal-close" id="sandbox-modal-close" aria-label="Close expanded sandbox">
+                &times;
+              </button>
+            </div>
+          </div>
+          <div class="sandbox-modal-body">
+            <iframe
+              id="sandbox-modal-iframe"
+              class="sandbox-modal-iframe"
+              title="Expanded Live Project Sandbox"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            ></iframe>
+          </div>
         </div>
       </div>
     </section>
@@ -845,17 +939,17 @@
         </div>
 
         <!-- Interactive Blueprint Progress Rail (01 -> 06) -->
-        <div class="values-blueprint-rail" id="values-blueprint-rail" aria-hidden="true">
-          <div class="blueprint-rail-track">
+        <div class="values-blueprint-rail" id="values-blueprint-rail" role="tablist" aria-label="Jump to engineering manifesto principle">
+          <div class="blueprint-rail-track" aria-hidden="true">
             <div class="blueprint-rail-fill" id="blueprint-rail-fill"></div>
           </div>
           <div class="blueprint-rail-nodes">
-            <button type="button" class="rail-node is-active" data-node-idx="0">01 // RESPONSIVE</button>
-            <button type="button" class="rail-node" data-node-idx="1">02 // SLEEK UI/UX</button>
-            <button type="button" class="rail-node" data-node-idx="2">03 // SEMANTIC</button>
-            <button type="button" class="rail-node" data-node-idx="3">04 // REUSABLE</button>
-            <button type="button" class="rail-node" data-node-idx="4">05 // SCALABLE</button>
-            <button type="button" class="rail-node" data-node-idx="5">06 // LOW DEBT</button>
+            <button type="button" class="rail-node is-active" role="tab" aria-selected="true" data-node-idx="0">01 // RESPONSIVE</button>
+            <button type="button" class="rail-node" role="tab" aria-selected="false" data-node-idx="1">02 // SLEEK UI/UX</button>
+            <button type="button" class="rail-node" role="tab" aria-selected="false" data-node-idx="2">03 // SEMANTIC</button>
+            <button type="button" class="rail-node" role="tab" aria-selected="false" data-node-idx="3">04 // REUSABLE</button>
+            <button type="button" class="rail-node" role="tab" aria-selected="false" data-node-idx="4">05 // SCALABLE</button>
+            <button type="button" class="rail-node" role="tab" aria-selected="false" data-node-idx="5">06 // LOW DEBT</button>
           </div>
         </div>
 
@@ -1257,12 +1351,16 @@
                 </button>
               </form>
 
-              <!-- Form Confirmation Dialog Banner -->
+              <!-- Form Confirmation & Live Email Dispatch Dialog Banner -->
               <div class="form-feedback-banner" id="form-feedback-banner" role="status" aria-live="polite" hidden>
                 <div class="feedback-icon" aria-hidden="true">&checkmark;</div>
                 <div class="feedback-text-wrap">
-                  <div class="feedback-title">Message Simulated &amp; Received!</div>
-                  <div class="feedback-detail">Thank you! Sarthak will review your inquiry at <em>sarthak.v.k.2275@gmail.com</em>.</div>
+                  <div class="feedback-title" id="feedback-banner-title">3D Blueprint Packet Sealed &amp; Ready for Dispatch!</div>
+                  <div class="feedback-detail" id="feedback-banner-detail">Your formatted inquiry has been copied to your clipboard and prepared for <em>Sarthak.v.k.2275@gmail.com</em>.</div>
+                  <div class="feedback-action-row">
+                    <a href="#connect" id="feedback-mailto-link" class="feedback-mailto-btn">Open in Mail App &nearr;</a>
+                    <button type="button" id="feedback-copy-packet-btn" class="feedback-copy-btn">Copy Packet Text</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1301,6 +1399,7 @@
         <ul class="footer-nav-list">
           <li><a href="mailto:sarthak.v.k.2275@gmail.com">sarthak.v.k.2275@gmail.com</a></li>
           <li><a href="https://github.com/Sarthak-Kshirsagar-2275" target="_blank" rel="noopener noreferrer">GitHub Profile &nearr;</a></li>
+          <li><a href="#connect" id="footer-portfolio-repo-link" target="_blank" rel="noopener noreferrer">Portfolio Source Repo (GitHub) &nearr;</a></li>
           <li><a href="#overview">Back to Top &uarr;</a></li>
         </ul>
       </div>

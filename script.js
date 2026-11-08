@@ -20,6 +20,7 @@
     initProjectFilters();
     initStickyProjectStack();
     initProjectBlueprintToggles();
+    initProjectLiveSandboxes();
     initValuesFanOutAndTilt();
     initLusionSection4Stage();
     initConnectSplitCurtain();
@@ -88,6 +89,7 @@
       // Update vertical telemetry spine fill, thumb position, and 3-digit readout
       if (spineFill) spineFill.style.height = (pct * 100).toFixed(2) + '%';
       if (spineThumb) spineThumb.style.top = (pct * 100).toFixed(2) + '%';
+      if (spineContainer) spineContainer.setAttribute('aria-valuenow', String(pctNum));
       if (scrollPctEl) {
         scrollPctEl.textContent = String(pctNum).padStart(3, '0') + '%';
       }
@@ -156,6 +158,23 @@
 
       window.addEventListener('mouseup', function () {
         isScrubbing = false;
+      });
+
+      spineContainer.addEventListener('keydown', function (e) {
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+          e.preventDefault();
+          window.scrollBy({ top: window.innerHeight * 0.35, behavior: 'smooth' });
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+          e.preventDefault();
+          window.scrollBy({ top: -window.innerHeight * 0.35, behavior: 'smooth' });
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          window.scrollTo({ top: maxScroll, behavior: 'smooth' });
+        }
       });
     }
   }
@@ -334,11 +353,17 @@
    * Interactive utility with graceful fallback
    */
   function initEmailClipboard() {
+    const repoUrl = ['https:', '', 'github.com', 'Sarthak-Kshirsagar-2275', 'My-Portfolio'].join('/');
+    ['telemetry-portfolio-repo-link', 'hero-portfolio-repo-link', 'footer-portfolio-repo-link'].forEach(function (id) {
+      const linkEl = document.getElementById(id);
+      if (linkEl) linkEl.setAttribute('href', repoUrl);
+    });
+
     const copyBtns = [
       document.getElementById('header-copy-email'),
       document.getElementById('inline-copy-email')
     ];
-    const emailToCopy = 'sarthak.v.k.2275@gmail.com';
+    const emailToCopy = 'Sarthak.v.k.2275@gmail.com';
 
     copyBtns.forEach(function (btn) {
       if (!btn) return;
@@ -728,7 +753,7 @@
   }
 
   /**
-   * 09. PROJECT TECHNICAL BLUEPRINT TOGGLES
+   * 09. PROJECT TECHNICAL BLUEPRINT TOGGLES & LIVE IN-CARD SANDBOXES
    */
   function initProjectBlueprintToggles() {
     const toggleButtons = document.querySelectorAll('.specs-toggle-btn');
@@ -758,6 +783,168 @@
           }
         }
       });
+    });
+  }
+
+  /**
+   * 09B. LIVE EMBEDDED PRODUCTION SANDBOXES (SYLLABUS EXPLAINER & ELANOR)
+   * Embeds live deployed web apps inside the right-hand browser box of Project 02 and Project 03,
+   * scales the 1280px virtual desktop proportionally to fit the card box, and supports click-to-interact,
+   * reload, and fullscreen modal expansion.
+   */
+  function initProjectLiveSandboxes() {
+    const sandboxUrls = {
+      syllabus: ['https:', '', 'syllabus-explainer.vercel.app', ''].join('/'),
+      elanor: ['https:', '', 'elanorofficial.netlify.app', ''].join('/')
+    };
+
+    const projectsSection = document.getElementById('projects');
+    const modalOverlay = document.getElementById('sandbox-modal-overlay');
+    const modalIframe = document.getElementById('sandbox-modal-iframe');
+    const modalTitle = document.getElementById('sandbox-modal-title');
+    const modalUrl = document.getElementById('sandbox-modal-url');
+    const modalExternal = document.getElementById('sandbox-modal-external');
+    const modalClose = document.getElementById('sandbox-modal-close');
+
+    let iframesHydrated = false;
+
+    function hydrateSandboxIframes() {
+      if (iframesHydrated) return;
+      iframesHydrated = true;
+      Object.keys(sandboxUrls).forEach(function (key) {
+        const iframe = document.getElementById('sandbox-iframe-' + key);
+        if (iframe && !iframe.getAttribute('src')) {
+          iframe.setAttribute('src', sandboxUrls[key]);
+        }
+      });
+    }
+
+    // Hydrate iframes when #projects approaches the viewport so initial page load stays fast
+    if (projectsSection && 'IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              hydrateSandboxIframes();
+              obs.disconnect();
+            }
+          });
+        },
+        { root: null, rootMargin: '500px 0px 500px 0px', threshold: 0.01 }
+      );
+      obs.observe(projectsSection);
+    } else {
+      hydrateSandboxIframes();
+    }
+
+    function updateSandboxScales() {
+      Object.keys(sandboxUrls).forEach(function (key) {
+        const viewport = document.getElementById('sandbox-viewport-' + key);
+        const scaleStage = document.getElementById('sandbox-scale-' + key);
+        if (!viewport || !scaleStage) return;
+        const vw = viewport.clientWidth || 420;
+        const vh = viewport.clientHeight || 270;
+        const scaleX = vw / 1280;
+        const scaleY = vh / 820;
+        const scale = Math.max(0.18, Math.min(1, Math.max(scaleX, scaleY)));
+        scaleStage.style.setProperty('--sandbox-scale', scale.toFixed(4));
+      });
+    }
+
+    window.addEventListener('resize', updateSandboxScales);
+    setTimeout(updateSandboxScales, 60);
+    updateSandboxScales();
+
+    function setSandboxInteracting(key, active) {
+      const stageCard = document.querySelector('[data-sandbox-card="' + key + '"]');
+      const toggleBtn = document.querySelector('.sandbox-toggle-interact[data-sandbox-target="' + key + '"]');
+      if (!stageCard) return;
+
+      hydrateSandboxIframes();
+      stageCard.classList.toggle('is-interacting', active);
+      if (toggleBtn) {
+        toggleBtn.classList.toggle('is-active', active);
+        toggleBtn.setAttribute('aria-pressed', String(active));
+        toggleBtn.textContent = active ? 'Lock Scroll' : 'Interact';
+      }
+    }
+
+    // Unlock interaction when clicking the shield overlay on the right-hand box
+    document.querySelectorAll('.sandbox-click-shield').forEach(function (shield) {
+      shield.addEventListener('click', function () {
+        const key = shield.getAttribute('data-sandbox-target');
+        setSandboxInteracting(key, true);
+      });
+    });
+
+    // Toggle Interact / Lock Scroll button in the mockup top bar
+    document.querySelectorAll('.sandbox-toggle-interact').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const key = btn.getAttribute('data-sandbox-target');
+        const stageCard = document.querySelector('[data-sandbox-card="' + key + '"]');
+        const isCurrentlyActive = stageCard && stageCard.classList.contains('is-interacting');
+        setSandboxInteracting(key, !isCurrentlyActive);
+      });
+    });
+
+    // Auto-lock scroll when cursor leaves the sandbox card so page scrolling is never trapped
+    document.querySelectorAll('.card-visual-stage.is-live-sandbox').forEach(function (stageCard) {
+      stageCard.addEventListener('mouseleave', function () {
+        const key = stageCard.getAttribute('data-sandbox-card');
+        if (key && stageCard.classList.contains('is-interacting')) {
+          setSandboxInteracting(key, false);
+        }
+      });
+    });
+
+    // Reload button in mockup top bar
+    document.querySelectorAll('.sandbox-reload-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const key = btn.getAttribute('data-sandbox-target');
+        const iframe = document.getElementById('sandbox-iframe-' + key);
+        if (iframe && sandboxUrls[key]) {
+          iframe.setAttribute('src', sandboxUrls[key]);
+        }
+      });
+    });
+
+    // Expand Fullscreen Sandbox Modal
+    document.querySelectorAll('.sandbox-expand-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const key = btn.getAttribute('data-sandbox-target');
+        const title = btn.getAttribute('data-sandbox-title') || 'Live Project Sandbox';
+        const url = sandboxUrls[key];
+        if (!modalOverlay || !modalIframe || !url) return;
+
+        if (modalTitle) modalTitle.textContent = title;
+        if (modalUrl) modalUrl.textContent = url;
+        if (modalExternal) modalExternal.setAttribute('href', url);
+        modalIframe.setAttribute('src', url);
+        modalOverlay.removeAttribute('hidden');
+        document.body.classList.add('skill-modal-open');
+        if (modalClose) modalClose.focus();
+      });
+    });
+
+    function closeSandboxModal() {
+      if (!modalOverlay || modalOverlay.hasAttribute('hidden')) return;
+      modalOverlay.setAttribute('hidden', '');
+      if (modalIframe) modalIframe.setAttribute('src', 'about:blank');
+      document.body.classList.remove('skill-modal-open');
+    }
+
+    if (modalClose) {
+      modalClose.addEventListener('click', closeSandboxModal);
+    }
+    if (modalOverlay) {
+      modalOverlay.addEventListener('click', function (e) {
+        if (e.target === modalOverlay) closeSandboxModal();
+      });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modalOverlay && !modalOverlay.hasAttribute('hidden')) {
+        closeSandboxModal();
+      }
     });
   }
 
@@ -971,9 +1158,40 @@
         }
       }, 520);
 
-      // Step 3: Reveal Green Tick Confirmation Banner & reset
+      // Step 3: Build real mailto dispatch & copy formatted packet to clipboard
+      const senderName = nameInput.value.trim();
+      const senderEmail = emailInput.value.trim();
+      const selectedTopic = topicInput && topicInput.options[topicInput.selectedIndex]
+        ? topicInput.options[topicInput.selectedIndex].textContent.trim()
+        : 'Web Application';
+      const senderMsg = messageInput.value.trim();
+      const targetEmail = 'Sarthak.v.k.2275@gmail.com';
+      const subjectLine = '[' + selectedTopic + '] Inquiry from ' + senderName;
+      const packetText =
+        'From: ' + senderName + ' <' + senderEmail + '>\n' +
+        'Scope: ' + selectedTopic + '\n\n' +
+        senderMsg;
+      const mailtoHref =
+        'mailto:' + targetEmail +
+        '?subject=' + encodeURIComponent(subjectLine) +
+        '&body=' + encodeURIComponent(packetText);
+
+      const mailtoBtn = document.getElementById('feedback-mailto-link');
+      const copyPacketBtn = document.getElementById('feedback-copy-packet-btn');
+      if (mailtoBtn) {
+        mailtoBtn.setAttribute('href', mailtoHref);
+      }
+      if (copyPacketBtn) {
+        copyPacketBtn.onclick = function () {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(packetText);
+          }
+          showToast('Formatted inquiry packet copied to clipboard!');
+        };
+      }
+
       setTimeout(function () {
-        submitBtn.innerHTML = '<span>Message Dispatched ✓</span>';
+        submitBtn.innerHTML = '<span>Packet Sealed &amp; Ready ✓</span>';
         if (feedbackBanner) {
           feedbackBanner.removeAttribute('hidden');
           feedbackBanner.classList.add('is-visible');
@@ -982,9 +1200,13 @@
           formSurfaceCard.classList.remove('is-dispatching');
         }
 
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(packetText).catch(function () {});
+        }
+
         // Reset inputs
         form.reset();
-        showToast('3D Packet sealed & transmitted! Sarthak will follow up soon.');
+        showToast('Packet sealed! Click "Open in Mail App" or paste from clipboard.');
 
         setTimeout(function () {
           submitBtn.innerHTML = originalBtnHTML;
@@ -1003,13 +1225,54 @@
   }
 
   /**
-   * 11. FOOTER DYNAMIC YEAR
+   * 11. FOOTER DYNAMIC YEAR & VIEWPORT-GATED RAF HELPER
    */
   function initFooterYear() {
     const yearEl = document.getElementById('current-year');
     if (yearEl) {
       yearEl.textContent = new Date().getFullYear();
     }
+  }
+
+  function startVisibilityGatedLoop(targetElement, stepCallback, rootMargin) {
+    let isNearViewport = true;
+    let isTabVisible = !document.hidden;
+    let rafId = null;
+
+    function tick() {
+      if (!isNearViewport || !isTabVisible) {
+        rafId = null;
+        return;
+      }
+      stepCallback();
+      rafId = window.requestAnimationFrame(tick);
+    }
+
+    function ensureRunning() {
+      if (isNearViewport && isTabVisible && rafId === null) {
+        rafId = window.requestAnimationFrame(tick);
+      }
+    }
+
+    if (targetElement && 'IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            isNearViewport = entry.isIntersecting;
+            ensureRunning();
+          });
+        },
+        { root: null, rootMargin: rootMargin || '240px 0px 240px 0px', threshold: 0 }
+      );
+      obs.observe(targetElement);
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      isTabVisible = !document.hidden;
+      ensureRunning();
+    });
+
+    ensureRunning();
   }
 
   /**
@@ -1500,10 +1763,9 @@
         cards[i].style.setProperty('--skill-card-scale', scale.toFixed(4));
         cards[i].style.setProperty('--skill-card-opacity', opacity.toFixed(4));
       }
-      window.requestAnimationFrame(animateSkillScale);
     }
 
-    window.requestAnimationFrame(animateSkillScale);
+    startVisibilityGatedLoop(matrix, animateSkillScale);
   }
 
   /**
@@ -1675,11 +1937,9 @@
         rightCard.style.opacity = rightOpacity.toFixed(3);
         rightCard.style.filter = 'blur(' + (Math.max(0, pR - 0.35) * 5).toFixed(2) + 'px)';
       }
-
-      window.requestAnimationFrame(renderHeroExit);
     }
 
-    window.requestAnimationFrame(renderHeroExit);
+    startVisibilityGatedLoop(heroSection, renderHeroExit, '400px 0px 400px 0px');
   }
 
   /**
@@ -1882,11 +2142,9 @@
           pCtx.restore();
         }
       }
-
-      window.requestAnimationFrame(animateStage);
     }
 
-    window.requestAnimationFrame(animateStage);
+    startVisibilityGatedLoop(section, animateStage);
   }
 
   /**
@@ -1990,11 +2248,9 @@
         railFill.style.width = ((activeCount / 6) * 100).toFixed(2) + '%';
       }
       railNodes.forEach(function (n, idx) {
-        if (hoveredCardIdx >= 0) {
-          n.classList.toggle('is-active', idx === hoveredCardIdx);
-        } else {
-          n.classList.toggle('is-active', idx < activeCount);
-        }
+        const isActive = hoveredCardIdx >= 0 ? idx === hoveredCardIdx : idx < activeCount;
+        n.classList.toggle('is-active', isActive);
+        n.setAttribute('aria-selected', String(isActive));
       });
     }
 
@@ -2023,10 +2279,9 @@
       }
 
       syncRailHighlight();
-      window.requestAnimationFrame(animateValuesDeck);
     }
 
-    window.requestAnimationFrame(animateValuesDeck);
+    startVisibilityGatedLoop(section, animateValuesDeck);
   }
 
   /**
@@ -2061,10 +2316,9 @@
         const floatY = isContainerHovered ? 0 : Math.sin(waveTime + i * 0.55) * 3.2;
         pill.style.setProperty('--pill-float-y', floatY.toFixed(2) + 'px');
       }
-      window.requestAnimationFrame(animatePillWave);
     }
 
-    window.requestAnimationFrame(animatePillWave);
+    startVisibilityGatedLoop(container, animatePillWave);
   }
 
   /**
@@ -2149,11 +2403,9 @@
         else ctx.lineTo(x, y);
       }
       ctx.stroke();
-
-      window.requestAnimationFrame(renderWaveform);
     }
 
-    window.requestAnimationFrame(renderWaveform);
+    startVisibilityGatedLoop(canvas, renderWaveform);
   }
 
   /**
@@ -2232,11 +2484,9 @@
         item.el.style.setProperty('--char-scale', item.scale.toFixed(3));
         item.el.style.setProperty('--char-rot', item.rot.toFixed(2) + 'deg');
       }
-
-      window.requestAnimationFrame(animateKineticChars);
     }
 
-    window.requestAnimationFrame(animateKineticChars);
+    startVisibilityGatedLoop(stage, animateKineticChars);
   }
 
   /**
@@ -2387,10 +2637,9 @@
     function animateCurtain() {
       currentSplit += (targetSplit - currentSplit) * 0.13;
       connectSection.style.setProperty('--curtain-split', currentSplit.toFixed(4));
-      window.requestAnimationFrame(animateCurtain);
     }
 
-    window.requestAnimationFrame(animateCurtain);
+    startVisibilityGatedLoop(connectSection, animateCurtain);
   }
 
 })();
