@@ -2032,7 +2032,41 @@
     let pCtx = null;
     let pW = 0;
     let pH = 0;
+    let portalMouseX = -9999;
+    let portalMouseY = -9999;
     const shards = [];
+
+    // Wire interactive lab chips inside Section 04 window to launch the 3D Skill Domain Popup
+    section.querySelectorAll('.lusion-lab-chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        const cardId = chip.getAttribute('data-open-skill-card');
+        const skillName = chip.getAttribute('data-skill-highlight');
+        const targetCard = cardId ? document.getElementById(cardId) : null;
+        if (targetCard && typeof openSkillPopupForCard === 'function') {
+          openSkillPopupForCard(targetCard, skillName);
+        }
+      });
+    });
+
+    // Radial cursor spotlight tracking on Section 04 sub-cards and stat pills
+    section.querySelectorAll('.lusion-sub-card, .lusion-stat-pill').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--spot-x', (e.clientX - rect.left).toFixed(1) + 'px');
+        card.style.setProperty('--spot-y', (e.clientY - rect.top).toFixed(1) + 'px');
+      });
+    });
+
+    expandingWindow.addEventListener('mousemove', function (e) {
+      const rect = expandingWindow.getBoundingClientRect();
+      portalMouseX = e.clientX - rect.left;
+      portalMouseY = e.clientY - rect.top;
+    });
+
+    expandingWindow.addEventListener('mouseleave', function () {
+      portalMouseX = -9999;
+      portalMouseY = -9999;
+    });
 
     if (portalCanvas) {
       pCtx = portalCanvas.getContext('2d');
@@ -2051,8 +2085,10 @@
           angle: (Math.PI * 2 * i) / 42,
           radius: 28 + (i % 7) * 26,
           speed: 0.008 + (i % 5) * 0.003,
-          size: 4 + (i % 4) * 4.5,
-          hue: i % 2 === 0 ? 'rgba(212, 155, 106, 0.36)' : 'rgba(63, 123, 73, 0.30)'
+          size: 3.5 + (i % 4) * 3.8,
+          x: 0,
+          y: 0,
+          hue: i % 2 === 0 ? 'rgba(212, 155, 106, 0.42)' : 'rgba(63, 123, 73, 0.34)'
         });
       }
     }
@@ -2161,11 +2197,23 @@
           const s = shards[i];
           s.angle += s.speed;
           const rad = s.radius + p * 65;
-          const sx = cx + Math.cos(s.angle) * rad * 1.35;
-          const sy = cy + Math.sin(s.angle) * rad * 0.72;
+          s.x = cx + Math.cos(s.angle) * rad * 1.35;
+          s.y = cy + Math.sin(s.angle) * rad * 0.72;
+
+          // Subtle cursor attraction inside portal window
+          if (portalMouseX > 0) {
+            const dx = portalMouseX - s.x;
+            const dy = portalMouseY - s.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 180 && dist > 1) {
+              const pull = (1 - dist / 180) * 18;
+              s.x += (dx / dist) * pull;
+              s.y += (dy / dist) * pull;
+            }
+          }
 
           pCtx.save();
-          pCtx.translate(sx, sy);
+          pCtx.translate(s.x, s.y);
           pCtx.rotate(s.angle * 1.8);
           pCtx.fillStyle = s.hue;
           pCtx.beginPath();
@@ -2176,6 +2224,24 @@
           pCtx.closePath();
           pCtx.fill();
           pCtx.restore();
+        }
+
+        // Draw delicate golden constellation lines between nearby shards
+        for (let i = 0; i < shards.length; i++) {
+          for (let j = i + 1; j < shards.length; j++) {
+            const dx = shards[i].x - shards[j].x;
+            const dy = shards[i].y - shards[j].y;
+            const dSq = dx * dx + dy * dy;
+            if (dSq < 95 * 95) {
+              const alpha = (1 - Math.sqrt(dSq) / 95) * 0.16;
+              pCtx.strokeStyle = 'rgba(212, 155, 106, ' + alpha.toFixed(3) + ')';
+              pCtx.lineWidth = 1;
+              pCtx.beginPath();
+              pCtx.moveTo(shards[i].x, shards[i].y);
+              pCtx.lineTo(shards[j].x, shards[j].y);
+              pCtx.stroke();
+            }
+          }
         }
       }
     }
