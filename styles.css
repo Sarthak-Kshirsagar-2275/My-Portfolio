@@ -4693,6 +4693,379 @@ body.skill-modal-open {
 }
 
 /* --------------------------------------------------------------------------
+   16B. UPGRADE 1: LOCALEIQ ARCHITECTURAL BENTO VISUAL (NON-INTERACTIVE)
+   -------------------------------------------------------------------------- */
+.localeiq-architecture-stage {
+  pointer-events: none;
+  user-select: none;
+}
+
+.frame-localeiq .mockup-header-bar {
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+}
+
+.frame-localeiq .mockup-address {
+  margin-left: 4px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.localeiq-mode-pill {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background-color: var(--accent-caramel-soft);
+  border: 1px solid var(--accent-caramel-border);
+  color: var(--accent-caramel);
+  white-space: nowrap;
+}
+
+.localeiq-bento-viewport {
+  padding: 16px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(145deg, #f9f4eb 0%, #efe6d5 100%);
+}
+
+.localeiq-pipeline-flow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.liq-pipe-node {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.liq-pipe-node-accent {
+  background-color: #fffaf2;
+  border-color: var(--accent-caramel-border);
+  box-shadow: 0 4px 14px rgba(168, 108, 59, 0.09);
+}
+
+.liq-pipe-step {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent-caramel);
+}
+
+.liq-pipe-node strong {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.liq-pipe-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+
+.liq-pipe-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-caramel);
+  flex-shrink: 0;
+}
+
+.localeiq-bento-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.localeiq-table-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.liq-table-head {
+  display: grid;
+  grid-template-columns: 1.5fr 0.7fr 0.8fr;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.liq-table-row {
+  display: grid;
+  grid-template-columns: 1.5fr 0.7fr 0.8fr;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  padding: 3px 0;
+  border-bottom: 1px dashed rgba(222, 212, 195, 0.55);
+}
+
+.liq-table-row:last-child {
+  border-bottom: none;
+}
+
+.liq-locale-code {
+  color: var(--text-main);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.liq-render-ms {
+  color: var(--accent-caramel);
+  font-weight: 600;
+}
+
+.liq-state-badge {
+  justify-self: end;
+  font-size: 0.56rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+}
+
+.liq-state-badge.is-synced {
+  background-color: var(--status-green-soft);
+  color: var(--status-green);
+}
+
+.liq-state-badge.is-cached {
+  background-color: var(--accent-caramel-soft);
+  color: var(--accent-caramel);
+}
+
+.localeiq-metrics-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.liq-mini-stat {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.liq-stat-val {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent-caramel);
+}
+
+.liq-stat-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+
+.localeiq-footer-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 11px;
+  border-radius: var(--radius-sm);
+  background-color: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--border-medium);
+}
+
+.liq-footer-spec {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-body);
+  font-weight: 500;
+}
+
+.liq-footer-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--status-green);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .frame-localeiq .mockup-dots-group {
+    display: none;
+  }
+  .localeiq-mode-pill {
+    font-size: 0.56rem;
+    padding: 2px 7px;
+  }
+  .localeiq-bento-viewport {
+    padding: 10px !important;
+    gap: 8px;
+  }
+  .liq-pipe-node {
+    padding: 6px 7px;
+  }
+  .liq-pipe-node strong {
+    font-size: 0.68rem;
+  }
+  .liq-pipe-sub {
+    display: none;
+  }
+  .localeiq-bento-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .localeiq-metrics-stack {
+    flex-direction: row;
+  }
+  .localeiq-footer-bar {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16C. UPGRADE 3: CONTEXTUAL MAGNETIC CURSOR RING (DESKTOP POINTER ONLY)
+   -------------------------------------------------------------------------- */
+.custom-cursor-layer {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-layer.is-desktop-ready {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 10005;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .cursor-core-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background-color: var(--accent-caramel);
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+  }
+
+  .cursor-magnetic-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 34px;
+    height: 34px;
+    margin-left: -17px;
+    margin-top: -17px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(168, 108, 59, 0.52);
+    background-color: rgba(168, 108, 59, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    will-change: transform, width, height, margin, background-color, border-color, opacity;
+    transition:
+      width 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+      height 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+      margin 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.22s ease,
+      border-color 0.22s ease,
+      opacity 0.22s ease;
+  }
+
+  .cursor-ring-label {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #fbf8f3;
+    opacity: 0;
+    transform: scale(0.8);
+    white-space: nowrap;
+    transition: opacity 0.18s ease, transform 0.2s ease;
+  }
+
+  /* Subtle tighten when hovering standard links & buttons */
+  .cursor-magnetic-ring.is-link-hover {
+    width: 44px;
+    height: 44px;
+    margin-left: -22px;
+    margin-top: -22px;
+    border-color: var(--accent-caramel);
+    background-color: rgba(168, 108, 59, 0.11);
+  }
+
+  /* Expanded pill badge when hovering contextual targets (Sandbox, Skill Cards, 3D Envelope, Spine) */
+  .cursor-magnetic-ring.is-labeled-badge {
+    width: 78px;
+    height: 28px;
+    margin-left: -39px;
+    margin-top: -14px;
+    background-color: rgba(37, 30, 24, 0.92);
+    border-color: rgba(212, 155, 106, 0.78);
+    box-shadow: 0 8px 22px rgba(37, 30, 24, 0.22);
+  }
+
+  .cursor-magnetic-ring.is-labeled-badge .cursor-ring-label {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Click pulse feedback */
+  .cursor-magnetic-ring.is-clicking {
+    border-color: var(--status-green);
+    background-color: rgba(63, 123, 73, 0.16);
+  }
+}
+
+/* --------------------------------------------------------------------------
    17. ACCESSIBILITY & PREFERS-REDUCED-MOTION
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {

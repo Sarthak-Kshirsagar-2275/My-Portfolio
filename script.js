@@ -30,6 +30,7 @@
     initContactSignalWaveform();
     initKineticFooterWordmark();
     initGlobalMagneticAndSpotlight();
+    initContextualMagneticCursor();
     initFooterYear();
     initAntigravityBackground();
     initFramerScrollReveals();
@@ -2904,6 +2905,128 @@
       scriptEl.textContent = JSON.stringify(schemaObj);
       document.head.appendChild(scriptEl);
     }
+  }
+
+  /**
+   * 25. UPGRADE 3: CONTEXTUAL MAGNETIC CURSOR RING (DESKTOP POINTER ONLY)
+   * Tracks pointer on fine-pointer desktop screens with a zero-lag core dot and spring-damped
+   * trailing caramel ring that morphs into contextual badges ('SANDBOX', 'INSPECT', '3D FLAP', 'SCRUB').
+   */
+  function initContextualMagneticCursor() {
+    const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!isFinePointer || prefersReducedMotion) return;
+
+    const layer = document.getElementById('custom-cursor-layer');
+    const coreDot = document.getElementById('cursor-core-dot');
+    const ring = document.getElementById('cursor-magnetic-ring');
+    const ringLabel = document.getElementById('cursor-ring-label');
+    if (!layer || !coreDot || !ring || !ringLabel) return;
+
+    layer.classList.add('is-desktop-ready');
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+    let isPointerVisible = false;
+    let isInsideIframeZone = false;
+    let rafId = null;
+
+    function updateCursorFrame() {
+      ringX += (mouseX - ringX) * 0.22;
+      ringY += (mouseY - ringY) * 0.22;
+
+      coreDot.style.transform = 'translate3d(' + mouseX.toFixed(1) + 'px, ' + mouseY.toFixed(1) + 'px, 0)';
+      ring.style.transform = 'translate3d(' + ringX.toFixed(1) + 'px, ' + ringY.toFixed(1) + 'px, 0)';
+
+      if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
+        rafId = window.requestAnimationFrame(updateCursorFrame);
+      } else {
+        rafId = null;
+      }
+    }
+
+    function detectContextLabel(target) {
+      if (!target || typeof target.closest !== 'function') return '';
+      if (target.closest('.card-visual-stage.is-live-sandbox.is-interacting')) {
+        return '__HIDE__';
+      }
+      if (target.closest('.sandbox-click-shield, .sandbox-expand-btn')) {
+        return 'SANDBOX';
+      }
+      if (target.closest('.stack-card, .master-skill-pill, .lusion-lab-chip')) {
+        return 'INSPECT';
+      }
+      if (target.closest('#interactive-envelope-3d')) {
+        return '3D FLAP';
+      }
+      if (target.closest('#dock-telemetry-spine')) {
+        return 'SCRUB';
+      }
+      if (target.closest('[data-hud-spec]')) {
+        return 'SPEC HUD';
+      }
+      return '';
+    }
+
+    window.addEventListener(
+      'mousemove',
+      function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!isPointerVisible) {
+          isPointerVisible = true;
+          ringX = mouseX;
+          ringY = mouseY;
+        }
+
+        const label = detectContextLabel(e.target);
+        if (label === '__HIDE__') {
+          isInsideIframeZone = true;
+          coreDot.style.opacity = '0';
+          ring.style.opacity = '0';
+        } else {
+          isInsideIframeZone = false;
+          coreDot.style.opacity = '0.9';
+          ring.style.opacity = '1';
+
+          if (label) {
+            ringLabel.textContent = label;
+            ring.classList.add('is-labeled-badge');
+            ring.classList.remove('is-link-hover');
+          } else {
+            ring.classList.remove('is-labeled-badge');
+            const isInteractive =
+              e.target &&
+              typeof e.target.closest === 'function' &&
+              e.target.closest('a, button, input, select, textarea, [role="button"]');
+            ring.classList.toggle('is-link-hover', Boolean(isInteractive));
+          }
+        }
+
+        if (!rafId) {
+          rafId = window.requestAnimationFrame(updateCursorFrame);
+        }
+      },
+      { passive: true }
+    );
+
+    window.addEventListener('mousedown', function () {
+      if (!isInsideIframeZone) {
+        ring.classList.add('is-clicking');
+      }
+    });
+
+    window.addEventListener('mouseup', function () {
+      ring.classList.remove('is-clicking');
+    });
+
+    document.addEventListener('mouseleave', function () {
+      isPointerVisible = false;
+      coreDot.style.opacity = '0';
+      ring.style.opacity = '0';
+    });
   }
 
 })();

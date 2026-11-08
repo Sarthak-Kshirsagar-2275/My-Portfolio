@@ -357,29 +357,81 @@
                 </div>
               </div>
 
-              <!-- Visual Representation / UI Architecture Mockup -->
-              <div class="card-visual-stage" aria-hidden="true">
+              <!-- Non-Interactive Architectural Bento Showcase: LocaleIQ -->
+              <div class="card-visual-stage localeiq-architecture-stage" aria-hidden="true">
                 <div class="stage-frame frame-localeiq">
                   <div class="mockup-header-bar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-address">localeiq.internal/render-engine</span>
+                    <div class="mockup-dots-group">
+                      <span class="mockup-dot"></span>
+                      <span class="mockup-dot"></span>
+                      <span class="mockup-dot"></span>
+                    </div>
+                    <span class="mockup-address">localeiq.local // document-fragment-engine</span>
+                    <span class="localeiq-mode-pill">LOCAL BUILD &bull; 0.4ms COMMIT</span>
                   </div>
-                  <div class="mockup-viewport">
-                    <div class="wire-grid-container">
-                      <div class="wire-metric-strip">
-                        <div class="wire-bar" style="width: 78%;"></div>
-                        <div class="wire-bar" style="width: 45%;"></div>
-                        <div class="wire-bar" style="width: 92%;"></div>
+                  <div class="mockup-viewport localeiq-bento-viewport">
+                    <!-- 3-Stage Rendering Pipeline Strip -->
+                    <div class="localeiq-pipeline-flow">
+                      <div class="liq-pipe-node">
+                        <span class="liq-pipe-step">01 // STATE</span>
+                        <strong>Indexed Store</strong>
+                        <span class="liq-pipe-sub">O(1) Key Lookup</span>
                       </div>
-                      <div class="wire-table-preview">
-                        <div class="wire-row wire-row-head"></div>
-                        <div class="wire-row"></div>
-                        <div class="wire-row"></div>
-                        <div class="wire-row"></div>
+                      <span class="liq-pipe-arrow">&rarr;</span>
+                      <div class="liq-pipe-node liq-pipe-node-accent">
+                        <span class="liq-pipe-step">02 // BATCH</span>
+                        <strong>DocumentFragment</strong>
+                        <span class="liq-pipe-sub">Off-DOM Assembly</span>
                       </div>
-                      <div class="stage-tag-badge">Zero-Lag Dynamic Tables</div>
+                      <span class="liq-pipe-arrow">&rarr;</span>
+                      <div class="liq-pipe-node">
+                        <span class="liq-pipe-step">03 // PAINT</span>
+                        <strong>Single Reflow</strong>
+                        <span class="liq-pipe-sub">60 FPS Commit</span>
+                      </div>
+                    </div>
+
+                    <!-- Bento Split: Simulated Locale Data Table + Benchmark Stack -->
+                    <div class="localeiq-bento-grid">
+                      <div class="localeiq-table-card">
+                        <div class="liq-table-head">
+                          <span>LOCALE // STREAM</span>
+                          <span>RENDER</span>
+                          <span>STATE</span>
+                        </div>
+                        <div class="liq-table-row">
+                          <span class="liq-locale-code">en-IN / core-ui</span>
+                          <span class="liq-render-ms">0.38ms</span>
+                          <span class="liq-state-badge is-synced">SYNCED</span>
+                        </div>
+                        <div class="liq-table-row">
+                          <span class="liq-locale-code">en-US / grid-clamp</span>
+                          <span class="liq-render-ms">0.41ms</span>
+                          <span class="liq-state-badge is-cached">BATCHED</span>
+                        </div>
+                        <div class="liq-table-row">
+                          <span class="liq-locale-code">hi-IN / utf8-nodes</span>
+                          <span class="liq-render-ms">0.35ms</span>
+                          <span class="liq-state-badge is-synced">READY</span>
+                        </div>
+                      </div>
+
+                      <div class="localeiq-metrics-stack">
+                        <div class="liq-mini-stat">
+                          <span class="liq-stat-val">0 KB</span>
+                          <span class="liq-stat-lbl">External Runtime</span>
+                        </div>
+                        <div class="liq-mini-stat">
+                          <span class="liq-stat-val">100%</span>
+                          <span class="liq-stat-lbl">Offline-First Local</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Bottom Architecture Spec Bar -->
+                    <div class="localeiq-footer-bar">
+                      <span class="liq-footer-spec">CSS Grid + clamp() Fluid Breakpoints (320px &rarr; 4K)</span>
+                      <span class="liq-footer-tag">Zero-Lag Dynamic Tables</span>
                     </div>
                   </div>
                 </div>
@@ -1428,6 +1480,14 @@
       </div>
     </div>
   </footer>
+
+  <!-- Contextual Magnetic Cursor Ring (Desktop Pointer Only) -->
+  <div class="custom-cursor-layer" id="custom-cursor-layer" aria-hidden="true">
+    <div class="cursor-core-dot" id="cursor-core-dot"></div>
+    <div class="cursor-magnetic-ring" id="cursor-magnetic-ring">
+      <span class="cursor-ring-label" id="cursor-ring-label"></span>
+    </div>
+  </div>
 
   <!-- Floating Toast Notification Element -->
   <div class="floating-toast" id="floating-toast" role="status" aria-live="polite" aria-hidden="true">
