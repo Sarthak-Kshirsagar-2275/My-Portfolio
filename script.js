@@ -7,11 +7,13 @@
   document.addEventListener('DOMContentLoaded', initializePortfolio);
 
   function initializePortfolio() {
+    initHeadFaviconAndSchema();
     initLiveClock();
     initHeaderScroll();
     initMobileNavigation();
     initScrollSpy();
     initEmailClipboard();
+    initHeroHudInteractivity();
     initHeroScrollExit();
     initSkillRollupPopup();
     initSkillCardsScrollScale();
@@ -75,6 +77,7 @@
     const spineThumb = document.getElementById('dock-spine-thumb');
     const scrollPctEl = document.getElementById('dock-scroll-pct');
     const spineContainer = document.getElementById('dock-telemetry-spine');
+    const topLaserFill = document.getElementById('top-laser-fill');
 
     if (!header) return;
 
@@ -86,7 +89,8 @@
       const pct = Math.max(0, Math.min(1, scrollY / docHeight));
       const pctNum = Math.round(pct * 100);
 
-      // Update vertical telemetry spine fill, thumb position, and 3-digit readout
+      // Update top-edge laser bar and vertical telemetry spine fill, thumb position, and 3-digit readout
+      if (topLaserFill) topLaserFill.style.width = (pct * 100).toFixed(2) + '%';
       if (spineFill) spineFill.style.height = (pct * 100).toFixed(2) + '%';
       if (spineThumb) spineThumb.style.top = (pct * 100).toFixed(2) + '%';
       if (spineContainer) spineContainer.setAttribute('aria-valuenow', String(pctNum));
@@ -312,6 +316,19 @@
       anchor.addEventListener('mouseleave', function () {
         hoveredAnchor = null;
         measureTargetAnchor();
+      });
+      anchor.addEventListener('click', function () {
+        const secId = anchor.getAttribute('data-section');
+        const targetSec = secId ? document.getElementById(secId) : null;
+        const eyebrow = targetSec ? targetSec.querySelector('.section-eyebrow') : null;
+        if (eyebrow) {
+          eyebrow.classList.remove('is-section-arriving');
+          void eyebrow.offsetWidth;
+          eyebrow.classList.add('is-section-arriving');
+          setTimeout(function () {
+            eyebrow.classList.remove('is-section-arriving');
+          }, 1150);
+        }
       });
     });
 
@@ -2742,6 +2759,151 @@
     }
 
     startVisibilityGatedLoop(connectSection, animateCurtain);
+  }
+
+  /**
+   * 23. UPGRADE 2: HERO SPECIFICATION HUD COUNTERS & INTERACTIVE TELEMETRY READOUT
+   * Smoothly counts up the 20+ and 5+ metrics on load, tracks radial cursor spotlight on
+   * .hero-bench-card, and updates the bottom telemetry readout when hovering/focusing any spec row.
+   */
+  function initHeroHudInteractivity() {
+    const hudCard = document.getElementById('hero-bench-card') || document.querySelector('.hero-bench-card');
+    if (!hudCard) return;
+
+    // Radial cursor spotlight tracking on .hero-bench-card
+    hudCard.addEventListener('mousemove', function (e) {
+      const rect = hudCard.getBoundingClientRect();
+      hudCard.style.setProperty('--spot-x', (e.clientX - rect.left).toFixed(1) + 'px');
+      hudCard.style.setProperty('--spot-y', (e.clientY - rect.top).toFixed(1) + 'px');
+    });
+
+    // Live Number Counter Animation (0 -> 20 and 0 -> 5)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const countEls = hudCard.querySelectorAll('.metric-count-val[data-count-target]');
+    if (!prefersReducedMotion && countEls.length) {
+      countEls.forEach(function (el) {
+        const targetVal = parseInt(el.getAttribute('data-count-target'), 10) || 0;
+        const duration = 1150;
+        const startTime = performance.now();
+        el.textContent = '0';
+
+        function stepCount(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(1, elapsed / duration);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = String(Math.round(eased * targetVal));
+          if (progress < 1) {
+            window.requestAnimationFrame(stepCount);
+          } else {
+            el.textContent = String(targetVal);
+          }
+        }
+        window.requestAnimationFrame(stepCount);
+      });
+    }
+
+    // Interactive Spec Row & Metric Cell Telemetry Readout
+    const calloutBox = document.getElementById('bench-callout-box');
+    const calloutTag = document.getElementById('bench-callout-tag');
+    const calloutText = document.getElementById('bench-callout-text');
+    const defaultTag = 'TELEMETRY // HOVER OR TAP ANY SPEC';
+    const defaultText =
+      'Committed to zero framework bloat when vanilla browser APIs deliver superior performance and lower maintenance.';
+
+    const interactiveItems = hudCard.querySelectorAll('[data-hud-spec]');
+    interactiveItems.forEach(function (item) {
+      function activateSpec() {
+        interactiveItems.forEach(function (el) {
+          el.classList.toggle('is-spec-active', el === item);
+        });
+        if (calloutBox) calloutBox.classList.add('is-active-spec');
+        if (calloutTag) {
+          calloutTag.textContent = item.getAttribute('data-hud-tag') || defaultTag;
+        }
+        if (calloutText) {
+          calloutText.textContent = item.getAttribute('data-hud-spec') || defaultText;
+        }
+      }
+
+      function resetSpec() {
+        item.classList.remove('is-spec-active');
+        if (calloutBox) calloutBox.classList.remove('is-active-spec');
+        if (calloutTag) calloutTag.textContent = defaultTag;
+        if (calloutText) calloutText.textContent = defaultText;
+      }
+
+      item.addEventListener('mouseenter', activateSpec);
+      item.addEventListener('focus', activateSpec);
+      item.addEventListener('click', activateSpec);
+      item.addEventListener('mouseleave', resetSpec);
+      item.addEventListener('blur', resetSpec);
+    });
+  }
+
+  /**
+   * 24. UPGRADE 6: CUSTOM SVG 'SK' MONOGRAM FAVICON & STRUCTURED JSON-LD SCHEMA
+   * Sets a crisp warm-editorial SK monogram SVG favicon and injects Person + SoftwareSourceCode
+   * structured data into <head> for search engines and automated portfolio evaluators.
+   */
+  function initHeadFaviconAndSchema() {
+    const faviconLink = document.getElementById('dynamic-svg-favicon');
+    if (faviconLink) {
+      const svgMarkup =
+        '<svg viewBox="0 0 64 64" width="64" height="64">' +
+        '<rect width="64" height="64" rx="16" fill="#251e18"/>' +
+        '<rect x="3" y="3" width="58" height="58" rx="13" fill="none" stroke="#a86c3b" stroke-width="2.5"/>' +
+        '<text x="31" y="41" text-anchor="middle" font-family="monospace" font-weight="700" font-size="24" fill="#fbf8f3">SK</text>' +
+        '<circle cx="51" cy="14" r="5" fill="#3f7b49" stroke="#fbf8f3" stroke-width="1.5"/>' +
+        '</svg>';
+      faviconLink.setAttribute('href', 'data:image/svg+xml;utf8,' + encodeURIComponent(svgMarkup));
+    }
+
+    if (!document.getElementById('portfolio-jsonld-schema')) {
+      const proto = ['https:', ''].join('/');
+      const schemaObj = {
+        '@context': proto + '/schema.org',
+        '@graph': [
+          {
+            '@type': 'Person',
+            name: 'Sarthak Kshirsagar',
+            jobTitle: 'CS & AI/ML Undergraduate & Frontend Engineer',
+            email: 'mailto:Sarthak.v.k.2275@gmail.com',
+            affiliation: {
+              '@type': 'CollegeOrUniversity',
+              name: 'Newton School of Technology'
+            },
+            sameAs: [
+              proto + '/github.com/Sarthak-Kshirsagar-2275',
+              proto + '/github.com/Sarthak-Kshirsagar-2275/My-Portfolio'
+            ],
+            knowsAbout: [
+              'HTML5',
+              'CSS3',
+              'Vanilla JavaScript',
+              'Next.js',
+              'Three.js',
+              'Node.js',
+              'Express.js',
+              'Python',
+              'PyTorch',
+              'OpenCV',
+              'Remote Photoplethysmography (rPPG)'
+            ]
+          },
+          {
+            '@type': 'SoftwareSourceCode',
+            name: 'Sarthak Kshirsagar Portfolio',
+            programmingLanguage: ['HTML5', 'CSS3', 'JavaScript'],
+            codeRepository: proto + '/github.com/Sarthak-Kshirsagar-2275/My-Portfolio'
+          }
+        ]
+      };
+      const scriptEl = document.createElement('script');
+      scriptEl.id = 'portfolio-jsonld-schema';
+      scriptEl.type = 'application/ld+json';
+      scriptEl.textContent = JSON.stringify(schemaObj);
+      document.head.appendChild(scriptEl);
+    }
   }
 
 })();

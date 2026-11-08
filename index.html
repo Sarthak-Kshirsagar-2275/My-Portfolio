@@ -22,10 +22,17 @@
     href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
     rel="stylesheet">
 
+  <meta name="theme-color" content="#fbf8f3">
+  <link rel="icon" id="dynamic-svg-favicon" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+  <!-- Top-Edge Caramel-to-Sage Laser Scroll Progress Bar -->
+  <div class="top-laser-progress" id="top-laser-progress" aria-hidden="true">
+    <div class="top-laser-fill" id="top-laser-fill"></div>
+  </div>
+
   <!-- Subtle Anti-Gravity Spatial Physics Background Layer -->
   <div class="ambient-stage" aria-hidden="true">
     <canvas id="ambient-bg-canvas" class="ambient-bg-canvas"></canvas>
@@ -206,47 +213,50 @@
         </div>
 
         <!-- Right Column: Interactive Benchmark / HUD Card -->
-        <aside class="hero-bench-card" aria-label="Engineering Metrics and Specializations">
+        <aside class="hero-bench-card" id="hero-bench-card" aria-label="Engineering Metrics and Specializations">
           <div class="bench-card-header">
             <span class="bench-index">// SPECIFICATION HUD</span>
             <span class="bench-live-badge">Specialized Track Record</span>
           </div>
 
           <div class="metrics-grid">
-            <div class="metric-cell">
-              <span class="metric-number">20<span class="metric-accent">+</span></span>
+            <div class="metric-cell" tabindex="0" data-hud-tag="20+ BUILDS // VERIFIED" data-hud-spec="20+ full-featured web builds engineered from scratch with semantic HTML5, responsive CSS Grid/Clamp, and zero-dependency Vanilla ES6+.">
+              <span class="metric-number"><span class="metric-count-val" data-count-target="20">20</span><span class="metric-accent">+</span></span>
               <span class="metric-caption">Functional Websites Engineered</span>
             </div>
-            <div class="metric-cell">
-              <span class="metric-number">5<span class="metric-accent">+</span></span>
+            <div class="metric-cell" tabindex="0" data-hud-tag="5+ SHIPPED // LIVE CDN" data-hud-spec="5+ production deployments live on Vercel &amp; Netlify CDNs with real-world users, sub-second cold starts, and 95+ Lighthouse scores.">
+              <span class="metric-number"><span class="metric-count-val" data-count-target="5">5</span><span class="metric-accent">+</span></span>
               <span class="metric-caption">Successfully Shipped to Production</span>
             </div>
           </div>
 
           <div class="bench-data-list">
-            <div class="bench-data-row">
+            <div class="bench-data-row" tabindex="0" data-hud-tag="DEGREE // CS &amp; AI/ML" data-hud-spec="Pursuing B.Tech in Computer Science &amp; AI/ML (2025–2029) with intensive coursework in Data Structures, Linear Algebra, and Neural Networks.">
               <span class="data-key">Undergrad Degree</span>
               <span class="data-value">B.Tech in CS &amp; AI/ML (Year 1)</span>
             </div>
-            <div class="bench-data-row">
+            <div class="bench-data-row" tabindex="0" data-hud-tag="CAMPUS // NST INDIA" data-hud-spec="Industry-embedded undergraduate engineering program at Newton School of Technology focused on shipping production software from Year 1.">
               <span class="data-key">Institution</span>
               <span class="data-value">Newton School of Technology</span>
             </div>
-            <div class="bench-data-row">
+            <div class="bench-data-row" tabindex="0" data-hud-tag="CORE // FULL-SPECTRUM" data-hud-spec="Bridges 60fps Vanilla DOM systems, Three.js WebGL 3D scenes, contactless rPPG/CHROM computer vision, and structured LLM API synthesis.">
               <span class="data-key">Core Strengths</span>
               <span class="data-value">Fast Web &bull; 3D &bull; rPPG / Vision &bull; LLMs</span>
             </div>
-            <div class="bench-data-row">
+            <div class="bench-data-row" tabindex="0" data-hud-tag="MEDIUM // 0 KB BLOAT" data-hud-spec="Zero external framework bloat—crafted with semantic HTML5 landmarks, tokenized CSS3 custom properties, and modular ES6+ IIFE engines.">
               <span class="data-key">Primary Medium</span>
               <span class="data-value">Vanilla Web (HTML &bull; CSS &bull; JS)</span>
             </div>
           </div>
 
-          <div class="bench-callout">
-            <div class="callout-icon" aria-hidden="true">&checkmark;</div>
-            <p class="callout-text">
-              Committed to zero framework bloat when vanilla browser APIs deliver superior performance and lower maintenance.
-            </p>
+          <div class="bench-callout" id="bench-callout-box">
+            <div class="callout-icon" id="bench-callout-icon" aria-hidden="true">&checkmark;</div>
+            <div class="callout-body-wrap">
+              <span class="callout-telemetry-tag" id="bench-callout-tag">TELEMETRY // HOVER OR TAP ANY SPEC</span>
+              <p class="callout-text" id="bench-callout-text">
+                Committed to zero framework bloat when vanilla browser APIs deliver superior performance and lower maintenance.
+              </p>
+            </div>
           </div>
         </aside>
 
