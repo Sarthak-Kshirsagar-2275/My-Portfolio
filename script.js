@@ -1,9 +1,7 @@
 
-
 (function () {
   'use strict';
 
-  // Wait for complete DOM readiness
   document.addEventListener('DOMContentLoaded', initializePortfolio);
 
   function initializePortfolio() {
@@ -38,9 +36,6 @@
     initFramerScrollReveals();
   }
 
-  /**
-   * 01. LIVE CLOCK (IST)
-   */
   function initLiveClock() {
     const clockElement = document.getElementById('live-clock');
     if (!clockElement) return;
@@ -66,11 +61,6 @@
     setInterval(renderTime, 1000);
   }
 
-  /**
-   * 02. MORPHING LEFT FLOATING DOCK & VERTICAL TELEMETRY PROGRESS SPINE
-   * Detaches the top header into a left-side vertical floating dock on scroll,
-   * updates the live telemetry progress spine (000%-100%), and supports click/drag scrubbing.
-   */
   let syncLiquidIndicator = null;
 
   function initHeaderScroll() {
@@ -92,7 +82,6 @@
       const pct = Math.max(0, Math.min(1, scrollY / docHeight));
       const pctNum = Math.round(pct * 100);
 
-      // Update top-edge laser bar and vertical telemetry spine fill, thumb position, and 3-digit readout
       if (topLaserFill) topLaserFill.style.width = (pct * 100).toFixed(2) + '%';
       if (spineFill) spineFill.style.height = (pct * 100).toFixed(2) + '%';
       if (spineThumb) spineThumb.style.top = (pct * 100).toFixed(2) + '%';
@@ -138,7 +127,6 @@
     });
     updateDockAndTelemetry();
 
-    // Interactive Click & Drag Scrubbing on the Vertical Telemetry Spine
     if (spineContainer && spineTrack) {
       let isScrubbing = false;
 
@@ -186,10 +174,6 @@
     }
   }
 
-  /**
-   * 03. MOBILE NAVIGATION ACCORDION
-   * Clean accessible overlay menu with outside-click collapse
-   */
   function initMobileNavigation() {
     const trigger = document.getElementById('mobile-menu-trigger');
     const nav = document.getElementById('primary-nav');
@@ -230,10 +214,6 @@
     });
   }
 
-  /**
-   * 04. SCROLL SPY & SPRING-PHYSICS LIQUID DOCK INDICATOR
-   * Tracks active section and glides the liquid highlight pill smoothly across horizontal & vertical dock modes
-   */
   function initScrollSpy() {
     const navList = document.getElementById('nav-list');
     const indicator = document.getElementById('nav-liquid-indicator');
@@ -244,7 +224,6 @@
     let activeAnchor = navAnchors[0];
     let hoveredAnchor = null;
 
-    // Spring state for the liquid sliding indicator
     const spring = {
       x: 0,
       y: 0,
@@ -368,10 +347,6 @@
     window.requestAnimationFrame(animateLiquidPill);
   }
 
-  /**
-   * 05. COPY EMAIL TO CLIPBOARD WITH TOAST FEEDBACK
-   * Interactive utility with graceful fallback
-   */
   function initEmailClipboard() {
     const repoUrl = ['https:', '', 'github.com', 'Sarthak-Kshirsagar-2275', 'My-Portfolio'].join('/');
     ['telemetry-portfolio-repo-link', 'hero-portfolio-repo-link', 'footer-portfolio-repo-link'].forEach(function (id) {
@@ -442,9 +417,6 @@
     }, 3200);
   }
 
-  /**
-   * 06. 3D ROLL-UP SPINNING SKILL POPUP MODAL
-   */
   let openSkillPopupForCard = null;
   let openAllSkillsRollupPopup = null;
 
@@ -457,7 +429,6 @@
 
     if (!overlay || !popupCard || !popupContent || !closeBtn) return;
 
-    // Ensure popup is hidden by default on page load
     overlay.setAttribute('hidden', '');
     overlay.classList.remove('is-active', 'is-opening', 'is-closing');
 
@@ -619,20 +590,17 @@
       });
     });
 
-    // Close via top-right cross (×) button
     closeBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       closePopup();
     });
 
-    // Close when clicking outside the popup card on the backdrop
     overlay.addEventListener('click', function (e) {
       if (e.target === overlay) {
         closePopup();
       }
     });
 
-    // Close on Escape key and trap Tab focus inside the popup layer
     document.addEventListener('keydown', function (e) {
       if (overlay.hasAttribute('hidden')) return;
 
@@ -661,10 +629,6 @@
     });
   }
 
-  /**
-   * 07. MASTER SKILL DIRECTORY & DOMAIN FILTERING
-   * Lets visitors filter by domain or click any of the 23 skill pills to spin open its card popup
-   */
   function initSkillMasterDirectory() {
     const filterBtns = document.querySelectorAll('.skill-filter-btn');
     const pillsGrid = document.querySelector('.skills-all-pills-grid');
@@ -732,10 +696,6 @@
     });
   }
 
-  /**
-   * 08. PROJECT CATEGORY QUICK FILTER
-   * Filters projects by engineering domain with fluid opacity transition
-   */
   function initProjectFilters() {
     const filterTabs = document.querySelectorAll('.filter-tab');
     const projectCards = document.querySelectorAll('.exhibition-card');
@@ -772,9 +732,6 @@
     });
   }
 
-  /**
-   * 09. PROJECT TECHNICAL BLUEPRINT TOGGLES & LIVE IN-CARD SANDBOXES
-   */
   function initProjectBlueprintToggles() {
     const toggleButtons = document.querySelectorAll('.specs-toggle-btn');
 
@@ -806,12 +763,6 @@
     });
   }
 
-  /**
-   * 09B. LIVE EMBEDDED PRODUCTION SANDBOXES (SYLLABUS EXPLAINER & ELANOR)
-   * Embeds live deployed web apps inside the right-hand browser box of Project 02 and Project 03,
-   * scales the 1280px virtual desktop proportionally to fit the card box, and supports click-to-interact,
-   * reload, and fullscreen modal expansion.
-   */
   function initProjectLiveSandboxes() {
     const sandboxUrls = {
       syllabus: ['https:', '', 'syllabus-explainer.vercel.app', ''].join('/'),
@@ -839,7 +790,6 @@
       });
     }
 
-    // Hydrate iframes when #projects approaches the viewport so initial page load stays fast
     if (projectsSection && 'IntersectionObserver' in window) {
       const obs = new IntersectionObserver(
         function (entries) {
@@ -897,7 +847,6 @@
       }
     }
 
-    // Unlock interaction when clicking the shield overlay on the right-hand box
     document.querySelectorAll('.sandbox-click-shield').forEach(function (shield) {
       shield.addEventListener('click', function () {
         const key = shield.getAttribute('data-sandbox-target');
@@ -905,7 +854,6 @@
       });
     });
 
-    // Toggle Interact / Lock Scroll button in the mockup top bar
     document.querySelectorAll('.sandbox-toggle-interact').forEach(function (btn) {
       btn.addEventListener('click', function () {
         const key = btn.getAttribute('data-sandbox-target');
@@ -915,7 +863,6 @@
       });
     });
 
-    // Auto-lock scroll when cursor leaves the sandbox card so page scrolling is never trapped
     document.querySelectorAll('.card-visual-stage.is-live-sandbox').forEach(function (stageCard) {
       stageCard.addEventListener('mouseleave', function () {
         const key = stageCard.getAttribute('data-sandbox-card');
@@ -925,7 +872,6 @@
       });
     });
 
-    // Reload button in mockup top bar
     document.querySelectorAll('.sandbox-reload-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         const key = btn.getAttribute('data-sandbox-target');
@@ -936,7 +882,6 @@
       });
     });
 
-    // Expand Fullscreen Sandbox Modal
     document.querySelectorAll('.sandbox-expand-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         const key = btn.getAttribute('data-sandbox-target');
@@ -976,11 +921,6 @@
     });
   }
 
-  /**
-   * 10. DIRECT CONTACT FORM CONSOLE & INTERACTIVE 3D ENVELOPE DISPATCH
-   * Live-binds form inputs to the 3D envelope letter sheet, tilts the 3D envelope with cursor movement,
-   * folds & seals the 3D envelope on valid submission, and reveals the green tick banner after dispatch.
-   */
   function initContactFormConsole() {
     const form = document.getElementById('portfolio-contact-form');
     if (!form) return;
@@ -993,7 +933,6 @@
     const feedbackBanner = document.getElementById('form-feedback-banner');
     const formSurfaceCard = form.closest('.form-surface-card');
 
-    // Interactive 3D Envelope Elements
     const envelopeStage = document.getElementById('envelope-3d-stage');
     const envelope3D = document.getElementById('interactive-envelope-3d');
     const envStateText = document.getElementById('envelope-stage-state');
@@ -1006,7 +945,6 @@
     const errEmail = document.getElementById('error-email');
     const errMessage = document.getElementById('error-message');
 
-    // Explicitly ensure the green tick confirmation is hidden on initial load
     if (feedbackBanner) {
       feedbackBanner.classList.remove('is-visible');
       feedbackBanner.setAttribute('hidden', '');
@@ -1017,7 +955,6 @@
       return re.test(String(email).toLowerCase());
     }
 
-    // Sync live form typing onto the 3D Envelope's letter sheet
     function syncEnvelopePreview() {
       if (envName && nameInput) {
         envName.textContent = nameInput.value.trim() || 'Awaiting Sender...';
@@ -1042,8 +979,6 @@
       }
     }
 
-    // Allow clicking/pressing Enter on the 3D envelope to toggle its flap open/closed
-    // On mobile/stacked screens (<= 1024px), clicking the envelope smoothly scrolls down to the form console
     if (envelope3D) {
       envelope3D.addEventListener('click', function () {
         if (envelope3D.classList.contains('is-sealing') || envelope3D.classList.contains('is-launching')) return;
@@ -1082,7 +1017,6 @@
       });
     }
 
-    // 3D Perspective Tilt on the Envelope Stage when moving cursor
     if (envelopeStage && envelope3D) {
       envelopeStage.addEventListener('mousemove', function (e) {
         const rect = envelopeStage.getBoundingClientRect();
@@ -1098,7 +1032,6 @@
       });
     }
 
-    // Clear individual errors on input, update 3D envelope letter, and hide previous submission banner
     [nameInput, emailInput, messageInput, topicInput].forEach(function (input) {
       if (!input) return;
       input.addEventListener('input', function () {
@@ -1116,7 +1049,6 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      // Hide confirmation banner during validation / re-submission
       if (feedbackBanner) {
         feedbackBanner.classList.remove('is-visible');
         feedbackBanner.setAttribute('hidden', '');
@@ -1124,7 +1056,6 @@
 
       let isValid = true;
 
-      // Validate Name
       if (!nameInput.value.trim()) {
         errName.textContent = 'Please provide your name or organization.';
         isValid = false;
@@ -1135,7 +1066,6 @@
         errName.textContent = '';
       }
 
-      // Validate Email
       if (!emailInput.value.trim()) {
         errEmail.textContent = 'An email address is required for follow-up.';
         isValid = false;
@@ -1146,7 +1076,6 @@
         errEmail.textContent = '';
       }
 
-      // Validate Message
       if (!messageInput.value.trim()) {
         errMessage.textContent = 'Please enter a brief project overview or message.';
         isValid = false;
@@ -1159,7 +1088,6 @@
 
       if (!isValid) return;
 
-      // Step 1: Fold letter into 3D envelope & stamp SK wax seal shut
       const originalBtnHTML = submitBtn.innerHTML;
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span>Sealing 3D Packet...</span>';
@@ -1175,7 +1103,6 @@
         formSurfaceCard.classList.add('is-dispatching');
       }
 
-      // Step 2: Launch the sealed 3D envelope into space
       setTimeout(function () {
         submitBtn.innerHTML = '<span>Launching Packet...</span>';
         if (envelope3D) {
@@ -1186,7 +1113,6 @@
         }
       }, 520);
 
-      // Step 3: Build real mailto dispatch & copy formatted packet to clipboard
       const senderName = nameInput.value.trim();
       const senderEmail = emailInput.value.trim();
       const selectedTopic = topicInput && topicInput.options[topicInput.selectedIndex]
@@ -1232,7 +1158,6 @@
           navigator.clipboard.writeText(packetText).catch(function () {});
         }
 
-        // Reset inputs
         form.reset();
         showToast('Packet sealed! Click "Open in Mail App" or paste from clipboard.');
 
@@ -1252,9 +1177,6 @@
     });
   }
 
-  /**
-   * 11. FOOTER DYNAMIC YEAR & VIEWPORT-GATED RAF HELPER
-   */
   function initFooterYear() {
     const yearEl = document.getElementById('current-year');
     if (yearEl) {
@@ -1303,11 +1225,6 @@
     ensureRunning();
   }
 
-  /**
-   * 12. ANTI-GRAVITY INSPIRED SPATIAL PHYSICS BACKGROUND CANVAS
-   * Richer, darker weightless geometric primitives + HTML, CSS, JS, and Python tech badges
-   * with zero-gravity upward drift, scroll-velocity inertia, and damped spring cursor repulsion.
-   */
   function initAntigravityBackground() {
     const canvas = document.getElementById('ambient-bg-canvas');
     if (!canvas) return;
@@ -1322,16 +1239,14 @@
     let height = 0;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    // Darker, richer warm editorial & tech palette so shapes are clearly visible
     const palette = [
-      { stroke: 'rgba(118, 62, 22, 0.46)', fill: 'rgba(168, 108, 59, 0.12)' }, // Deep Caramel
-      { stroke: 'rgba(54, 42, 30, 0.42)',  fill: 'rgba(54, 42, 30, 0.09)' },   // Dark Espresso
-      { stroke: 'rgba(42, 94, 52, 0.44)',  fill: 'rgba(63, 123, 73, 0.11)' },  // Forest Sage
-      { stroke: 'rgba(136, 68, 28, 0.45)', fill: 'rgba(140, 82, 48, 0.11)' },  // Rich Terracotta
-      { stroke: 'rgba(78, 60, 44, 0.40)',  fill: 'rgba(102, 91, 76, 0.09)' }   // Warm Bronze
+      { stroke: 'rgba(118, 62, 22, 0.46)', fill: 'rgba(168, 108, 59, 0.12)' },
+      { stroke: 'rgba(54, 42, 30, 0.42)',  fill: 'rgba(54, 42, 30, 0.09)' },
+      { stroke: 'rgba(42, 94, 52, 0.44)',  fill: 'rgba(63, 123, 73, 0.11)' },
+      { stroke: 'rgba(136, 68, 28, 0.45)', fill: 'rgba(140, 82, 48, 0.11)' },
+      { stroke: 'rgba(78, 60, 44, 0.40)',  fill: 'rgba(102, 91, 76, 0.09)' }
     ];
 
-    // Kept all existing shapes + added HTML, CSS, JS, Python, code glyphs, hexagons & triangles
     const shapes = [
       'ring',
       'pill',
@@ -1371,7 +1286,7 @@
 
     function createParticles() {
       particles.length = 0;
-      // Increased density so floating geometric & tech shapes populate the screen richly
+
       const count = Math.max(48, Math.min(86, Math.floor((width * height) / 16500)));
 
       for (let i = 0; i < count; i++) {
@@ -1390,16 +1305,16 @@
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          // Spring offset displacement (Framer-Motion spring state)
+
           ox: 0,
           oy: 0,
           vx: 0,
           vy: 0,
-          // Natural weightless anti-gravity upward drift
+
           driftX: (Math.random() - 0.5) * 0.32,
           driftY: -(0.22 + Math.random() * 0.46),
           size: size,
-          // Keep tech badges mostly upright with gentle tilt oscillation
+
           angle: isTechBadge ? (Math.random() - 0.5) * 0.35 : Math.random() * Math.PI * 2,
           spinSpeed: isTechBadge ? (Math.random() - 0.5) * 0.0025 : (Math.random() - 0.5) * 0.009,
           isTechBadge: isTechBadge,
@@ -1485,7 +1400,6 @@
     function renderFrame() {
       ctx.clearRect(0, 0, width, height);
 
-      // Decay scroll impulse smoothly
       scrollVelocity *= 0.92;
 
       const interactionRadius = 165;
@@ -1495,7 +1409,6 @@
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // Weightless upward anti-gravity motion + subtle scroll parallax
         p.x += p.driftX * p.depth;
         p.y += p.driftY * p.depth - scrollVelocity * p.depth * 0.48;
 
@@ -1508,14 +1421,12 @@
           p.angle += p.spinSpeed;
         }
 
-        // Wrap seamlessly around viewport edges
         const margin = 48;
         if (p.y < -margin) p.y = height + margin;
         if (p.y > height + margin) p.y = -margin;
         if (p.x < -margin) p.x = width + margin;
         if (p.x > width + margin) p.x = -margin;
 
-        // Cursor anti-gravity repulsion force
         const renderX = p.x + p.ox;
         const renderY = p.y + p.oy;
         const dx = renderX - pointer.x;
@@ -1532,7 +1443,6 @@
           }
         }
 
-        // Spring physics restoring offset back to (0, 0)
         p.vx += -p.ox * springStiffness;
         p.vy += -p.oy * springStiffness;
         p.vx *= springDamping;
@@ -1543,7 +1453,6 @@
         const finalX = p.x + p.ox;
         const finalY = p.y + p.oy;
 
-        // Draw visible constellation lines between nearby floating elements
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const nx = finalX - (p2.x + p2.ox);
@@ -1648,17 +1557,9 @@
     window.requestAnimationFrame(renderFrame);
   }
 
-  /**
-   * 13. FRAMER-MOTION STYLE SCROLL REVEAL ENGINE
-   * Sections, headings, paragraphs, and cards below the hero start hidden below their resting position
-   * and smoothly rise up into view with staggered spring timing as the user scrolls down.
-   * (Note: Hero #overview elements, .stack-card, and .value-block use dedicated 60fps scroll physics engines
-   * and must not have .fm-reveal / .fm-text-rise CSS transitions attached.)
-   */
   function initFramerScrollReveals() {
     if (!('IntersectionObserver' in window)) return;
 
-    // Text elements below the hero that rise up cleanly
     const textSelectors = [
       '.section-eyebrow',
       '.section-title',
@@ -1669,7 +1570,6 @@
       '.footer-col-links'
     ];
 
-    // Cards and structural blocks below the hero that rise up with subtle scale & blur clearing
     const blockSelectors = [
       '.github-live-telemetry-bar',
       '.project-filter-bar',
@@ -1697,7 +1597,6 @@
       });
     });
 
-    // Assign stagger delays to sibling items inside grids/containers below the hero
     const staggerContainers = document.querySelectorAll(
       '.lusion-sub-sections-grid, .connect-split-layout, .footer-container'
     );
@@ -1713,7 +1612,7 @@
           if (entry.isIntersecting) {
             entry.target.classList.add('is-inview');
           } else if (entry.boundingClientRect.top > 0) {
-            // Reset elements below the viewport so scrolling back down replays the upward rise
+
             entry.target.classList.remove('is-inview');
           }
         });
@@ -1730,12 +1629,6 @@
     });
   }
 
-  /**
-   * 13B. SKILL CARDS 10%-TO-100% SCROLL-LINKED GROWTH ENGINE
-   * Starts the 4 skill cards at 10% scale (0.10) and smoothly grows them to 100% (1.00)
-   * as the user scrolls down through the Technical Stack section, without affecting
-   * their click-to-roll-up center popup functionality.
-   */
   function initSkillCardsScrollScale() {
     const matrix = document.querySelector('.skills-card-matrix');
     const cards = Array.from(document.querySelectorAll('.stack-card'));
@@ -1764,10 +1657,9 @@
           cardStates[idx].target = 1;
           return;
         }
-        // Unscaled top position of the card relative to the viewport
+
         const unscaledTop = matrixRect.top + card.offsetTop;
-        // On mobile (single column), complete growth higher in the lower viewport (72% viewH)
-        // so cards are already 100% width when in the reading zone
+
         const startY = isMobile ? viewH * 0.98 : viewH * 0.96;
         const endY = isMobile ? viewH * 0.72 : viewH * 0.50;
         const rawProgress = (startY - unscaledTop) / Math.max(1, startY - endY);
@@ -1785,7 +1677,6 @@
         state.current += (state.target - state.current) * 0.14;
         const p = state.current;
 
-        // Smoothly grow from 10% (0.10) to 100% (1.00)
         const scale = 0.10 + p * 0.90;
         const opacity = 0.20 + p * 0.80;
 
@@ -1797,11 +1688,6 @@
     startVisibilityGatedLoop(matrix, animateSkillScale);
   }
 
-  /**
-   * 14. STICKY STACKING PROJECT CARDS SCROLL ENGINE
-   * Dynamically adjusts sticky top offset when a card is taller than the viewport (e.g., on mobile)
-   * so the user can always scroll to see the bottom sandbox of each card before the next card stacks over it.
-   */
   function initStickyProjectStack() {
     const cards = Array.from(document.querySelectorAll('.exhibition-card'));
     if (!cards.length) return;
@@ -1817,8 +1703,7 @@
       cards.forEach(function (card, idx) {
         const desiredTop = baseHeaderOffset + idx * stepOffset;
         const cardH = card.offsetHeight;
-        // If card is taller than the remaining viewport below desiredTop, shift sticky top negative
-        // so the card only sticks AFTER its bottom edge (the sandbox) has scrolled into view!
+
         if (cardH + desiredTop + 16 > viewH) {
           const adjustedTop = Math.min(desiredTop, viewH - cardH - 16);
           card.style.top = adjustedTop + 'px';
@@ -1886,15 +1771,6 @@
     updateStackDepth();
   }
 
-  /**
-   * 15. HERO SECTION SCROLL-EXIT CHOREOGRAPHY
-   * As the user scrolls down toward Selected Case Studies (#projects):
-   * - On desktop (> 1024px): Left text (.hero-primary-block) and Right card (.hero-bench-card) sit side-by-side
-   *   and exit together as the user scrolls toward #projects.
-   * - On mobile/tablet (<= 1024px): Left text and Right HUD card are stacked vertically in 1 column.
-   *   The top text block pops out in 3D, sweeps top-right, and disappears as the user scrolls down to the card,
-   *   while the HUD card (.hero-bench-card) stays 100% full-size and opaque until the user scrolls past the card itself!
-   */
   function initHeroScrollExit() {
     const heroSection = document.getElementById('overview');
     const projectsSection = document.getElementById('projects');
@@ -1917,7 +1793,7 @@
       const isStackedMobile = window.innerWidth <= 1024;
 
       if (!isStackedMobile) {
-        // Keep hero 100% intact until the side navbar docks and 001% depth appears
+
         const startScrollY = Math.max(90, docHeight * 0.01);
         const projectsTop = projectsSection
           ? projectsSection.offsetTop - window.innerHeight * 0.22
@@ -1929,14 +1805,13 @@
         targetPLeft = sharedP;
         targetPRight = sharedP;
       } else {
-        // 1. Top Text Block (.hero-primary-block): waits until 1% scroll depth before starting to exit
+
         const mobileStartY = Math.max(48, docHeight * 0.01);
         const leftExitSpan = Math.max(180, leftBlock.offsetHeight * 0.62);
         targetPLeft = scrollY <= mobileStartY
           ? 0
           : Math.max(0, Math.min(1, (scrollY - mobileStartY) / leftExitSpan));
 
-        // 2. Bottom HUD Card (.hero-bench-card): stays 100% intact whenever on screen in mobile viewports
         targetPRight = 0;
       }
     }
@@ -1953,7 +1828,6 @@
       const pR = currentPRight;
       const isMobile = window.innerWidth <= 1024;
 
-      // Render Left Text Block (.hero-primary-block)
       if (pL < 0.003) {
         leftBlock.style.transform = '';
         leftBlock.style.opacity = '';
@@ -1974,7 +1848,6 @@
         leftBlock.style.filter = 'blur(' + (Math.max(0, pL - 0.3) * 6).toFixed(2) + 'px)';
       }
 
-      // Render Right HUD Card (.hero-bench-card)
       if (pR < 0.003) {
         rightCard.style.transform = '';
         rightCard.style.opacity = '';
@@ -1997,11 +1870,6 @@
     startVisibilityGatedLoop(heroSection, renderHeroExit, '400px 0px 400px 0px');
   }
 
-  /**
-   * 16. WARM-THEME SECTION 4 SCROLL-EXPANDING WINDOW & ARCHITECTURAL WAVE LINE
-   * Drives the warm caramel/sage dual-filament wave spline, 3D perspective window warp & expansion,
-   * '+' crosshair reveals, and interactive warm portal canvas.
-   */
   function initLusionSection4Stage() {
     const section = document.getElementById('academic');
     const path = document.getElementById('lusion-guiding-path');
@@ -2047,7 +1915,6 @@
     window.addEventListener('resize', computeScrollProgress);
     computeScrollProgress();
 
-    // Animated Warm Caramel / Sage Orbital Portal inside the Expanding Window
     let pCtx = null;
     let pW = 0;
     let pH = 0;
@@ -2055,7 +1922,6 @@
     let portalMouseY = -9999;
     const shards = [];
 
-    // Wire interactive lab chips inside Section 04 window to launch the 3D Skill Domain Popup
     section.querySelectorAll('.lusion-lab-chip').forEach(function (chip) {
       chip.addEventListener('click', function () {
         const cardId = chip.getAttribute('data-open-skill-card');
@@ -2067,7 +1933,6 @@
       });
     });
 
-    // Radial cursor spotlight tracking on Section 04 sub-cards and stat pills
     section.querySelectorAll('.lusion-sub-card, .lusion-stat-pill').forEach(function (card) {
       card.addEventListener('mousemove', function (e) {
         const rect = card.getBoundingClientRect();
@@ -2118,7 +1983,6 @@
       currentProgress += (targetProgress - currentProgress) * 0.11;
       const p = currentProgress;
 
-      // 1. Creative Sweeping Diagonal Wave & S-Cascade (No Loop) in Warm Theme
       const drawFraction = Math.min(1, 0.22 + p * 0.78);
       path.style.strokeDashoffset = String(pathLength * (1 - drawFraction));
 
@@ -2149,7 +2013,6 @@
         secondaryPath.style.strokeDashoffset = String(-time * 40 - p * 180);
       }
 
-      // 2. Window Expansion + 3D Mid-Scroll Warp
       if (window.innerWidth > 900) {
         const widthPct = 44 + p * 56;
         const warpBell = Math.sin(p * Math.PI);
@@ -2183,7 +2046,6 @@
         }
       }
 
-      // 3. Toggle '+' Crosshair Framing Rows when Window is Expanded
       if (topCrosshairs && bottomCrosshairs) {
         if (p > 0.62) {
           topCrosshairs.classList.add('is-visible');
@@ -2194,7 +2056,6 @@
         }
       }
 
-      // 4. Render Warm Caramel & Sage Swirling Portal Canvas Backdrop
       if (pCtx && pW > 0 && pH > 0) {
         pCtx.clearRect(0, 0, pW, pH);
         const cx = pW * 0.5;
@@ -2219,7 +2080,6 @@
           s.x = cx + Math.cos(s.angle) * rad * 1.35;
           s.y = cy + Math.sin(s.angle) * rad * 0.72;
 
-          // Subtle cursor attraction inside portal window
           if (portalMouseX > 0) {
             const dx = portalMouseX - s.x;
             const dy = portalMouseY - s.y;
@@ -2245,7 +2105,6 @@
           pCtx.restore();
         }
 
-        // Draw delicate golden constellation lines between nearby shards
         for (let i = 0; i < shards.length; i++) {
           for (let j = i + 1; j < shards.length; j++) {
             const dx = shards[i].x - shards[j].x;
@@ -2268,11 +2127,6 @@
     startVisibilityGatedLoop(section, animateStage);
   }
 
-  /**
-   * 17. SECTION 03: 3D FAN-OUT BLUEPRINT DECK, RAIL & 3D CURSOR TILT / SPOTLIGHT
-   * Deals the 6 Engineering Manifesto cards out from a central stacked deck as the user scrolls,
-   * syncs the 01->06 Blueprint Progress Rail, and applies 3D tilt + radial caramel cursor spotlight.
-   */
   function initValuesFanOutAndTilt() {
     const section = document.getElementById('values');
     const grid = document.getElementById('values-grid');
@@ -2284,7 +2138,6 @@
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Fan-out offsets from the center of the 3x2 grid for each of the 6 cards
     const dealOffsets = [
       { x: 160, y: 95, rot: -9 },
       { x: 0,   y: 105, rot: 0 },
@@ -2312,7 +2165,6 @@
     window.addEventListener('resize', updateValuesScroll);
     updateValuesScroll();
 
-    // 3D Tilt & Radial Spotlight on each Value Card
     cards.forEach(function (card, idx) {
       card.addEventListener('mousemove', function (e) {
         const rect = card.getBoundingClientRect();
@@ -2337,7 +2189,6 @@
       });
     });
 
-    // Interactive Blueprint Rail Nodes
     railNodes.forEach(function (node, idx) {
       node.addEventListener('mouseenter', function () {
         hoveredCardIdx = idx;
@@ -2381,7 +2232,7 @@
       for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
         const offset = dealOffsets[i] || { x: 0, y: 0, rot: 0 };
-        // Stagger each card slightly along the scroll progress
+
         const staggerStart = i * 0.06;
         const localP = Math.max(0, Math.min(1, (currentScrollP - staggerStart) / (1 - staggerStart)));
         const inv = 1 - localP;
@@ -2405,11 +2256,6 @@
     startVisibilityGatedLoop(section, animateValuesDeck);
   }
 
-  /**
-   * 18. SECTION 02: PHYSICS-DRIVEN FLOATING WAVE & MAGNETIC SKILL PILLS
-   * Gives the 23 skill pills a subtle weightless sine wave drift that pauses on hover
-   * and attracts individual pills toward the cursor.
-   */
   function initKineticSkillPills() {
     const container = document.querySelector('.skills-all-pills-grid');
     const pills = Array.from(document.querySelectorAll('.master-skill-pill'));
@@ -2442,11 +2288,6 @@
     startVisibilityGatedLoop(container, animatePillWave);
   }
 
-  /**
-   * 19. SECTION 05: LIVE CONTACT CONSOLE SIGNAL WAVEFORM
-   * Renders a real-time dual-harmonic telemetry sine wave in the contact form header
-   * that spikes in amplitude and frequency as the user types.
-   */
   function initContactSignalWaveform() {
     const canvas = document.getElementById('contact-waveform-canvas');
     const statusDot = document.getElementById('signal-status-dot');
@@ -2501,7 +2342,6 @@
       const baseAmp = 3.2 + energy * 10.5;
       const freq = 0.055 + energy * 0.045;
 
-      // Secondary echo wave
       ctx.beginPath();
       ctx.strokeStyle = 'rgba(63, 123, 73, 0.35)';
       ctx.lineWidth = 1.3;
@@ -2513,7 +2353,6 @@
       }
       ctx.stroke();
 
-      // Primary caramel signal wave
       ctx.beginPath();
       ctx.strokeStyle = '#a86c3b';
       ctx.lineWidth = 1.9;
@@ -2529,11 +2368,6 @@
     startVisibilityGatedLoop(canvas, renderWaveform);
   }
 
-  /**
-   * 20. GIANT KINETIC TYPOGRAPHY FOOTER WORDMARK
-   * Splits 'SARTHAK KSHIRSAGAR' into interactive character spans that lift, scale,
-   * and shift toward warm caramel based on Gaussian cursor proximity.
-   */
   function initKineticFooterWordmark() {
     const wordmark = document.getElementById('kinetic-wordmark');
     const stage = document.getElementById('footer-kinetic-stage');
@@ -2610,11 +2444,6 @@
     startVisibilityGatedLoop(stage, animateKineticChars);
   }
 
-  /**
-   * 21. GLOBAL MAGNETIC PULL BUTTONS & RADIAL CURSOR SPOTLIGHT
-   * Adds Framer-Motion-style spring magnetic attraction to primary interactive buttons
-   * and radial warm-caramel cursor spotlight tracking across cards.
-   */
   function initGlobalMagneticAndSpotlight() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
@@ -2669,7 +2498,6 @@
       });
     });
 
-    // Radial spotlight tracking on .stack-card and .channel-card
     document.querySelectorAll('.stack-card, .channel-card').forEach(function (card) {
       card.addEventListener('mousemove', function (e) {
         const rect = card.getBoundingClientRect();
@@ -2679,12 +2507,6 @@
     });
   }
 
-  /**
-   * 22. SECTION 05: SCROLL-TRIGGERED SPLIT CURTAIN PORTAL & LIVE TIMEZONE SYNC
-   * Smoothly parts the left ('READY TO') and right ('ENGINEER?') curtain doors as the user
-   * scrolls from Section 04 into Section 05 (#connect), revealing the 3D Envelope and
-   * Contact Console underneath, while computing the visitor's real-time offset from IST.
-   */
   function initConnectSplitCurtain() {
     const connectSection = document.getElementById('connect');
     const curtain = document.getElementById('connect-split-curtain');
@@ -2692,7 +2514,6 @@
 
     if (!connectSection) return;
 
-    // Live Visitor-to-IST (UTC+5:30) Timezone Sync Calculation
     function updateTimezoneSync() {
       if (!tzReadout) return;
       try {
@@ -2705,9 +2526,8 @@
           hour12: true
         }).format(now);
 
-        // Visitor UTC offset in minutes (Date.getTimezoneOffset() is positive west of UTC, negative east)
         const visitorOffsetMins = -now.getTimezoneOffset();
-        const istOffsetMins = 330; // UTC+5:30 = +330 mins
+        const istOffsetMins = 330;
         const diffMins = istOffsetMins - visitorOffsetMins;
 
         let diffLabel = 'Same timezone as Sarthak (IST)';
@@ -2743,8 +2563,7 @@
     function computeCurtainProgress() {
       const rect = connectSection.getBoundingClientRect();
       const viewH = window.innerHeight;
-      // Curtain begins closed (0) when #connect top is at 92% of viewport height
-      // and parts completely open (1) by the time #connect top reaches 38% of viewport height
+
       const startY = viewH * 0.92;
       const endY = viewH * 0.38;
       const raw = (startY - rect.top) / Math.max(1, startY - endY);
@@ -2763,23 +2582,16 @@
     startVisibilityGatedLoop(connectSection, animateCurtain);
   }
 
-  /**
-   * 23. UPGRADE 2: HERO SPECIFICATION HUD COUNTERS & INTERACTIVE TELEMETRY READOUT
-   * Smoothly counts up the 20+ and 5+ metrics on load, tracks radial cursor spotlight on
-   * .hero-bench-card, and updates the bottom telemetry readout when hovering/focusing any spec row.
-   */
   function initHeroHudInteractivity() {
     const hudCard = document.getElementById('hero-bench-card') || document.querySelector('.hero-bench-card');
     if (!hudCard) return;
 
-    // Radial cursor spotlight tracking on .hero-bench-card
     hudCard.addEventListener('mousemove', function (e) {
       const rect = hudCard.getBoundingClientRect();
       hudCard.style.setProperty('--spot-x', (e.clientX - rect.left).toFixed(1) + 'px');
       hudCard.style.setProperty('--spot-y', (e.clientY - rect.top).toFixed(1) + 'px');
     });
 
-    // Live Number Counter Animation (0 -> 20 and 0 -> 5)
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const countEls = hudCard.querySelectorAll('.metric-count-val[data-count-target]');
     if (!prefersReducedMotion && countEls.length) {
@@ -2804,7 +2616,6 @@
       });
     }
 
-    // Interactive Spec Row & Metric Cell Telemetry Readout
     const calloutBox = document.getElementById('bench-callout-box');
     const calloutTag = document.getElementById('bench-callout-tag');
     const calloutText = document.getElementById('bench-callout-text');
@@ -2842,11 +2653,6 @@
     });
   }
 
-  /**
-   * 24. UPGRADE 6: CUSTOM SVG 'SK' MONOGRAM FAVICON & STRUCTURED JSON-LD SCHEMA
-   * Sets a crisp warm-editorial SK monogram SVG favicon and injects Person + SoftwareSourceCode
-   * structured data into <head> for search engines and automated portfolio evaluators.
-   */
   function initHeadFaviconAndSchema() {
     const faviconLink = document.getElementById('dynamic-svg-favicon');
     if (faviconLink) {
@@ -2908,11 +2714,6 @@
     }
   }
 
-  /**
-   * 25. UPGRADE 3: CONTEXTUAL MAGNETIC CURSOR RING (DESKTOP POINTER ONLY)
-   * Tracks pointer on fine-pointer desktop screens with a zero-lag core dot and spring-damped
-   * trailing caramel ring that morphs into contextual badges ('SANDBOX', 'INSPECT', '3D FLAP', 'SCRUB').
-   */
   function initContextualMagneticCursor() {
     const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -3030,12 +2831,6 @@
     });
   }
 
-  /**
-   * 26. UPGRADE 7: LIVE GITHUB ACTIVITY & COMMIT TELEMETRY STRIP
-   * Fetches public profile & repository telemetry from GitHub REST API for Sarthak-Kshirsagar-2275,
-   * caches in sessionStorage to respect rate limits, updates the top bar, #projects telemetry strip,
-   * and per-card repository pills, and falls back cleanly if offline.
-   */
   function initLiveGitHubTelemetry() {
     const ghUser = 'Sarthak-Kshirsagar-2275';
     const profileUrl = ['https:', '', 'github.com', ghUser].join('/');
@@ -3108,7 +2903,6 @@
       }
     }
 
-    // Check sessionStorage cache first so refreshes don't exhaust unauthenticated GitHub API limits
     const cacheKey = 'sk_gh_telemetry_v1';
     try {
       const cachedRaw = sessionStorage.getItem(cacheKey);
@@ -3168,15 +2962,10 @@
         } catch (e) {}
       })
       .catch(function () {
-        // Keep clean verified fallback text when offline
+
       });
   }
 
-  /**
-   * 27. UPGRADE 8: SUBTLE WEB AUDIO TACTILE UI TICKS (OPT-IN, MUTED BY DEFAULT)
-   * Synthesizes ultra-soft, zero-asset tactile acoustic ticks using the native browser
-   * AudioContext when the user enables the SFX toggle in the header/dock.
-   */
   function initTactileWebAudio() {
     const toggleBtn = document.getElementById('sound-fx-toggle');
     const labelEl = document.getElementById('sound-fx-label');
@@ -3275,7 +3064,6 @@
       }
     });
 
-    // Subtle hover tick on interactive controls (throttled to avoid rapid chatter)
     document.addEventListener(
       'mouseover',
       function (e) {
@@ -3292,7 +3080,6 @@
       { passive: true }
     );
 
-    // Tactile click/modal tone on interactive clicks
     document.addEventListener('click', function (e) {
       if (!isSoundEnabled || !e.target || typeof e.target.closest !== 'function') return;
       if (e.target.closest('#sound-fx-toggle')) return;

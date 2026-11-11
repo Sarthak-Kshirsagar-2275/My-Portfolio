@@ -9,13 +9,11 @@
     content="Portfolio of Sarthak Kshirsagar, 1st-year B.Tech CS & AI/ML student at Newton School of Technology. Built 20+ functional websites, shipped 5+. Specialist in modern UI/UX, AI integrations, and responsive systems.">
   <meta name="author" content="Sarthak Kshirsagar">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Sarthak Kshirsagar — Web Development & AI Engineering Portfolio">
   <meta property="og:description"
     content="1st-year B.Tech CS & AI/ML at Newton School of Technology. Built 20+ websites, shipped 5+. High-performance frontend, Three.js, and AI API.">
   <meta property="og:type" content="website">
 
-  <!-- Google Fonts: Outfit (Open Geometric Display) + Fraunces (Refined Editorial Accent) + DM Sans (Crisp Body UI) + JetBrains Mono (Technical Precision) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -28,22 +26,19 @@
 </head>
 
 <body>
-  <!-- Top-Edge Caramel-to-Sage Laser Scroll Progress Bar -->
+
   <div class="top-laser-progress" id="top-laser-progress" aria-hidden="true">
     <div class="top-laser-fill" id="top-laser-fill"></div>
   </div>
 
-  <!-- Subtle Anti-Gravity Spatial Physics Background Layer -->
   <div class="ambient-stage" aria-hidden="true">
     <canvas id="ambient-bg-canvas" class="ambient-bg-canvas"></canvas>
     <div class="ambient-glow ambient-glow-1"></div>
     <div class="ambient-glow ambient-glow-2"></div>
   </div>
 
-  <!-- Accessible Skip Link -->
   <a href="#main-content" class="skip-navigation">Skip to main content</a>
 
-  <!-- Global Announcement / Telemetry Bar -->
   <aside class="telemetry-bar" aria-label="Status & Location">
     <div class="telemetry-container">
       <div class="telemetry-item">
@@ -76,7 +71,6 @@
     </div>
   </aside>
 
-  <!-- Primary Site Navigation (Morphs from Top Bar into Left Floating Dock + Telemetry Spine on Scroll) -->
   <div class="header-dock-slot" id="header-dock-slot">
     <header class="site-header" id="site-header">
       <div class="header-container">
@@ -92,7 +86,7 @@
         </a>
 
         <nav class="primary-nav" id="primary-nav" aria-label="Main Navigation">
-          <!-- Integrated Vertical Telemetry Progress Spine (Active in Left Floating Dock Mode) -->
+
           <div class="dock-telemetry-spine" id="dock-telemetry-spine" role="slider" tabindex="0"
             aria-label="Page scroll depth progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
             title="Click, drag, or use Up/Down arrows to scrub page depth">
@@ -105,7 +99,7 @@
           </div>
 
           <ul class="nav-list" id="nav-list" role="menubar">
-            <!-- Liquid Sliding Active/Hover Pill -->
+
             <span class="nav-liquid-indicator" id="nav-liquid-indicator" aria-hidden="true"></span>
 
             <li role="none">
@@ -141,7 +135,6 @@
           </ul>
         </nav>
 
-        <!-- Live Scroll Depth Readout (Shown in Left Floating Dock) -->
         <div class="dock-telemetry-readout" id="dock-telemetry-readout" aria-hidden="true">
           <span class="readout-label">DEPTH</span>
           <span class="readout-val" id="dock-scroll-pct">000%</span>
@@ -194,14 +187,12 @@
     </header>
   </div>
 
-  <!-- Main Content Container -->
   <main id="main-content">
 
-    <!-- ==================== HERO / ARCHITECTURAL OVERVIEW ==================== -->
+    <!-- Hero -->
     <section class="section-hero" id="overview" aria-labelledby="hero-heading">
       <div class="hero-container">
 
-        <!-- Left Column: Core Identity & Narrative -->
         <div class="hero-primary-block">
           <div class="pill-badge-row">
             <span class="badge-tag">First-Year B.Tech</span>
@@ -249,7 +240,6 @@
           </div>
         </div>
 
-        <!-- Right Column: Interactive Benchmark / HUD Card -->
         <aside class="hero-bench-card" id="hero-bench-card" aria-label="Engineering Metrics and Specializations">
           <div class="bench-card-header">
             <span class="bench-index">// SPECIFICATION HUD</span>
@@ -309,7 +299,7 @@
       </div>
     </section>
 
-    <!-- ==================== SELECTED WORK / EXHIBITION ==================== -->
+    <!-- Projects -->
     <section class="section-projects" id="projects" aria-labelledby="projects-heading">
       <div class="section-container">
 
@@ -329,7 +319,6 @@
           </p>
         </div>
 
-        <!-- Live GitHub Activity & Commit Telemetry Strip (Upgrade 7) -->
         <div class="github-live-telemetry-bar" id="github-live-telemetry-bar"
           aria-label="Live GitHub Repository and Commit Telemetry">
           <div class="gh-telemetry-brand">
@@ -357,7 +346,6 @@
           <span class="gh-sync-pill" id="gh-sync-pill">VERIFIED // TELEMETRY</span>
         </div>
 
-        <!-- Interactive Category Quick-Filter -->
         <div class="project-filter-bar" role="tablist" aria-label="Filter projects by discipline">
           <button type="button" class="filter-tab active" role="tab" aria-selected="true" data-filter="all">All Releases
             (3)</button>
@@ -369,7 +357,6 @@
             UI/UX</button>
         </div>
 
-        <!-- Project Exhibition Cards -->
         <div class="projects-exhibition-grid">
 
           <!-- PROJECT 01: LocaleIQ -->
@@ -388,7 +375,6 @@
               <div class="card-content-block">
                 <h3 class="card-project-title">LocaleIQ</h3>
 
-                <!-- EXACT DESCRIPTION REQUIRED BY USER -->
                 <p class="card-project-summary">
                   A dynamic web application focused on fast data rendering, responsive design, and providing an
                   optimized user experience across devices.
@@ -405,7 +391,6 @@
                   </ul>
                 </div>
 
-                <!-- Verifiable Engineering Telemetry Strip -->
                 <div class="project-telemetry-strip" aria-label="LocaleIQ engineering specifications">
                   <div class="telemetry-chip"><strong>0 KB</strong><span>External JS Dependencies</span></div>
                   <div class="telemetry-chip"><strong>O(1)</strong><span>Delegated Event Routing</span></div>
@@ -428,7 +413,6 @@
                   </button>
                 </div>
 
-                <!-- Collapsible Engineering Blueprint -->
                 <div class="collapsible-blueprint" id="specs-localeiq" hidden>
                   <div class="blueprint-inner">
                     <div class="blueprint-item">
@@ -443,7 +427,6 @@
                 </div>
               </div>
 
-              <!-- Non-Interactive Architectural Bento Showcase: LocaleIQ -->
               <div class="card-visual-stage localeiq-architecture-stage" aria-hidden="true">
                 <div class="stage-frame frame-localeiq">
                   <div class="mockup-header-bar">
@@ -456,7 +439,7 @@
                     <span class="localeiq-mode-pill">LOCAL BUILD &bull; 0.4ms COMMIT</span>
                   </div>
                   <div class="mockup-viewport localeiq-bento-viewport">
-                    <!-- 3-Stage Rendering Pipeline Strip -->
+
                     <div class="localeiq-pipeline-flow">
                       <div class="liq-pipe-node">
                         <span class="liq-pipe-step">01 // STATE</span>
@@ -477,7 +460,6 @@
                       </div>
                     </div>
 
-                    <!-- Bento Split: Simulated Locale Data Table + Benchmark Stack -->
                     <div class="localeiq-bento-grid">
                       <div class="localeiq-table-card">
                         <div class="liq-table-head">
@@ -514,7 +496,6 @@
                       </div>
                     </div>
 
-                    <!-- Bottom Architecture Spec Bar -->
                     <div class="localeiq-footer-bar">
                       <span class="liq-footer-spec">CSS Grid + clamp() Fluid Breakpoints (320px &rarr; 4K)</span>
                       <span class="liq-footer-tag">Zero-Lag Dynamic Tables</span>
@@ -541,7 +522,6 @@
               <div class="card-content-block">
                 <h3 class="card-project-title">Syllabus Explainer</h3>
 
-                <!-- EXACT DESCRIPTION REQUIRED BY USER -->
                 <p class="card-project-summary">
                   A full-stack web application featuring an editorial academic design system, powered by a Node.js
                   backend, AI API integration for AI-driven insights, and Three.js 3D visual environments.
@@ -558,7 +538,6 @@
                   </ul>
                 </div>
 
-                <!-- Verifiable Engineering Telemetry Strip -->
                 <div class="project-telemetry-strip" aria-label="Syllabus Explainer engineering specifications">
                   <div class="telemetry-chip"><strong>Full-Stack</strong><span>Node.js + Express API</span></div>
                   <div class="telemetry-chip"><strong>3D WebGL</strong><span>Three.js Concept Graph</span></div>
@@ -591,7 +570,6 @@
                   </button>
                 </div>
 
-                <!-- Collapsible Engineering Blueprint -->
                 <div class="collapsible-blueprint" id="specs-syllabusexplainer" hidden>
                   <div class="blueprint-inner">
                     <div class="blueprint-item">
@@ -606,7 +584,6 @@
                 </div>
               </div>
 
-              <!-- Live Embedded Production Sandbox: Syllabus Explainer -->
               <div class="card-visual-stage is-live-sandbox" data-sandbox-card="syllabus">
                 <div class="stage-frame frame-syllabus">
                   <div class="mockup-header-bar">
@@ -668,7 +645,6 @@
               <div class="card-content-block">
                 <h3 class="card-project-title">Elanor</h3>
 
-                <!-- EXACT DESCRIPTION REQUIRED BY USER -->
                 <p class="card-project-summary">
                   A premium, interactive web application showcasing a sophisticated modern UI/UX, fluid animations, and
                   a highly polished cream and beige visual aesthetic.
@@ -685,7 +661,6 @@
                   </ul>
                 </div>
 
-                <!-- Verifiable Engineering Telemetry Strip -->
                 <div class="project-telemetry-strip" aria-label="Elanor engineering specifications">
                   <div class="telemetry-chip"><strong>60 FPS</strong><span>GPU Transform Physics</span></div>
                   <div class="telemetry-chip"><strong>&ge; 4.5:1</strong><span>Contrast Token System</span></div>
@@ -717,7 +692,6 @@
                   </button>
                 </div>
 
-                <!-- Collapsible Engineering Blueprint -->
                 <div class="collapsible-blueprint" id="specs-elanor" hidden>
                   <div class="blueprint-inner">
                     <div class="blueprint-item">
@@ -732,7 +706,6 @@
                 </div>
               </div>
 
-              <!-- Live Embedded Production Sandbox: Elanor -->
               <div class="card-visual-stage is-live-sandbox" data-sandbox-card="elanor">
                 <div class="stage-frame frame-elanor">
                   <div class="mockup-header-bar">
@@ -781,7 +754,6 @@
         </div>
       </div>
 
-      <!-- Fullscreen Expanded Live Sandbox Modal (For Project 02 & Project 03) -->
       <div class="sandbox-modal-overlay" id="sandbox-modal-overlay" role="dialog" aria-modal="true"
         aria-labelledby="sandbox-modal-title" hidden>
         <div class="sandbox-modal-window">
@@ -812,7 +784,7 @@
       </div>
     </section>
 
-    <!-- ==================== TECH STACK & SPINNING POPUP SKILLS ==================== -->
+    <!-- Tech Stack -->
     <section class="section-stack" id="stack" aria-labelledby="stack-heading">
       <div class="section-container">
 
@@ -835,7 +807,6 @@
           </div>
         </div>
 
-        <!-- Complete All-23-Skills Interactive Overview Bar -->
         <div class="skills-master-overview" aria-label="Complete Skill Directory and Domain Filter">
           <div class="skills-overview-header">
             <div class="skills-overview-title-wrap">
@@ -858,7 +829,7 @@
           </div>
 
           <div class="skills-all-pills-grid">
-            <!-- Domain 01 -->
+
             <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span
                 class="pill-dot dot-frontend"></span>HTML5</button>
             <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span
@@ -871,7 +842,7 @@
                 class="pill-dot dot-frontend"></span>Next.js</button>
             <button type="button" class="master-skill-pill" data-target-card="card-frontend"><span
                 class="pill-dot dot-frontend"></span>Three.js</button>
-            <!-- Domain 02 -->
+
             <button type="button" class="master-skill-pill" data-target-card="card-backend"><span
                 class="pill-dot dot-backend"></span>Node.js</button>
             <button type="button" class="master-skill-pill" data-target-card="card-backend"><span
@@ -880,7 +851,7 @@
                 class="pill-dot dot-backend"></span>Redis</button>
             <button type="button" class="master-skill-pill" data-target-card="card-backend"><span
                 class="pill-dot dot-backend"></span>SQLite</button>
-            <!-- Domain 03 -->
+
             <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span
                 class="pill-dot dot-aiml"></span>Python</button>
             <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span
@@ -897,7 +868,7 @@
                 class="pill-dot dot-aiml"></span>POM</button>
             <button type="button" class="master-skill-pill" data-target-card="card-aiml"><span
                 class="pill-dot dot-aiml"></span>AI API</button>
-            <!-- Domain 04 -->
+
             <button type="button" class="master-skill-pill" data-target-card="card-tooling"><span
                 class="pill-dot dot-tooling"></span>PyCharm</button>
             <button type="button" class="master-skill-pill" data-target-card="card-tooling"><span
@@ -917,10 +888,8 @@
           </button>
         </div>
 
-        <!-- Compact Cards Grid (Click to Roll Up & Spin into Center Popup) -->
         <div class="skills-card-matrix">
 
-          <!-- CARD 1: Core Web & Modern Frontend -->
           <article class="stack-card" id="card-frontend" tabindex="0" role="button" aria-haspopup="dialog"
             aria-label="Open Core Web and Frontend Engineering details popup">
             <div class="stack-card-primary">
@@ -935,7 +904,6 @@
                 high-fidelity rendering.
               </p>
 
-              <!-- Prominent Tag Cloud -->
               <div class="prominent-chips">
                 <span class="tech-chip">HTML5</span>
                 <span class="tech-chip">CSS3</span>
@@ -952,7 +920,6 @@
               </div>
             </div>
 
-            <!-- Hidden Template Data for Center Popup Layer -->
             <div class="stack-expandable-tray" id="subitems-frontend" hidden>
               <div class="tray-inner">
                 <div class="sub-item-group">
@@ -976,7 +943,6 @@
             </div>
           </article>
 
-          <!-- CARD 2: Backend, Microservices & Databases -->
           <article class="stack-card" id="card-backend" tabindex="0" role="button" aria-haspopup="dialog"
             aria-label="Open Server Architecture and Databases details popup">
             <div class="stack-card-primary">
@@ -1024,7 +990,6 @@
             </div>
           </article>
 
-          <!-- CARD 3: AI, Machine Learning, Computer Vision & rPPG -->
           <article class="stack-card" id="card-aiml" tabindex="0" role="button" aria-haspopup="dialog"
             aria-label="Open AI, Computer Vision, and rPPG details popup">
             <div class="stack-card-primary">
@@ -1084,7 +1049,6 @@
             </div>
           </article>
 
-          <!-- CARD 4: Environments & Developer Tooling -->
           <article class="stack-card" id="card-tooling" tabindex="0" role="button" aria-haspopup="dialog"
             aria-label="Open Environments, IDEs, and Workflows details popup">
             <div class="stack-card-primary">
@@ -1138,7 +1102,6 @@
         </div>
       </div>
 
-      <!-- 3D Roll-Up Spinning Center Popup Modal Layer (Hidden by Default) -->
       <div class="skill-popup-overlay" id="skill-popup-overlay" role="dialog" aria-modal="true"
         aria-labelledby="popup-domain-title" hidden>
         <div class="skill-popup-card" id="skill-popup-card">
@@ -1151,7 +1114,7 @@
       </div>
     </section>
 
-    <!-- ==================== CORE VALUES & PHILOSOPHY (3D FAN-OUT & SPOTLIGHT DECK) ==================== -->
+    <!-- Values -->
     <section class="section-values" id="values" aria-labelledby="values-heading">
       <div class="section-container">
 
@@ -1171,7 +1134,6 @@
           </p>
         </div>
 
-        <!-- Interactive Blueprint Progress Rail (01 -> 06) -->
         <div class="values-blueprint-rail" id="values-blueprint-rail" role="tablist"
           aria-label="Jump to engineering manifesto principle">
           <div class="blueprint-rail-track" aria-hidden="true">
@@ -1253,11 +1215,10 @@
       </div>
     </section>
 
-    <!-- ==================== ACADEMIC FOUNDATION & BACKGROUND (LUSION-STYLE SCROLL STAGE) ==================== -->
+    <!-- Academic -->
     <section class="section-academic lusion-scroll-section" id="academic" aria-labelledby="academic-heading">
       <div class="lusion-sticky-viewport">
 
-        <!-- Warm Theme Architectural Wave & Telemetry Filament SVG (Draws & Flexes on Scroll) -->
         <svg class="lusion-ribbon-svg" viewBox="0 0 1440 1050" fill="none" preserveAspectRatio="xMidYMid slice"
           aria-hidden="true">
           <defs>
@@ -1273,11 +1234,11 @@
               <stop offset="100%" stop-color="rgba(35, 29, 22, 0.45)" />
             </linearGradient>
           </defs>
-          <!-- Primary Bold Sweeping Architectural Wave (No Loop) -->
+
           <path id="lusion-guiding-path"
             d="M 1490 60 C 1140 90, 960 280, 680 310 C 390 340, 140 460, 70 670 C 20 820, 340 910, 760 860 C 1120 815, 1310 920, 1510 980"
             stroke="url(#warmCaramelGrad)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" />
-          <!-- Secondary Braided Telemetry Arc -->
+
           <path id="lusion-secondary-path"
             d="M -60 220 C 240 180, 510 380, 820 340 C 1120 300, 1290 520, 1040 710 C 790 900, 380 780, -40 920"
             stroke="url(#warmAccentFilament)" stroke-width="3.5" stroke-dasharray="10 14" stroke-linecap="round" />
@@ -1285,7 +1246,6 @@
 
         <div class="section-container lusion-stage-container">
 
-          <!-- Stage Top: Catchy Giant Headline + Non-Duplicated Editorial Intro -->
           <div class="lusion-intro-header" id="lusion-intro-header">
             <div class="lusion-headline-block">
               <div class="section-eyebrow">
@@ -1312,19 +1272,16 @@
             </div>
           </div>
 
-          <!-- Expanding Showcase Stage Framed by '+' Crosshairs -->
           <div class="lusion-window-stage">
-            <!-- Top '+' Crosshair Row (Appears as Window Reaches Full Expansion) -->
+
             <div class="lusion-crosshair-row lusion-crosshair-top" id="lusion-crosshair-top" aria-hidden="true">
               <span>+</span><span>+</span><span>+</span><span>+</span><span>+</span>
             </div>
 
-            <!-- The Expanding & 3D-Warping Window -->
             <div class="lusion-expanding-window" id="lusion-expanding-window">
-              <!-- Animated Vortex / Interactive Constellation Portal Canvas Backdrop -->
+
               <canvas class="lusion-portal-canvas" id="lusion-portal-canvas" aria-hidden="true"></canvas>
 
-              <!-- Info Card Overlay Content (2 Distinct Sub-Sections + Production Counters, Zero Glare) -->
               <div class="lusion-window-inner" id="lusion-window-inner">
                 <div class="lusion-card-top-meta">
                   <span class="lusion-meta-badge">NEWTON SCHOOL OF TECHNOLOGY // B.TECH CS &amp; AI/ML</span>
@@ -1332,7 +1289,7 @@
                 </div>
 
                 <div class="lusion-sub-sections-grid">
-                  <!-- Sub-Section 01 -->
+
                   <article class="lusion-sub-card">
                     <span class="lusion-sub-index">SUB-SECTION 01 // ACADEMIC CORE</span>
                     <h3 class="lusion-sub-title">Curriculum Focus</h3>
@@ -1350,7 +1307,6 @@
                     </div>
                   </article>
 
-                  <!-- Sub-Section 02 -->
                   <article class="lusion-sub-card">
                     <span class="lusion-sub-index">SUB-SECTION 02 // R&amp;D EXPLORATION</span>
                     <h3 class="lusion-sub-title">Personal Craft</h3>
@@ -1369,7 +1325,6 @@
                   </article>
                 </div>
 
-                <!-- Production Metrics Strip Inside Expanding Window -->
                 <div class="lusion-metrics-row">
                   <div class="lusion-stat-pill">
                     <span class="lusion-stat-num">20<span class="stat-plus">+</span></span>
@@ -1390,7 +1345,6 @@
               </div>
             </div>
 
-            <!-- Bottom '+' Crosshair Row -->
             <div class="lusion-crosshair-row lusion-crosshair-bottom" id="lusion-crosshair-bottom" aria-hidden="true">
               <span>+</span><span>+</span><span>+</span><span>+</span><span>+</span>
             </div>
@@ -1400,10 +1354,9 @@
       </div>
     </section>
 
-    <!-- ==================== CONTACT / CONNECTION DESK (SCROLL-TRIGGERED SPLIT CURTAIN PORTAL) ==================== -->
+    <!-- Contact -->
     <section class="section-connect" id="connect" aria-labelledby="connect-heading">
 
-      <!-- Scroll-Triggered Split Curtain Portal Stage (Parts Left & Right as User Scrolls In) -->
       <div class="connect-split-curtain" id="connect-split-curtain" aria-hidden="true">
         <div class="curtain-panel curtain-panel-left">
           <div class="curtain-corner-meta">PORTAL // 05-A &bull; NST STUDIO</div>
@@ -1430,7 +1383,6 @@
 
       <div class="section-container connect-stage-inner" id="connect-stage-inner">
 
-        <!-- Live Visitor-to-IST Timezone Sync Telemetry Strip -->
         <div class="timezone-sync-banner" id="timezone-sync-banner">
           <div class="tz-sync-left">
             <span class="tz-pulse-dot" aria-hidden="true"></span>
@@ -1443,7 +1395,6 @@
 
         <div class="connect-split-layout">
 
-          <!-- Direct Channel Info -->
           <div class="connect-info-panel">
             <div class="section-eyebrow">
               <span class="eyebrow-index">05</span>
@@ -1459,7 +1410,6 @@
               integration workflows, or have an open role: I'd love to connect.
             </p>
 
-            <!-- Interactive 3D Envelope / Live Blueprint Dispatch Preview -->
             <div class="envelope-3d-stage" id="envelope-3d-stage" aria-label="Interactive 3D Envelope Preview">
               <div class="envelope-stage-bar">
                 <span class="envelope-stage-tag">// 3D DISPATCH PACKET</span>
@@ -1469,10 +1419,9 @@
               <div class="envelope-3d-scene">
                 <div class="envelope-3d-wrapper is-open" id="interactive-envelope-3d" tabindex="0" role="button"
                   aria-label="Toggle 3D envelope flap">
-                  <!-- Envelope Back Plate -->
+
                   <div class="envelope-back"></div>
 
-                  <!-- Live Sliding Letter Sheet Inside Envelope -->
                   <div class="envelope-letter-sheet" id="envelope-letter-sheet">
                     <div class="letter-sheet-header">
                       <span class="letter-stamp-chip" id="env-preview-topic">WEB APPLICATION</span>
@@ -1491,17 +1440,14 @@
                     </div>
                   </div>
 
-                  <!-- Front Folded Pocket Flaps -->
                   <div class="envelope-pocket-left"></div>
                   <div class="envelope-pocket-right"></div>
                   <div class="envelope-pocket-bottom">
                     <span class="pocket-dest-label">TO: SARTHAK KSHIRSAGAR // NST LAB</span>
                   </div>
 
-                  <!-- 3D Hinged Top Triangular Flap -->
                   <div class="envelope-flap-top"></div>
 
-                  <!-- Embossed Caramel Wax Seal -->
                   <div class="envelope-wax-seal" id="envelope-wax-seal">
                     <span>SK</span>
                   </div>
@@ -1509,7 +1455,6 @@
               </div>
             </div>
 
-            <!-- Verified Direct Links -->
             <div class="channels-list">
 
               <div class="channel-card">
@@ -1557,7 +1502,6 @@
             </div>
           </div>
 
-          <!-- Interactive Contact Console -->
           <div class="connect-form-panel">
             <div class="form-surface-card">
               <div class="form-telemetry-header">
@@ -1617,7 +1561,6 @@
                 </button>
               </form>
 
-              <!-- Form Confirmation & Live Email Dispatch Dialog Banner -->
               <div class="form-feedback-banner" id="form-feedback-banner" role="status" aria-live="polite" hidden>
                 <div class="feedback-icon" aria-hidden="true">&checkmark;</div>
                 <div class="feedback-text-wrap">
@@ -1642,7 +1585,7 @@
 
   </main>
 
-  <!-- ==================== SITE FOOTER ==================== -->
+  <!-- Footer -->
   <footer class="site-footer" role="contentinfo">
     <div class="footer-container">
       <div class="footer-col-left">
@@ -1677,7 +1620,6 @@
       </div>
     </div>
 
-    <!-- Giant Interactive Kinetic Wordmark Finale -->
     <div class="footer-kinetic-stage" id="footer-kinetic-stage" aria-hidden="true">
       <div class="kinetic-wordmark" id="kinetic-wordmark" data-text="SARTHAK KSHIRSAGAR">SARTHAK KSHIRSAGAR</div>
     </div>
@@ -1690,7 +1632,6 @@
     </div>
   </footer>
 
-  <!-- Contextual Magnetic Cursor Ring (Desktop Pointer Only) -->
   <div class="custom-cursor-layer" id="custom-cursor-layer" aria-hidden="true">
     <div class="cursor-core-dot" id="cursor-core-dot"></div>
     <div class="cursor-magnetic-ring" id="cursor-magnetic-ring">
@@ -1698,15 +1639,12 @@
     </div>
   </div>
 
-  <!-- Floating Toast Notification Element -->
   <div class="floating-toast" id="floating-toast" role="status" aria-live="polite" aria-hidden="true">
     <span class="toast-message">Email copied to clipboard!</span>
   </div>
 
-  <!-- Primary Application Script -->
   <script src="script.js"></script>
 
-  <!-- Chatling Chatbot -->
   <script> window.chtlConfig = { chatbotId: "2897351234" } </script>
   <script async data-id="2897351234" id="chtl-script" type="text/javascript"
     src="https://chatling.ai/js/embed.js"></script>

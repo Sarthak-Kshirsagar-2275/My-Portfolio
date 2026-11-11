@@ -1,75 +1,56 @@
-/* ==========================================================================
-   SARTHAK KSHIRSAGAR — PERSONAL PORTFOLIO
-   Theme: Sophisticated Cream & Beige Light Palette (Strictly Light Theme)
-   Typography: Outfit + Fraunces + DM Sans + JetBrains Mono
-   Architecture: Semantic CSS3 with Modern Custom Properties
-   ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   01. DESIGN TOKENS & SYSTEM VARIABLES
-   -------------------------------------------------------------------------- */
+/* Design tokens */
 :root {
-  /* Cream & Beige Palette (Strictly Light, Zero Dark Mode) */
-  --bg-page: #fbf8f3;            /* Alabaster cream primary background */
-  --bg-page-subtle: #f6f1e8;     /* Warm linen for alternate zones */
-  --bg-surface: #ffffff;         /* Pure crisp linen card face */
-  --bg-surface-tint: #f4eee2;    /* Warm sand tint for badges & chips */
-  --bg-surface-hover: #eee5d6;   /* Richer cream on user interaction */
-  
-  /* Borders & Dividers (Warm Stone / Oat) */
+
+  --bg-page: #fbf8f3;
+  --bg-page-subtle: #f6f1e8;
+  --bg-surface: #ffffff;
+  --bg-surface-tint: #f4eee2;
+  --bg-surface-hover: #eee5d6;
+
   --border-subtle: #e9e1d4;
   --border-medium: #ded4c3;
   --border-prominent: #c7b8a1;
   --border-focus: #a86c3b;
 
-  /* Typography Colors (High-Contrast Peat / Espresso Warm Tones) */
-  --text-main: #251e18;          /* Deep espresso charcoal - 14.8:1 contrast on cream (AAA) */
-  --text-body: #42382c;          /* Warm umber body - 9.4:1 contrast (AAA) */
-  --text-muted: #665b4c;         /* Subdued warm stone - 5.6:1 contrast (AA) */
-  --text-faint: #8a7e6e;         /* Metadata & micro-copy - 4.5:1 contrast */
+  --text-main: #251e18;
+  --text-body: #42382c;
+  --text-muted: #665b4c;
+  --text-faint: #8a7e6e;
 
-  /* Warm Earth & Caramel Accents (No Harsh Neon) */
   --accent-caramel: #a86c3b;
   --accent-caramel-hover: #915a2e;
   --accent-caramel-soft: rgba(168, 108, 59, 0.10);
   --accent-caramel-border: rgba(168, 108, 59, 0.25);
-  
-  /* Success & Status Indicators */
+
   --status-green: #3f7b49;
   --status-green-soft: rgba(63, 123, 73, 0.12);
 
-  /* Shadows for Depth (Soft, Minimal, Warm Ambient) */
   --shadow-subtle: 0 1px 3px rgba(45, 35, 25, 0.04);
   --shadow-card: 0 4px 20px -2px rgba(45, 35, 25, 0.05), 0 1px 3px 0 rgba(45, 35, 25, 0.03);
   --shadow-hover: 0 12px 36px -4px rgba(45, 35, 25, 0.09), 0 2px 6px 0 rgba(45, 35, 25, 0.04);
   --shadow-toast: 0 16px 40px -8px rgba(45, 35, 25, 0.18);
 
-  /* Radii System */
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-pill: 999px;
 
-  /* Font Families — Upgraded for Open, Breathable Legibility */
   --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
   --font-serif: 'Fraunces', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Layout Consts */
   --max-width: 1240px;
   --section-pad-y: clamp(72px, 8vw, 120px);
   --container-pad-x: clamp(20px, 4.5vw, 48px);
 
-  /* Timing & Easing */
   --transition-fast: 0.18s ease;
   --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --------------------------------------------------------------------------
-   02. RESET & BASE RULES
-   -------------------------------------------------------------------------- */
+/* Base */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -103,7 +84,6 @@ body {
   width: 100%;
 }
 
-/* Clean text selection */
 ::selection {
   background-color: var(--accent-caramel-soft);
   color: var(--text-main);
@@ -132,14 +112,12 @@ img, svg {
   display: block;
 }
 
-/* Focus Visible for Accessibility */
 :focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 3px;
   border-radius: var(--radius-xs);
 }
 
-/* Accessible Skip Link */
 .skip-navigation {
   position: absolute;
   top: -100px;
@@ -156,9 +134,7 @@ img, svg {
   top: 16px;
 }
 
-/* --------------------------------------------------------------------------
-   03. TOP TELEMETRY / ANNOUNCEMENT BAR
-   -------------------------------------------------------------------------- */
+/* Telemetry bar */
 .telemetry-bar {
   background-color: var(--bg-page-subtle);
   border-bottom: 1px solid var(--border-subtle);
@@ -229,9 +205,7 @@ img, svg {
   color: var(--accent-caramel);
 }
 
-/* --------------------------------------------------------------------------
-   04. PRIMARY SITE HEADER & MORPHING LEFT FLOATING DOCK + TELEMETRY SPINE
-   -------------------------------------------------------------------------- */
+/* Header & side dock */
 .header-dock-slot {
   min-height: 68px;
   position: relative;
@@ -261,7 +235,6 @@ img, svg {
     visibility 0.28s ease;
 }
 
-/* Hide Navbar, Left Dock & Telemetry Bar completely when Skill Card Popup is open */
 body.skill-modal-open .site-header,
 body.skill-modal-open .site-header.is-docked-left,
 body.skill-modal-open .telemetry-bar {
@@ -293,7 +266,6 @@ body.skill-modal-open .telemetry-bar {
   gap: 24px;
 }
 
-/* Brand Monogram Signature — Sheer Liquid Glass */
 .brand-signature {
   display: flex;
   align-items: center;
@@ -364,7 +336,6 @@ body.skill-modal-open .telemetry-bar {
   text-shadow: 0 1px 8px rgba(251, 248, 243, 0.95);
 }
 
-/* Nav Menu & Fluid Liquid Sliding Indicator */
 .primary-nav {
   display: flex;
   align-items: center;
@@ -441,7 +412,6 @@ body.skill-modal-open .telemetry-bar {
   opacity: 1;
 }
 
-/* Header Action Buttons — Sheer Liquid Glass */
 .header-actions {
   display: flex;
   align-items: center;
@@ -486,10 +456,7 @@ body.skill-modal-open .telemetry-bar {
   transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   MORPHING LEFT-SIDE FLOATING DOCK + VERTICAL TELEMETRY PROGRESS SPINE
-   (ULTRA-SHEER FLUID DROPLET GLASS — ONLY TEXT & TELEMETRY PROMINENT)
-   ========================================================================== */
+/* Left floating dock */
 @media (min-width: 961px) {
   .site-header.is-docked-left {
     position: fixed;
@@ -541,7 +508,6 @@ body.skill-modal-open .telemetry-bar {
     gap: 14px;
   }
 
-  /* Compact Monogram Header in Left Dock — Sheer Glass */
   .site-header.is-docked-left .brand-text {
     display: none;
   }
@@ -559,7 +525,6 @@ body.skill-modal-open .telemetry-bar {
     transform: scale(1);
   }
 
-  /* Primary Nav Layout in Left Dock: Telemetry Spine on Left + Nav Pills on Right */
   .site-header.is-docked-left .primary-nav {
     display: flex;
     flex-direction: row;
@@ -570,7 +535,6 @@ body.skill-modal-open .telemetry-bar {
     border-bottom: 1px solid rgba(255, 255, 255, 0.35);
   }
 
-  /* Vertical Telemetry Progress Spine */
   .site-header.is-docked-left .dock-telemetry-spine {
     display: flex;
     flex-direction: column;
@@ -630,7 +594,6 @@ body.skill-modal-open .telemetry-bar {
     transform: translate(-50%, -50%) scale(1.28);
   }
 
-  /* Vertical Nav List inside Left Floating Dock */
   .site-header.is-docked-left .nav-list {
     flex-direction: column;
     align-items: stretch;
@@ -653,7 +616,6 @@ body.skill-modal-open .telemetry-bar {
     border: 1px solid rgba(255, 255, 255, 0.62);
   }
 
-  /* Auto-collapse labels on narrower laptop viewports (< 1480px) so the dock never covers content, expanding smoothly on hover */
   @media (max-width: 1480px) {
     .site-header.is-docked-left:not(:hover) .nav-label-text {
       max-width: 0;
@@ -670,7 +632,6 @@ body.skill-modal-open .telemetry-bar {
     }
   }
 
-  /* Live Depth Percentage Telemetry Readout — Sheer Glass */
   .site-header.is-docked-left .dock-telemetry-readout {
     display: flex;
     flex-direction: column;
@@ -701,7 +662,6 @@ body.skill-modal-open .telemetry-bar {
     letter-spacing: 0.04em;
   }
 
-  /* Compact Glass Action Buttons at Bottom of Left Dock */
   .site-header.is-docked-left .header-actions {
     flex-direction: column;
     gap: 8px;
@@ -754,9 +714,7 @@ body.skill-modal-open .telemetry-bar {
   transition: transform var(--transition-fast), opacity var(--transition-fast);
 }
 
-/* --------------------------------------------------------------------------
-   05. SECTION UTILITIES & HEADINGS
-   -------------------------------------------------------------------------- */
+/* Section layout */
 .section-container {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -820,9 +778,7 @@ body.skill-modal-open .telemetry-bar {
   letter-spacing: 0.01em;
 }
 
-/* --------------------------------------------------------------------------
-   06. HERO SECTION / ARCHITECTURAL BENCHMARK
-   -------------------------------------------------------------------------- */
+/* Hero */
 .section-hero {
   position: relative;
   overflow: hidden;
@@ -950,7 +906,6 @@ body.skill-modal-open .telemetry-bar {
   line-height: 1;
 }
 
-/* Right Column: Benchmark HUD Card */
 .hero-bench-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-medium);
@@ -1079,9 +1034,7 @@ body.skill-modal-open .telemetry-bar {
   line-height: 1.5;
 }
 
-/* --------------------------------------------------------------------------
-   07. SELECTED PROJECTS / EXHIBITION
-   -------------------------------------------------------------------------- */
+/* Projects */
 .section-projects {
   padding: var(--section-pad-y) 0;
   background-color: var(--bg-page-subtle);
@@ -1089,7 +1042,6 @@ body.skill-modal-open .telemetry-bar {
   border-bottom: 1px solid var(--border-subtle);
 }
 
-/* Category Filter Bar */
 .project-filter-bar {
   display: flex;
   gap: 8px;
@@ -1120,7 +1072,6 @@ body.skill-modal-open .telemetry-bar {
   font-weight: 600;
 }
 
-/* Projects Sticky Stacking Deck */
 .projects-exhibition-grid {
   position: relative;
   display: flex;
@@ -1260,7 +1211,6 @@ body.skill-modal-open .telemetry-bar {
   color: var(--text-muted);
 }
 
-/* Verifiable Project Engineering Telemetry Strip */
 .project-telemetry-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1368,7 +1318,6 @@ body.skill-modal-open .telemetry-bar {
   color: var(--text-main);
 }
 
-/* Visual Stage / Custom UI Mockup Canvases */
 .card-visual-stage {
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -1431,7 +1380,6 @@ body.skill-modal-open .telemetry-bar {
   pointer-events: none;
 }
 
-/* Live Embedded Production Iframe Sandboxes (Project 02 & Project 03 Right Boxes) */
 .mockup-dots-group {
   display: inline-flex;
   align-items: center;
@@ -1570,7 +1518,6 @@ body.skill-modal-open .telemetry-bar {
   box-shadow: 0 0 0 3px var(--status-green-soft);
 }
 
-/* Fullscreen Expanded Live Sandbox Modal */
 .sandbox-modal-overlay {
   position: fixed;
   inset: 0;
@@ -1686,7 +1633,6 @@ body.skill-modal-open .telemetry-bar {
   display: block;
 }
 
-/* Mockup Art Variants */
 .frame-localeiq .mockup-viewport {
   background: linear-gradient(135deg, #f7f1e6 0%, #efe7d7 100%);
 }
@@ -1847,9 +1793,7 @@ body.skill-modal-open .telemetry-bar {
   border-radius: 3px;
 }
 
-/* --------------------------------------------------------------------------
-   08. TECHNICAL STACK & EXPANDABLE CARDS MATRIX
-   -------------------------------------------------------------------------- */
+/* Tech stack */
 .section-stack {
   padding: var(--section-pad-y) 0;
 }
@@ -1892,7 +1836,6 @@ body.skill-modal-open .telemetry-bar {
   color: var(--accent-caramel);
 }
 
-/* Master Skills Directory & Interactive Filter Bar */
 .skills-master-overview {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-medium);
@@ -2009,7 +1952,6 @@ body.skill-modal-open .telemetry-bar {
 .dot-aiml { background-color: #8c5230; }
 .dot-tooling { background-color: #665b4c; }
 
-/* Grid of 4 Minimal Modern Cards (Grow from 10% to 100% on Scroll + Click to Roll Up & Spin Popup) */
 .skills-card-matrix {
   position: relative;
   display: grid;
@@ -2115,7 +2057,6 @@ body.skill-modal-open .telemetry-bar {
   border-color: var(--accent-caramel-border);
 }
 
-/* Card Footer Action Prompt */
 .expand-card-trigger {
   margin-top: auto;
   width: 100%;
@@ -2167,14 +2108,11 @@ body.skill-modal-open .telemetry-bar {
   border-color: var(--accent-caramel);
 }
 
-/* Keep template sub-items hidden inside grid cards */
 .stack-card .stack-expandable-tray {
   display: none !important;
 }
 
-/* --------------------------------------------------------------------------
-   08B. 3D ROLL-UP & SPINNING SKILL POPUP MODAL LAYER
-   -------------------------------------------------------------------------- */
+/* Skill modal */
 body.skill-modal-open {
   overflow: hidden;
 }
@@ -2248,7 +2186,6 @@ body.skill-modal-open {
   }
 }
 
-/* Small Close Cross Button (Top-Right of Popup) */
 .skill-popup-close {
   position: sticky;
   top: 0;
@@ -2308,7 +2245,6 @@ body.skill-modal-open {
   color: #ffffff;
 }
 
-/* Detailed Sub-items List Inside Popup */
 .sub-item-heading {
   font-family: var(--font-mono);
   font-size: 0.76rem;
@@ -2350,9 +2286,7 @@ body.skill-modal-open {
   color: var(--text-main);
 }
 
-/* --------------------------------------------------------------------------
-   09. CORE VALUES & PHILOSOPHY MANIFESTO (3D FAN-OUT & SPOTLIGHT DECK)
-   -------------------------------------------------------------------------- */
+/* Values */
 .section-values {
   padding: var(--section-pad-y) 0;
   background-color: var(--bg-page-subtle);
@@ -2361,7 +2295,6 @@ body.skill-modal-open {
   perspective: 1400px;
 }
 
-/* Interactive Blueprint Rail Above Values Grid */
 .values-blueprint-rail {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-medium);
@@ -2480,9 +2413,7 @@ body.skill-modal-open {
   color: var(--text-muted);
 }
 
-/* --------------------------------------------------------------------------
-   10. ACADEMIC & PEDAGOGY FOUNDATION (LUSION-STYLE SCROLL-EXPANDING STAGE)
-   -------------------------------------------------------------------------- */
+/* Academic stage */
 .section-academic.lusion-scroll-section {
   position: relative;
   min-height: 225vh;
@@ -2500,7 +2431,6 @@ body.skill-modal-open {
   padding: 24px 0 40px;
 }
 
-/* Warm Theme Architectural Wave & Telemetry Filament SVG */
 .lusion-ribbon-svg {
   position: absolute;
   inset: 0;
@@ -2524,7 +2454,6 @@ body.skill-modal-open {
   width: 100%;
 }
 
-/* Top Stage: Giant Catchy Headline + Right Editorial Narrative */
 .lusion-intro-header {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -2608,7 +2537,6 @@ body.skill-modal-open {
   box-shadow: 0 0 0 4px var(--accent-caramel-soft);
 }
 
-/* Expanding Window Stage & '+' Coordinate Crosshairs */
 .lusion-window-stage {
   position: relative;
   width: 100%;
@@ -2643,7 +2571,6 @@ body.skill-modal-open {
   transform: translateY(0);
 }
 
-/* The Expanding & 3D Perspective-Warping Window (Matched to Warm Espresso, Caramel & Cream Theme) */
 .lusion-expanding-window {
   position: relative;
   width: 44%;
@@ -2673,7 +2600,6 @@ body.skill-modal-open {
   z-index: 0;
 }
 
-/* Inner Info Card Content (Reveals cleanly as window expands) */
 .lusion-window-inner {
   position: relative;
   z-index: 2;
@@ -2714,7 +2640,6 @@ body.skill-modal-open {
   color: #fbf8f3;
 }
 
-/* Two Non-Duplicated Sub-Sections Inside Expanding Window */
 .lusion-sub-sections-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2794,7 +2719,6 @@ body.skill-modal-open {
   transform: translateY(-1px);
 }
 
-/* Metrics Row Inside Expanding Window */
 .lusion-metrics-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2872,9 +2796,7 @@ body.skill-modal-open {
   }
 }
 
-/* --------------------------------------------------------------------------
-   11. DIRECT CONNECTION / CONTACT CONSOLE & SCROLL SPLIT CURTAIN PORTAL
-   -------------------------------------------------------------------------- */
+/* Contact */
 .section-connect {
   position: relative;
   overflow: hidden;
@@ -2883,7 +2805,6 @@ body.skill-modal-open {
   border-top: 1px solid var(--border-subtle);
 }
 
-/* Scroll-Triggered Split Curtain Portal Stage */
 .connect-split-curtain {
   position: absolute;
   inset: 0;
@@ -2982,7 +2903,6 @@ body.skill-modal-open {
   will-change: transform, opacity;
 }
 
-/* Stage Inner & Live Timezone Sync Strip */
 .connect-stage-inner {
   position: relative;
   z-index: 2;
@@ -3060,7 +2980,6 @@ body.skill-modal-open {
   margin-bottom: 24px;
 }
 
-/* Interactive 3D Envelope / Blueprint Packet Stage */
 .envelope-3d-stage {
   background: rgba(255, 255, 255, 0.68);
   backdrop-filter: blur(12px);
@@ -3123,7 +3042,6 @@ body.skill-modal-open {
   box-shadow: 0 20px 44px rgba(37, 30, 24, 0.14);
 }
 
-/* Live Sliding Letter Sheet Inside Envelope */
 .envelope-letter-sheet {
   position: absolute;
   left: 16px;
@@ -3214,7 +3132,6 @@ body.skill-modal-open {
   overflow: hidden;
 }
 
-/* Front Folded Pocket Flaps */
 .envelope-pocket-left {
   position: absolute;
   inset: 0;
@@ -3258,7 +3175,6 @@ body.skill-modal-open {
   font-weight: 600;
 }
 
-/* 3D Hinged Top Triangular Flap */
 .envelope-flap-top {
   position: absolute;
   top: 0;
@@ -3280,7 +3196,6 @@ body.skill-modal-open {
   z-index: 1;
 }
 
-/* Embossed Caramel Wax Seal */
 .envelope-wax-seal {
   position: absolute;
   left: 50%;
@@ -3438,7 +3353,6 @@ body.skill-modal-open {
   color: var(--accent-caramel);
 }
 
-/* Contact Form Console Card & Live Signal Waveform Header */
 .form-surface-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-medium);
@@ -3688,9 +3602,7 @@ body.skill-modal-open {
   color: var(--accent-caramel);
 }
 
-/* --------------------------------------------------------------------------
-   12. FOOTER
-   -------------------------------------------------------------------------- */
+/* Footer */
 .site-footer {
   background-color: var(--bg-page);
   border-top: 1px solid var(--border-medium);
@@ -3747,7 +3659,6 @@ body.skill-modal-open {
   color: var(--accent-caramel);
 }
 
-/* Giant Full-Width Kinetic Typography Footer Stage */
 .footer-kinetic-stage {
   max-width: var(--max-width);
   margin: 0 auto 36px;
@@ -3784,7 +3695,6 @@ body.skill-modal-open {
   width: 0.32em;
 }
 
-/* Global Magnetic Pull Support on Primary Buttons & Channel Cards */
 .primary-pill-btn,
 .secondary-pill-btn,
 .lusion-approach-pill,
@@ -3829,9 +3739,7 @@ body.skill-modal-open {
   color: var(--text-faint);
 }
 
-/* --------------------------------------------------------------------------
-   13. FLOATING TOAST NOTIFICATION
-   -------------------------------------------------------------------------- */
+/* Toast */
 .floating-toast {
   position: fixed;
   bottom: 24px;
@@ -3855,9 +3763,7 @@ body.skill-modal-open {
   transform: translateY(0);
 }
 
-/* --------------------------------------------------------------------------
-   14. RESPONSIVE MEDIA QUERIES
-   -------------------------------------------------------------------------- */
+/* Responsive */
 @media (max-width: 1024px) {
   .hero-container {
     grid-template-columns: 1fr;
@@ -3881,7 +3787,6 @@ body.skill-modal-open {
   }
 }
 
-/* Prevent any grid child or section from expanding mobile viewport width */
 #main-content,
 .section-projects,
 .section-stack,
@@ -3907,7 +3812,7 @@ body.skill-modal-open {
 
 @media (max-width: 768px) {
   .telemetry-bar {
-    display: none; /* Hide secondary telemetry on mobile for clean screen real estate */
+    display: none;
   }
 
   .header-dock-slot {
@@ -3962,7 +3867,7 @@ body.skill-modal-open {
 
   .header-actions .copy-email-btn,
   .header-actions .sound-fx-btn {
-    display: none; /* Keep header compact on phone viewports */
+    display: none;
   }
 
   .header-actions .action-btn-solid {
@@ -4021,7 +3926,6 @@ body.skill-modal-open {
     background: rgba(168, 108, 59, 0.12);
   }
 
-  /* Sticky card stacking on mobile with compact card geometry so all 3 project cards stack cleanly */
   .projects-exhibition-grid {
     gap: 9vh;
     padding-bottom: 4vh;
@@ -4159,7 +4063,6 @@ body.skill-modal-open {
     display: none;
   }
 
-  /* Compact Mobile Skills Section with "View More" 3D Card Roll-Flip Popup */
   .skills-master-overview {
     padding: 16px 14px;
     margin-bottom: 18px;
@@ -4203,7 +4106,6 @@ body.skill-modal-open {
     padding: 6px 11px;
   }
 
-  /* Show only 6 preview pills on mobile when unfiltered; "View More" spins up the 3D Popup with all 23 */
   .skills-all-pills-grid:not(.is-filtered) .master-skill-pill:nth-child(n+7) {
     display: none;
   }
@@ -4263,7 +4165,6 @@ body.skill-modal-open {
     margin-bottom: 8px;
   }
 
-  /* Hide verbose paragraph & extra chips on mobile card face; tapping "View More" rolls & flips open full 3D popup */
   .stack-card .stack-domain-desc {
     display: none;
   }
@@ -4318,7 +4219,6 @@ body.skill-modal-open {
     grid-template-columns: 1fr;
   }
 
-  /* Section 04 Lusion Stage Mobile Layout */
   .section-academic.lusion-scroll-section {
     min-height: auto;
     padding: 56px 0;
@@ -4337,7 +4237,6 @@ body.skill-modal-open {
     padding: 0 16px;
   }
 
-  /* Section 05 Split Curtain & 3D Envelope Mobile Layout */
   .curtain-panel {
     padding: 20px 12px;
   }
@@ -4458,9 +4357,7 @@ body.skill-modal-open {
   }
 }
 
-/* --------------------------------------------------------------------------
-   15. ANTI-GRAVITY SPATIAL BACKGROUND & FRAMER-MOTION SCROLL REVEALS
-   -------------------------------------------------------------------------- */
+/* Background & scroll reveals */
 .ambient-stage {
   position: fixed;
   inset: 0;
@@ -4523,7 +4420,6 @@ body.skill-modal-open {
   z-index: 1;
 }
 
-/* Keep alternating sections slightly translucent (no backdrop-filter on .section-projects so sticky cards work seamlessly) */
 .section-projects {
   background-color: rgba(244, 238, 228, 0.56);
 }
@@ -4535,7 +4431,6 @@ body.skill-modal-open {
   -webkit-backdrop-filter: blur(1.5px);
 }
 
-/* Framer-Motion Style Spring Scroll Reveal System */
 .fm-reveal {
   opacity: 0;
   transform: translate3d(0, 34px, 0) scale(0.985);
@@ -4554,7 +4449,6 @@ body.skill-modal-open {
   filter: blur(0px);
 }
 
-/* Individual Text Line / Heading Upward Mask Reveal */
 .fm-text-rise {
   opacity: 0;
   transform: translate3d(0, 26px, 0);
@@ -4570,9 +4464,7 @@ body.skill-modal-open {
   transform: translate3d(0, 0, 0);
 }
 
-/* --------------------------------------------------------------------------
-   16. TOP-EDGE LASER PROGRESS BAR, HERO HUD INTERACTIVITY & PROOF STRIPS
-   -------------------------------------------------------------------------- */
+/* Progress bar & HUD */
 .top-laser-progress {
   position: fixed;
   top: 0;
@@ -4606,7 +4498,6 @@ body.skill-modal-open {
   box-shadow: 0 0 12px 2px rgba(63, 123, 73, 0.65);
 }
 
-/* Section Arrival Pulse on .section-eyebrow when navigated via nav links */
 .section-eyebrow.is-section-arriving {
   animation: sectionArrivalPulse 1.05s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -4633,7 +4524,6 @@ body.skill-modal-open {
   transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Upgrade 2: Hero Specification HUD Interactive Spotlight, Metric Cells & Spec Rows */
 .hero-bench-card {
   background-image: radial-gradient(
     360px circle at var(--spot-x, 50%) var(--spot-y, 50%),
@@ -4699,9 +4589,7 @@ body.skill-modal-open {
   background-color: #f4eadb;
 }
 
-/* --------------------------------------------------------------------------
-   16B. UPGRADE 1: LOCALEIQ ARCHITECTURAL BENTO VISUAL (NON-INTERACTIVE)
-   -------------------------------------------------------------------------- */
+/* LocaleIQ bento */
 .localeiq-architecture-stage {
   pointer-events: none;
   user-select: none;
@@ -4970,9 +4858,7 @@ body.skill-modal-open {
   }
 }
 
-/* --------------------------------------------------------------------------
-   16C. UPGRADE 3: CONTEXTUAL MAGNETIC CURSOR RING (DESKTOP POINTER ONLY)
-   -------------------------------------------------------------------------- */
+/* Custom cursor */
 .custom-cursor-layer {
   display: none;
 }
@@ -5039,7 +4925,6 @@ body.skill-modal-open {
     transition: opacity 0.18s ease, transform 0.2s ease;
   }
 
-  /* Subtle tighten when hovering standard links & buttons */
   .cursor-magnetic-ring.is-link-hover {
     width: 44px;
     height: 44px;
@@ -5049,7 +4934,6 @@ body.skill-modal-open {
     background-color: rgba(168, 108, 59, 0.11);
   }
 
-  /* Expanded pill badge when hovering contextual targets (Sandbox, Skill Cards, 3D Envelope, Spine) */
   .cursor-magnetic-ring.is-labeled-badge {
     width: 78px;
     height: 28px;
@@ -5065,22 +4949,18 @@ body.skill-modal-open {
     transform: scale(1);
   }
 
-  /* Click pulse feedback */
   .cursor-magnetic-ring.is-clicking {
     border-color: var(--status-green);
     background-color: rgba(63, 123, 73, 0.16);
   }
 }
 
-/* --------------------------------------------------------------------------
-   16D. UPGRADE 7 & 8: LIVE GITHUB TELEMETRY STRIP & WEB AUDIO SFX TOGGLE
-   -------------------------------------------------------------------------- */
+/* GitHub telemetry & audio */
 .telemetry-gh-readout {
   color: var(--status-green);
   font-weight: 600;
 }
 
-/* Header & Dock Tactile Audio Toggle Button */
 .sound-fx-btn {
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.52);
@@ -5117,7 +4997,6 @@ body.skill-modal-open {
   color: var(--text-main);
 }
 
-/* Section 01 Live GitHub Activity & Commit Telemetry Strip */
 .github-live-telemetry-bar {
   display: flex;
   align-items: center;
@@ -5215,7 +5094,6 @@ body.skill-modal-open {
   white-space: nowrap;
 }
 
-/* Per-Card Live GitHub Repo Telemetry Pill */
 .gh-repo-commit-pill {
   font-family: var(--font-mono);
   font-size: 0.66rem;
@@ -5263,9 +5141,7 @@ body.skill-modal-open {
   }
 }
 
-/* --------------------------------------------------------------------------
-   17. ACCESSIBILITY & PREFERS-REDUCED-MOTION
-   -------------------------------------------------------------------------- */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
