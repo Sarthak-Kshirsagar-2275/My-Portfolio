@@ -1,0 +1,17 @@
+{
+  "name": "Sarthak Kshirsagar — CS & AI/ML Engineering Portfolio",
+  "short_name": "Sarthak Portfolio",
+  "description": "Portfolio of Sarthak Kshirsagar, 1st-year B.Tech CS & AI/ML student at Newton School of Technology. Built 20+ functional websites, shipped 5+ to production.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf8f3",
+  "theme_color": "#fbf8f3",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

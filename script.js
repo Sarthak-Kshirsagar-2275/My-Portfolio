@@ -2654,8 +2654,22 @@
   }
 
   function initHeadFaviconAndSchema() {
+    const vHost = ['sarthak-kshirsagar', 'vercel', 'app'].join('.');
+    const proto = ['https:', ''].join('/');
+    const isVercelLive = window.location && window.location.hostname && window.location.hostname.indexOf('vercel') !== -1;
+    const primaryOrigin = isVercelLive ? window.location.origin : proto + '/' + vHost;
+
+    const canonicalEl = document.getElementById('canonical-url-link');
+    if (canonicalEl) canonicalEl.setAttribute('href', primaryOrigin + '/');
+    const ogUrlEl = document.getElementById('og-url-meta');
+    if (ogUrlEl) ogUrlEl.setAttribute('content', primaryOrigin + '/');
+    const ogImgEl = document.getElementById('og-image-meta');
+    if (ogImgEl) ogImgEl.setAttribute('content', primaryOrigin + '/og-image.svg');
+    const twImgEl = document.getElementById('twitter-image-meta');
+    if (twImgEl) twImgEl.setAttribute('content', primaryOrigin + '/og-image.svg');
+
     const faviconLink = document.getElementById('dynamic-svg-favicon');
-    if (faviconLink) {
+    if (faviconLink && !faviconLink.getAttribute('href')) {
       const svgMarkup =
         '<svg viewBox="0 0 64 64" width="64" height="64">' +
         '<rect width="64" height="64" rx="16" fill="#251e18"/>' +
@@ -2687,15 +2701,22 @@
             knowsAbout: [
               'HTML5',
               'CSS3',
-              'Vanilla JavaScript',
+              'Tailwind CSS',
+              'Vanilla JavaScript (ES6+)',
               'Next.js',
               'Three.js',
               'Node.js',
               'Express.js',
+              'Redis',
+              'SQLite',
               'Python',
+              'NumPy',
               'PyTorch',
               'OpenCV',
-              'Remote Photoplethysmography (rPPG)'
+              'Remote Photoplethysmography (rPPG)',
+              'CHROM',
+              'Plane-Orthogonal-to-Skin (POM)',
+              'AI API Integration'
             ]
           },
           {
